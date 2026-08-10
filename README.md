@@ -25,21 +25,21 @@ Interactive single-page demonstration of the MAEW Ω∞ Sovereign Metrics & Prov
 MAEW Ω∞ establishes an independent verification boundary between telemetry producers and executive reporting layers.
 
 SOURCE
-  ↓
+   ↓
 TELEMETRY
-  ↓
+   ↓
 CALCULATION
-  ↓
+   ↓
 PROVENANCE
-  ↓
+   ↓
 CANONICAL PAYLOAD
-  ↓
+   ↓
 SHA-256
-  ↓
+   ↓
 ASSURANCE GATE
-  ↓
+   ↓
 ATTESTATION
-  ↓
+   ↓
 EXECUTIVE REPORTING
 
 The verification boundary is intentionally separated from the presentation layer so that a metric cannot be treated as trustworthy merely because it appears in an executive dashboard.
@@ -56,9 +56,7 @@ Strictly isolates:
 - 🔵 INTERNAL TEST
 - 🟣 SIMULATION
 
-These semantic states are explicitly represented in the data model and UI so that test or simulation values are not implicitly presented as production observations.
-
----
+Test and simulation values are never implicitly presented as production observations.
 
 🧬 Ω546 Audit Explainability
 
@@ -82,18 +80,18 @@ This creates an explainability chain from raw metric observation to audit decisi
 
 The Ω560 Assurance Gate demonstrates a 10-check integrity matrix:
 
-01  Source Integrity
-02  Payload Integrity
-03  Schema Integrity
-04  Provenance Chain Link
-05  Calculation Replay
-06  Policy Compliance
-07  No Silent Deletion
-08  No Unsealed Change
-09  Cross-Region Consistency
-10  Cryptographic Seal Lock
+1. Source Integrity
+2. Payload Integrity
+3. Schema Integrity
+4. Provenance Chain Link
+5. Calculation Replay
+6. Policy Compliance
+7. No Silent Deletion
+8. No Unsealed Change
+9. Cross-Region Consistency
+10. Cryptographic Seal Lock
 
-A metric is considered VERIFIED only when the complete assurance matrix passes:
+A metric is considered VERIFIED only when the complete assurance matrix passes.
 
 10 / 10 CHECKS PASSED
         ↓
@@ -155,7 +153,7 @@ Example:
   "tamper_status": "UNMODIFIED"
 }
 
-The canonical representation is hashed using the browser's native:
+The canonical representation is hashed using the browser's native Web Crypto API:
 
 Web Crypto API
       ↓
@@ -181,19 +179,7 @@ ATTESTATION RECEIPT
       ↓
 JSON EXPORT
 
-Important
-
-The attestation mechanism demonstrates client-side cryptographic integrity mechanics.
-
-It is not presented as:
-
-- Third-party certification
-- Legal certification
-- Independent third-party attestation
-- Blockchain notarization
-- Production security certification
-
-The distinction is intentional.
+«Important: The attestation mechanism demonstrates client-side cryptographic integrity mechanics. It is not presented as third-party certification, legal attestation, independent server-side notarization, blockchain notarization, or production security certification.»
 
 ---
 
@@ -201,22 +187,20 @@ The distinction is intentional.
 
 MAEW Ω∞ deliberately avoids collapsing different classes of information into a single trust state.
 
-┌──────────────────────────┐
-│ 🟢 LIVE PRODUCTION       │
-│    Observed telemetry    │
-└────────────┬─────────────┘
-             │
-             ▼
-┌──────────────────────────┐
-│ 🔵 INTERNAL TEST         │
-│    Test environment      │
-└────────────┬─────────────┘
-             │
-             ▼
-┌──────────────────────────┐
-│ 🟣 SIMULATION            │
-│    Synthetic scenario    │
-└──────────────────────────┘
+┌──────────────────────┐
+│ 🟢 LIVE PRODUCTION   │
+│ Observed telemetry   │
+└──────────┬───────────┘
+           │
+┌──────────▼───────────┐
+│ 🔵 INTERNAL TEST     │
+│ Test environment     │
+└──────────┬───────────┘
+           │
+┌──────────▼───────────┐
+│ 🟣 SIMULATION        │
+│ Synthetic scenario   │
+└──────────────────────┘
 
 Therefore:
 
@@ -224,7 +208,32 @@ Live ≠ Internal Test
 Internal Test ≠ Simulation
 Simulation ≠ Production Evidence
 
-This semantic separation is a core trust-boundary principle of the demonstration.
+This semantic separation is a core trust-boundary principle.
+
+---
+
+📂 REPOSITORY STRUCTURE
+
+maew-sovereign-metrics/
+│
+├── index.html
+│   └── Single-Page Sovereign Metrics Console
+│
+├── README.md
+│   └── Architecture Landing Page & Public Technical Overview
+│
+└── docs/
+    ├── architecture.md
+    │   └── Ω521–Ω560 System Architecture Blueprint
+    │
+    ├── assurance-gates.md
+    │   └── Ω560 Autonomous Assurance Gate Specification
+    │
+    ├── provenance.md
+    │   └── Ω546 Audit Explainability Specification
+    │
+    └── demo-status.md
+        └── Synthetic Data & Trust Boundary Specification
 
 ---
 
@@ -248,11 +257,17 @@ This semantic separation is a core trust-boundary principle of the demonstration
 
 Fundamental Architectural Rule
 
-DATA ≠ TRUTH
+DATA
+  ≠
+TRUTH
 
-TRUTH CLAIM ≠ AUTHORIZATION
+TRUTH CLAIM
+  ≠
+AUTHORIZATION
 
-AUTHORIZATION ≠ EXECUTION
+AUTHORIZATION
+  ≠
+EXECUTION
 
 A metric displayed by a UI is therefore not automatically equivalent to an authorized operational fact.
 
@@ -264,7 +279,7 @@ DEMO & UI LAYER MODE
 
 This repository is a public architectural demonstration.
 
-Displayed metrics are synthetic demonstration data generated for the purpose of showing:
+Displayed metrics are synthetic demonstration data generated to demonstrate:
 
 - Schema mechanics
 - UI behavior
@@ -274,7 +289,7 @@ Displayed metrics are synthetic demonstration data generated for the purpose of 
 - Cryptographic hashing
 - Attestation export mechanics
 
-This Repository Does NOT Expose
+This repository does NOT expose:
 
 - Production database credentials
 - Private API secrets
@@ -287,13 +302,15 @@ Cryptographic Scope
 
 The SHA-256 implementation demonstrates browser-side integrity hashing over canonical payloads.
 
-It does not by itself constitute:
+It does not constitute:
 
 - External server certification
 - Legal certification
 - Independent third-party attestation
 - Blockchain notarization
 - Production security certification
+
+The distinction is intentional.
 
 ---
 
@@ -313,70 +330,112 @@ No production trust boundary is crossed by the public demo.
 
 ---
 
+💻 LOCAL EXECUTION
+
+Requirements
+
+- Modern web browser
+- JavaScript enabled
+- Internet access for CDN-hosted UI libraries used by the demo
+
+Option A — Direct Execution
+
+git clone https://github.com/hugeplease66-debug/maew-sovereign-metrics.git
+cd maew-sovereign-metrics
+
+Then open:
+
+index.html
+
+in a modern browser.
+
+Option B — Local HTTP Server
+
+python3 -m http.server 8080
+
+Then open:
+
+http://localhost:8080
+
+---
+
+🌐 GITHUB PAGES DEPLOYMENT
+
+Recommended configuration:
+
+Repository
+   ↓
+Settings
+   ↓
+Pages
+   ↓
+Deploy from a branch
+   ↓
+main
+   ↓
+/ (root)
+
+Public Demo
+
+https://hugeplease66-debug.github.io/maew-sovereign-metrics/
+
+---
+
 🧭 ASSURANCE FLOW
 
-┌────────────┐
-│   SOURCE   │
-└─────┬──────┘
-      ↓
-┌────────────┐
-│ TELEMETRY  │
-└─────┬──────┘
-      ↓
-┌────────────┐
-│CALCULATION │
-└─────┬──────┘
-      ↓
-┌────────────┐
-│ PROVENANCE │
-└─────┬──────┘
-      ↓
+┌──────────┐
+│  SOURCE  │
+└────┬─────┘
+     ↓
+┌──────────────┐
+│  TELEMETRY   │
+└────┬─────────┘
+     ↓
+┌──────────────┐
+│ CALCULATION  │
+└────┬─────────┘
+     ↓
+┌──────────────┐
+│ PROVENANCE   │
+└────┬─────────┘
+     ↓
 ┌───────────────────┐
 │ CANONICAL PAYLOAD │
-└─────┬─────────────┘
-      ↓
-┌────────────┐
-│  SHA-256   │
-└─────┬──────┘
-      ↓
+└────┬──────────────┘
+     ↓
+┌──────────────┐
+│   SHA-256    │
+└────┬─────────┘
+     ↓
 ┌──────────────────┐
 │ Ω560 ASSURANCE   │
-│       GATE       │
-└─────┬────────────┘
-      │
-      ├── PASS ──→ VERIFIED
-      │
-      └── FAIL ──→ BLOCKED
-                       ↓
-                NO TRUST TRANSITION
+│      GATE        │
+└────┬─────────────┘
+     │
+     ├──── PASS ────► VERIFIED
+     │
+     └──── FAIL ────► BLOCKED
+                          ↓
+                   NO TRUST TRANSITION
 
 ---
 
 🧠 DESIGN PHILOSOPHY
 
 1. Provenance Before Presentation
-
-A metric should carry its origin and verification context before being presented as an executive signal.
+   A metric should carry its origin and verification context before being presented as an executive signal.
 
 2. Verification Before Trust
-
-A displayed value is not automatically a trusted value.
+   A displayed value is not automatically a trusted value.
 
 3. Semantic State Isolation
-
-Production, testing, and simulation must remain explicitly distinguishable.
+   Production, testing, and simulation must remain explicitly distinguishable.
 
 4. Evidence Before Assertion
-
-Claims should be represented with inspectable evidence and provenance metadata.
+   Claims should be represented with inspectable evidence and provenance metadata.
 
 5. Fail Closed
-
-When critical integrity checks fail, the system should move toward:
-
-BLOCKED
-
-rather than silently accepting the mutated state.
+   When critical integrity checks fail, the system should move toward BLOCKED rather than silently accepting the mutated state.
 
 ---
 
@@ -412,102 +471,20 @@ This repository intentionally focuses on the verification and evidence layer rat
 
 ---
 
-📂 REPOSITORY STRUCTURE
-
-maew-sovereign-metrics/
-│
-├── index.html
-│   └── Single-Page Sovereign Metrics Console
-│
-├── banner.jpg
-│   └── Repository Hero Banner
-│
-├── README.md
-│   └── Architecture Landing Page
-│
-└── docs/
-    ├── architecture.md
-    │   └── Ω521–Ω560 System Architecture Blueprint
-    │
-    ├── assurance-gates.md
-    │   └── Ω560 Autonomous Assurance Gate Specification
-    │
-    ├── provenance.md
-    │   └── Ω546 Audit Explainability Specification
-    │
-    └── demo-status.md
-        └── Synthetic Data & Trust Boundary Specification
-
----
-
-💻 LOCAL EXECUTION
-
-Requirements
-
-- Modern web browser
-- JavaScript enabled
-- Internet access for CDN-hosted UI libraries used by the demo
-
-Option A — Direct Execution
-
-git clone https://github.com/hugeplease66-debug/maew-sovereign-metrics.git
-cd maew-sovereign-metrics
-
-Then open:
-
-index.html
-
-Option B — Local HTTP Server
-
-python3 -m http.server 8080
-
-Then open:
-
-http://localhost:8080
-
----
-
-🌐 GITHUB PAGES
-
-The project is designed for GitHub Pages deployment.
-
-Repository
-   ↓
-Settings
-   ↓
-Pages
-   ↓
-Deploy from a branch
-   ↓
-main
-   ↓
-/ (root)
-
-Public Live Console
-
-https://hugeplease66-debug.github.io/maew-sovereign-metrics/
-
----
-
 🗺️ ROADMAP
 
-Potential future evolution may include:
+Potential future evolution:
 
 Ω521–Ω560 Autonomous Audit Fabric
-            │
-            ▼
+        ↓
 Server-Side Evidence Ingestion
-            │
-            ▼
+        ↓
 Immutable Evidence Ledger
-            │
-            ▼
+        ↓
 Distributed Attestation
-            │
-            ▼
+        ↓
 Independent Verifier
-            │
-            ▼
+        ↓
 Production Governance Plane
 
 Any future production implementation must preserve the existing trust boundaries and explicitly distinguish:
