@@ -1,7 +1,7 @@
 MAEW Ω∞ Sovereign Metrics & Provenance Engine
 
 ""Architecture Status" (https://img.shields.io/badge/Architecture-FROZEN%20v1.2%20LTS-emerald?style=for-the-badge&logo=shield)" (docs/architecture.md)
-""Audit Fabric" (https://img.shields.io/badge/Audit%20Engine-%CE%A9521%E2%80%93%CE%A9560-cyan?style=for-the-badge)" (docs/assurance-gates.md)
+""Audit Fabric" (https://img.shields.io/badge/Audit%20Engine-%CE%A9521%E2%80%93%CE%A9560--cyan?style=for-the-badge)" (docs/assurance-gates.md)
 ""Live Demo" (https://img.shields.io/badge/GitHub%20Pages-Live%20Console-purple?style=for-the-badge&logo=github)" (https://hugeplease66-debug.github.io/maew-sovereign-metrics/)
 
 "MAEW Ω∞ Sovereign Metrics Console" (banner.jpg)
@@ -18,11 +18,20 @@ MAEW Ω∞ Sovereign Metrics & Provenance Engine
 
 Interactive single-page demonstration of the MAEW Ω∞ Sovereign Metrics & Provenance Engine.
 
+📚 Documentation
+
+- 🔐 System Architecture Overview
+- 🛡️ Ω560 Assurance Gate Matrix Specification
+- 🧬 Ω546 Audit Explainability Specification
+- 📊 Demo & UI Layer Status Specification
+
 ---
 
 🏛️ ARCHITECTURAL PIPELINE
 
 MAEW Ω∞ establishes an independent verification boundary between telemetry producers and executive reporting layers.
+
+The architecture is designed around a provenance-first principle:
 
 SOURCE
    ↓
@@ -36,7 +45,7 @@ CANONICAL PAYLOAD
    ↓
 SHA-256
    ↓
-ASSURANCE GATE
+Ω560 ASSURANCE GATE
    ↓
 ATTESTATION
    ↓
@@ -57,6 +66,8 @@ Strictly isolates:
 - 🟣 SIMULATION
 
 Test and simulation values are never implicitly presented as production observations.
+
+---
 
 🧬 Ω546 Audit Explainability
 
@@ -91,7 +102,7 @@ The Ω560 Assurance Gate demonstrates a 10-check integrity matrix:
 9. Cross-Region Consistency
 10. Cryptographic Seal Lock
 
-A metric is considered VERIFIED only when the complete assurance matrix passes.
+A metric is considered VERIFIED only when the complete assurance matrix passes:
 
 10 / 10 CHECKS PASSED
         ↓
@@ -139,7 +150,7 @@ to a failed integrity state.
 
 The console generates a canonical payload containing metric identity, semantic state, timestamp, telemetry source, node origin, calculation formula, and tamper status.
 
-Example:
+Example Payload
 
 {
   "metric_id": "compute_power",
@@ -187,26 +198,28 @@ JSON EXPORT
 
 MAEW Ω∞ deliberately avoids collapsing different classes of information into a single trust state.
 
-┌──────────────────────┐
-│ 🟢 LIVE PRODUCTION   │
-│ Observed telemetry   │
-└──────────┬───────────┘
-           │
-┌──────────▼───────────┐
-│ 🔵 INTERNAL TEST     │
-│ Test environment     │
-└──────────┬───────────┘
-           │
-┌──────────▼───────────┐
-│ 🟣 SIMULATION        │
-│ Synthetic scenario   │
-└──────────────────────┘
+┌──────────────────────────┐
+│ 🟢 LIVE PRODUCTION       │
+│    Observed telemetry    │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 🔵 INTERNAL TEST         │
+│    Test environment      │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 🟣 SIMULATION            │
+│    Synthetic scenario    │
+└──────────────────────────┘
 
 Therefore:
 
-Live ≠ Internal Test
-Internal Test ≠ Simulation
-Simulation ≠ Production Evidence
+- Live ≠ Internal Test
+- Internal Test ≠ Simulation
+- Simulation ≠ Production Evidence
 
 This semantic separation is a core trust-boundary principle.
 
@@ -221,6 +234,9 @@ maew-sovereign-metrics/
 │
 ├── README.md
 │   └── Architecture Landing Page & Public Technical Overview
+│
+├── banner.jpg
+│   └── Repository Hero / Launch Banner
 │
 └── docs/
     ├── architecture.md
@@ -240,34 +256,26 @@ maew-sovereign-metrics/
 🏗️ SYSTEM LAYERS
 
 ┌───────────────────────────────────────────┐
-│          EXECUTIVE PRESENTATION           │
+│           EXECUTIVE PRESENTATION          │
 ├───────────────────────────────────────────┤
-│          ATTESTATION / RECEIPTS           │
+│           ATTESTATION / RECEIPTS          │
 ├───────────────────────────────────────────┤
-│          Ω560 ASSURANCE GATE              │
+│           Ω560 ASSURANCE GATE             │
 ├───────────────────────────────────────────┤
-│          Ω546 EXPLAINABILITY              │
+│           Ω546 EXPLAINABILITY             │
 ├───────────────────────────────────────────┤
-│       PROVENANCE / CANONICAL DATA         │
+│        PROVENANCE / CANONICAL DATA        │
 ├───────────────────────────────────────────┤
-│        TELEMETRY / METRIC STATE           │
+│         TELEMETRY / METRIC STATE          │
 ├───────────────────────────────────────────┤
-│          SOURCE / OBSERVATION             │
+│           SOURCE / OBSERVATION            │
 └───────────────────────────────────────────┘
 
 Fundamental Architectural Rule
 
-DATA
-  ≠
-TRUTH
-
-TRUTH CLAIM
-  ≠
-AUTHORIZATION
-
-AUTHORIZATION
-  ≠
-EXECUTION
+- DATA ≠ TRUTH
+- TRUTH CLAIM ≠ AUTHORIZATION
+- AUTHORIZATION ≠ EXECUTION
 
 A metric displayed by a UI is therefore not automatically equivalent to an authorized operational fact.
 
@@ -297,6 +305,8 @@ This repository does NOT expose:
 - Private cluster sockets
 - Confidential infrastructure endpoints
 - Proprietary production telemetry
+
+---
 
 Cryptographic Scope
 
@@ -357,6 +367,8 @@ Then open:
 
 http://localhost:8080
 
+in your browser.
+
 ---
 
 🌐 GITHUB PAGES DEPLOYMENT
@@ -364,15 +376,15 @@ http://localhost:8080
 Recommended configuration:
 
 Repository
-   ↓
+    ↓
 Settings
-   ↓
+    ↓
 Pages
-   ↓
+    ↓
 Deploy from a branch
-   ↓
+    ↓
 main
-   ↓
+    ↓
 / (root)
 
 Public Demo
@@ -386,56 +398,72 @@ https://hugeplease66-debug.github.io/maew-sovereign-metrics/
 ┌──────────┐
 │  SOURCE  │
 └────┬─────┘
-     ↓
+     │
+     ▼
 ┌──────────────┐
 │  TELEMETRY   │
 └────┬─────────┘
-     ↓
+     │
+     ▼
 ┌──────────────┐
 │ CALCULATION  │
 └────┬─────────┘
-     ↓
+     │
+     ▼
 ┌──────────────┐
-│ PROVENANCE   │
+│  PROVENANCE  │
 └────┬─────────┘
-     ↓
+     │
+     ▼
 ┌───────────────────┐
 │ CANONICAL PAYLOAD │
 └────┬──────────────┘
-     ↓
+     │
+     ▼
 ┌──────────────┐
 │   SHA-256    │
 └────┬─────────┘
-     ↓
+     │
+     ▼
 ┌──────────────────┐
 │ Ω560 ASSURANCE   │
-│      GATE        │
+│       GATE       │
 └────┬─────────────┘
      │
      ├──── PASS ────► VERIFIED
      │
      └──── FAIL ────► BLOCKED
-                          ↓
-                   NO TRUST TRANSITION
+                         │
+                         ▼
+                  NO TRUST TRANSITION
 
 ---
 
 🧠 DESIGN PHILOSOPHY
 
 1. Provenance Before Presentation
-   A metric should carry its origin and verification context before being presented as an executive signal.
+
+A metric should carry its origin and verification context before being presented as an executive signal.
 
 2. Verification Before Trust
-   A displayed value is not automatically a trusted value.
+
+A displayed value is not automatically a trusted value.
 
 3. Semantic State Isolation
-   Production, testing, and simulation must remain explicitly distinguishable.
+
+Production, testing, and simulation must remain explicitly distinguishable.
 
 4. Evidence Before Assertion
-   Claims should be represented with inspectable evidence and provenance metadata.
+
+Claims should be represented with inspectable evidence and provenance metadata.
 
 5. Fail Closed
-   When critical integrity checks fail, the system should move toward BLOCKED rather than silently accepting the mutated state.
+
+When critical integrity checks fail, the system should move toward:
+
+BLOCKED
+
+rather than silently accepting the mutated state.
 
 ---
 
@@ -476,15 +504,20 @@ This repository intentionally focuses on the verification and evidence layer rat
 Potential future evolution:
 
 Ω521–Ω560 Autonomous Audit Fabric
-        ↓
+          │
+          ▼
 Server-Side Evidence Ingestion
-        ↓
+          │
+          ▼
 Immutable Evidence Ledger
-        ↓
+          │
+          ▼
 Distributed Attestation
-        ↓
+          │
+          ▼
 Independent Verifier
-        ↓
+          │
+          ▼
 Production Governance Plane
 
 Any future production implementation must preserve the existing trust boundaries and explicitly distinguish:
@@ -517,7 +550,7 @@ Architecture and system specifications are documented under the MAEW Ω521–Ω5
 
 🐉 MAEW Ω∞
 
-Observe. Preserve Provenance. Verify. Explain. Attest.
+«Observe. Preserve Provenance. Verify. Explain. Attest.»
 
 MAEW Ω∞ SOVEREIGN METRICS & PROVENANCE ENGINE
 
@@ -538,4 +571,5 @@ ATTESTATION
 https://hugeplease66-debug.github.io/maew-sovereign-metrics/
 
 MAEW Ω∞ Sovereign Metrics
+
 Provenance-First • Evidence-Driven • Audit-Ready
