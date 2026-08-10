@@ -18,37 +18,28 @@ MAEW Ω∞ Sovereign Metrics & Provenance Engine
 
 Interactive single-page demonstration of the MAEW Ω∞ Sovereign Metrics & Provenance Engine.
 
-📚 Documentation
-
-- 🔐 System Architecture Overview
-- 🛡️ Ω560 Assurance Gate Matrix Specification
-- 🧬 Ω546 Audit Explainability Specification
-- 📊 Demo & UI Layer Status Specification
-
 ---
 
 🏛️ ARCHITECTURAL PIPELINE
 
 MAEW Ω∞ establishes an independent verification boundary between telemetry producers and executive reporting layers.
 
-The architecture is designed around a provenance-first principle:
-
 SOURCE
-   ↓
+  ↓
 TELEMETRY
-   ↓
+  ↓
 CALCULATION
-   ↓
+  ↓
 PROVENANCE
-   ↓
+  ↓
 CANONICAL PAYLOAD
-   ↓
+  ↓
 SHA-256
-   ↓
+  ↓
 ASSURANCE GATE
-   ↓
+  ↓
 ATTESTATION
-   ↓
+  ↓
 EXECUTIVE REPORTING
 
 The verification boundary is intentionally separated from the presentation layer so that a metric cannot be treated as trustworthy merely because it appears in an executive dashboard.
@@ -61,9 +52,9 @@ The verification boundary is intentionally separated from the presentation layer
 
 Strictly isolates:
 
-🟢 LIVE PRODUCTION
-🔵 INTERNAL TEST
-🟣 SIMULATION
+- 🟢 LIVE PRODUCTION
+- 🔵 INTERNAL TEST
+- 🟣 SIMULATION
 
 These semantic states are explicitly represented in the data model and UI so that test or simulation values are not implicitly presented as production observations.
 
@@ -87,7 +78,7 @@ This creates an explainability chain from raw metric observation to audit decisi
 
 ---
 
-🛡️ Ω560 Autonomous Assurance Gate
+🛡️ Ω560 AUTONOMOUS ASSURANCE GATE
 
 The Ω560 Assurance Gate demonstrates a 10-check integrity matrix:
 
@@ -105,21 +96,17 @@ The Ω560 Assurance Gate demonstrates a 10-check integrity matrix:
 A metric is considered VERIFIED only when the complete assurance matrix passes:
 
 10 / 10 CHECKS PASSED
-        │
-        ▼
-   Ω560 VERIFIED
+        ↓
+Ω560 VERIFIED
 
 If an integrity failure is detected:
 
 TAMPER / DRIFT
-      │
-      ▼
+      ↓
 ASSURANCE FAILURE
-      │
-      ▼
-   BLOCKED
-      │
-      ▼
+      ↓
+BLOCKED
+      ↓
 NO TRUST TRANSITION
 
 ---
@@ -128,20 +115,19 @@ NO TRUST TRANSITION
 
 The public console includes an interactive tamper demonstration.
 
-Example:
+Original
 
-ORIGINAL
 48.2 PFLOPS
 Confidence: 99.9%
 Status: Ω560 PASSED
 
-Tampering simulation:
+Tampering Simulation
 
-999,999 PFLOPS (TAMPERED)
+999,999 PFLOPS
 Confidence: 0.0%
 Status: BLOCKED
 
-The assurance matrix automatically changes from:
+The assurance matrix changes from:
 
 10 / 10 CHECKS PASSED
 
@@ -153,9 +139,9 @@ to a failed integrity state.
 
 🔐 CRYPTOGRAPHIC PROVENANCE
 
-The console generates a canonical payload containing the metric identity, semantic state, timestamp, telemetry source, node origin, calculation formula, and tamper status.
+The console generates a canonical payload containing metric identity, semantic state, timestamp, telemetry source, node origin, calculation formula, and tamper status.
 
-Example Payload
+Example:
 
 {
   "metric_id": "compute_power",
@@ -201,11 +187,11 @@ The attestation mechanism demonstrates client-side cryptographic integrity mecha
 
 It is not presented as:
 
-- third-party certification
-- legal attestation
-- independent server-side notarization
-- blockchain notarization
-- production security certification
+- Third-party certification
+- Legal certification
+- Independent third-party attestation
+- Blockchain notarization
+- Production security certification
 
 The distinction is intentional.
 
@@ -215,20 +201,22 @@ The distinction is intentional.
 
 MAEW Ω∞ deliberately avoids collapsing different classes of information into a single trust state.
 
-┌──────────────────────┐
-│ 🟢 LIVE PRODUCTION   │
-│    Observed telemetry│
-└──────────┬───────────┘
-           │
-┌──────────▼───────────┐
-│ 🔵 INTERNAL TEST     │
-│    Test environment  │
-└──────────┬───────────┘
-           │
-┌──────────▼───────────┐
-│ 🟣 SIMULATION        │
-│    Synthetic scenario│
-└──────────────────────┘
+┌──────────────────────────┐
+│ 🟢 LIVE PRODUCTION       │
+│    Observed telemetry    │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 🔵 INTERNAL TEST         │
+│    Test environment      │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│ 🟣 SIMULATION            │
+│    Synthetic scenario    │
+└──────────────────────────┘
 
 Therefore:
 
@@ -240,37 +228,7 @@ This semantic separation is a core trust-boundary principle of the demonstration
 
 ---
 
-📂 REPOSITORY STRUCTURE
-
-maew-sovereign-metrics/
-│
-├── index.html
-│   └── Single-Page Sovereign Metrics Console
-│
-├── README.md
-│   └── Architecture Landing Page & Public Technical Overview
-│
-├── banner.jpg
-│   └── Repository Hero / Launch Banner
-│
-└── docs/
-    ├── architecture.md
-    │   └── Ω521–Ω560 System Architecture Blueprint
-    │
-    ├── assurance-gates.md
-    │   └── Ω560 Autonomous Assurance Gate Specification
-    │
-    ├── provenance.md
-    │   └── Ω546 Audit Explainability Specification
-    │
-    └── demo-status.md
-        └── Synthetic Data & Trust Boundary Specification
-
----
-
 🏗️ SYSTEM LAYERS
-
-The demonstration can be viewed as the following logical stack:
 
 ┌───────────────────────────────────────────┐
 │          EXECUTIVE PRESENTATION           │
@@ -290,17 +248,11 @@ The demonstration can be viewed as the following logical stack:
 
 Fundamental Architectural Rule
 
-DATA
- ≠
-TRUTH
+DATA ≠ TRUTH
 
-TRUTH CLAIM
- ≠
-AUTHORIZATION
+TRUTH CLAIM ≠ AUTHORIZATION
 
-AUTHORIZATION
- ≠
-EXECUTION
+AUTHORIZATION ≠ EXECUTION
 
 A metric displayed by a UI is therefore not automatically equivalent to an authorized operational fact.
 
@@ -314,24 +266,22 @@ This repository is a public architectural demonstration.
 
 Displayed metrics are synthetic demonstration data generated for the purpose of showing:
 
-- schema mechanics
+- Schema mechanics
 - UI behavior
-- provenance representation
-- assurance-gate logic
-- tamper detection behavior
-- cryptographic hashing
-- attestation export mechanics
+- Provenance representation
+- Assurance-gate logic
+- Tamper detection behavior
+- Cryptographic hashing
+- Attestation export mechanics
 
-This repository does NOT expose
+This Repository Does NOT Expose
 
-- production database credentials
-- private API secrets
-- enterprise authentication credentials
-- private cluster sockets
-- confidential infrastructure endpoints
-- proprietary production telemetry
-
----
+- Production database credentials
+- Private API secrets
+- Enterprise authentication credentials
+- Private cluster sockets
+- Confidential infrastructure endpoints
+- Proprietary production telemetry
 
 Cryptographic Scope
 
@@ -339,13 +289,11 @@ The SHA-256 implementation demonstrates browser-side integrity hashing over cano
 
 It does not by itself constitute:
 
-- external server certification
-- legal certification
-- independent third-party attestation
-- blockchain notarization
-- production security certification
-
-The distinction is intentional.
+- External server certification
+- Legal certification
+- Independent third-party attestation
+- Blockchain notarization
+- Production security certification
 
 ---
 
@@ -365,106 +313,46 @@ No production trust boundary is crossed by the public demo.
 
 ---
 
-💻 LOCAL EXECUTION
-
-The console is designed as a self-contained static web application.
-
-Requirements
-
-- Modern web browser
-- JavaScript enabled
-- Internet access for CDN-hosted UI libraries used by the demo
-
-Option A — Direct Execution
-
-git clone https://github.com/hugeplease66-debug/maew-sovereign-metrics.git
-cd maew-sovereign-metrics
-
-Then open:
-
-index.html
-
-in a modern browser.
-
-Option B — Local HTTP Server
-
-python3 -m http.server 8080
-
-Then open:
-
-http://localhost:8080
-
----
-
-🌐 GITHUB PAGES DEPLOYMENT
-
-The project is designed for GitHub Pages deployment.
-
-Recommended configuration:
-
-Repository
-    ↓
-Settings
-    ↓
-Pages
-    ↓
-Deploy from a branch
-    ↓
-main
-    ↓
-/ (root)
-
-Public Demo
-
-https://hugeplease66-debug.github.io/maew-sovereign-metrics/
-
----
-
 🧭 ASSURANCE FLOW
 
-The complete demonstration flow:
-
-┌──────────┐
-│  SOURCE  │
-└────┬─────┘
-     ▼
-┌──────────────┐
-│  TELEMETRY   │
-└────┬─────────┘
-     ▼
-┌──────────────┐
-│ CALCULATION  │
-└────┬─────────┘
-     ▼
-┌──────────────┐
-│ PROVENANCE   │
-└────┬─────────┘
-     ▼
+┌────────────┐
+│   SOURCE   │
+└─────┬──────┘
+      ↓
+┌────────────┐
+│ TELEMETRY  │
+└─────┬──────┘
+      ↓
+┌────────────┐
+│CALCULATION │
+└─────┬──────┘
+      ↓
+┌────────────┐
+│ PROVENANCE │
+└─────┬──────┘
+      ↓
 ┌───────────────────┐
 │ CANONICAL PAYLOAD │
-└────┬──────────────┘
-     ▼
-┌──────────────┐
-│   SHA-256    │
-└────┬─────────┘
-     ▼
+└─────┬─────────────┘
+      ↓
+┌────────────┐
+│  SHA-256   │
+└─────┬──────┘
+      ↓
 ┌──────────────────┐
-│  Ω560 ASSURANCE  │
+│ Ω560 ASSURANCE   │
 │       GATE       │
-└────┬─────────────┘
-     │
-     ├──── PASS ────► VERIFIED
-     │
-     └──── FAIL ────► BLOCKED
-                          │
-                          ▼
-                   NO TRUST TRANSITION
+└─────┬────────────┘
+      │
+      ├── PASS ──→ VERIFIED
+      │
+      └── FAIL ──→ BLOCKED
+                       ↓
+                NO TRUST TRANSITION
 
 ---
 
 🧠 DESIGN PHILOSOPHY
-
-MAEW Ω∞ is built around several architectural principles:
 
 1. Provenance Before Presentation
 
@@ -524,25 +412,102 @@ This repository intentionally focuses on the verification and evidence layer rat
 
 ---
 
+📂 REPOSITORY STRUCTURE
+
+maew-sovereign-metrics/
+│
+├── index.html
+│   └── Single-Page Sovereign Metrics Console
+│
+├── banner.jpg
+│   └── Repository Hero Banner
+│
+├── README.md
+│   └── Architecture Landing Page
+│
+└── docs/
+    ├── architecture.md
+    │   └── Ω521–Ω560 System Architecture Blueprint
+    │
+    ├── assurance-gates.md
+    │   └── Ω560 Autonomous Assurance Gate Specification
+    │
+    ├── provenance.md
+    │   └── Ω546 Audit Explainability Specification
+    │
+    └── demo-status.md
+        └── Synthetic Data & Trust Boundary Specification
+
+---
+
+💻 LOCAL EXECUTION
+
+Requirements
+
+- Modern web browser
+- JavaScript enabled
+- Internet access for CDN-hosted UI libraries used by the demo
+
+Option A — Direct Execution
+
+git clone https://github.com/hugeplease66-debug/maew-sovereign-metrics.git
+cd maew-sovereign-metrics
+
+Then open:
+
+index.html
+
+Option B — Local HTTP Server
+
+python3 -m http.server 8080
+
+Then open:
+
+http://localhost:8080
+
+---
+
+🌐 GITHUB PAGES
+
+The project is designed for GitHub Pages deployment.
+
+Repository
+   ↓
+Settings
+   ↓
+Pages
+   ↓
+Deploy from a branch
+   ↓
+main
+   ↓
+/ (root)
+
+Public Live Console
+
+https://hugeplease66-debug.github.io/maew-sovereign-metrics/
+
+---
+
 🗺️ ROADMAP
 
 Potential future evolution may include:
 
 Ω521–Ω560 Autonomous Audit Fabric
-        │
-        ▼
+            │
+            ▼
 Server-Side Evidence Ingestion
-        │
-        ▼
+            │
+            ▼
 Immutable Evidence Ledger
-        │
-        ▼
+            │
+            ▼
 Distributed Attestation
-        │
-        ▼
+            │
+            ▼
 Independent Verifier
-        │
-        ▼
+            │
+            ▼
 Production Governance Plane
 
 Any future production implementation must preserve the existing trust boundaries and explicitly distinguish:
@@ -575,7 +540,7 @@ Architecture and system specifications are documented under the MAEW Ω521–Ω5
 
 🐉 MAEW Ω∞
 
-«Observe. Preserve Provenance. Verify. Explain. Attest.»
+Observe. Preserve Provenance. Verify. Explain. Attest.
 
 MAEW Ω∞ SOVEREIGN METRICS & PROVENANCE ENGINE
 
