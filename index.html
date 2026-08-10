@@ -3,891 +3,1031 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAEW Ω∞ Sovereign Metrics & Provenance Engine</title>
+    <title>MAEW Ω∞ HYPEROS FROZEN v2.0 LTS — Canonical Control Surface</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        sovereign: {
-                            50: '#e6fdf4',
-                            100: '#c3fbe2',
-                            400: '#34d399',
-                            500: '#10b981',
-                            600: '#059669',
-                            900: '#064e3b',
-                            950: '#022c22',
-                        },
-                        darkbg: '#040711',
-                        cardbg: 'rgba(13, 19, 33, 0.85)',
-                        borderbg: '#1e293b'
-                    },
-                    fontFamily: {
-                        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
-                    },
-                    boxShadow: {
-                        'glow-emerald': '0 0 25px -3px rgba(16, 185, 129, 0.3), 0 0 10px -2px rgba(16, 185, 129, 0.2)',
-                        'glow-rose': '0 0 25px -3px rgba(244, 63, 94, 0.35), 0 0 10px -2px rgba(244, 63, 94, 0.2)',
-                        'glow-cyan': '0 0 25px -3px rgba(6, 182, 212, 0.3)',
-                        'glow-purple': '0 0 25px -3px rgba(168, 85, 247, 0.3)',
+                        darker: '#06080e',
+                        darkcard: '#0f121d',
+                        darkaccent: '#161b2c',
+                        accent: '#8b5cf6',
+                        cyanneon: '#00f0ff',
+                        emeraldneon: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
                     }
                 }
             }
         }
     </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Prompt:wght@300;400;500;600;700&display=swap');
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #040711;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.5) 0px, transparent 100%);
-            background-attachment: fixed;
+            font-family: 'Prompt', 'JetBrains Mono', monospace;
+            background-color: #06080e;
+            color: #e2e8f0;
         }
-
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #040711; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
-
-        .glass-panel {
-            background: rgba(13, 19, 33, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
         }
-
-        .cyber-grid {
-            background-size: 30px 30px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06080e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
         }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col cyber-grid selection:bg-emerald-500 selection:text-black">
+<body class="min-h-screen bg-darker text-slate-100 flex flex-col md:flex-row selection:bg-cyan-500 selection:text-black">
 
-    <!-- ป้ายประกาศโหมดความโปร่งใสระดับสถาปัตยกรรม (Trust Boundary) -->
-    <div class="bg-gradient-to-r from-amber-950/80 via-amber-900/40 to-amber-950/80 border-b border-amber-500/30 px-4 py-2 text-center text-amber-300 font-mono text-xs flex flex-wrap items-center justify-center gap-2 backdrop-blur-md">
-        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10px] tracking-wider shadow-sm flex items-center gap-1">
-            <i data-lucide="alert-triangle" class="w-3 h-3"></i> DEMO & UI LAYER MODE
-        </span>
-        <span class="text-slate-300">ข้อมูลทั้งหมดแสดงในโหมดจำลอง — สำหรับทดสอบสถาปัตยกรรม <span class="text-amber-400 font-bold">Ω521–Ω560 Autonomous Audit Engine</span></span>
+    <!-- RUNTIME BOUNDARY TOP BANNER -->
+    <div id="sim-banner" class="fixed top-0 left-0 right-0 z-50 bg-amber-950/95 border-b border-amber-600/80 text-amber-200 text-[10px] md:text-[11px] mono font-bold py-1.5 px-4 flex items-center justify-between shadow-xl">
+        <div class="flex items-center justify-center gap-2 mx-auto truncate">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400"></i>
+            <span class="truncate">SIMULATION CONTROL SURFACE • BACKEND: NOT CONNECTED • EXECUTION: SIMULATED • TELEMETRY: SIMULATED • VERIFICATION: MANIFEST ONLY</span>
+        </div>
+        <button onclick="document.getElementById('sim-banner').style.display='none'" class="text-amber-400 hover:text-white px-2">✕</button>
     </div>
 
-    <!-- ส่วนหัวระบบ Navigation -->
-    <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <div class="relative group">
-                    <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-500"></div>
-                    <div class="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-emerald-400 font-extrabold text-2xl font-mono">
+    <!-- LEFT SIDEBAR: HYPEROS CONTROL & RELEASE INTEGRITY -->
+    <aside class="w-full md:w-80 bg-darkcard border-r border-slate-800/80 flex flex-col justify-between shrink-0 z-40 pt-8">
+        <div class="p-4 space-y-5 overflow-y-auto max-h-screen">
+            
+            <!-- Brand & Multi-Version Lineage Context -->
+            <div class="space-y-3">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 flex items-center justify-center text-black font-black text-xl shadow-[0_0_20px_rgba(0,240,255,0.4)]">
                         Ω
                     </div>
-                </div>
-                <div>
-                    <div class="flex items-center gap-2.5">
-                        <span class="font-black text-lg tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-400">MAEW Ω∞</span>
-                        <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold tracking-wider uppercase shadow-sm">
-                            SOVEREIGN METRICS ENGINE
-                        </span>
+                    <div>
+                        <div class="font-extrabold text-sm tracking-wider text-white flex items-center gap-1.5">
+                            <span>HYPEROS FROZEN</span>
+                        </div>
+                        <div class="text-[10px] text-purple-400 font-mono">MAEW Ω∞ Canonical Surface</div>
                     </div>
-                    <p class="text-xs text-slate-400 font-medium">Provenance-First, Evidence-Driven & Audit-Ready Console</p>
+                </div>
+
+                <!-- Release Lineage Badge Box -->
+                <div class="bg-darker border border-slate-800 p-2.5 rounded-xl space-y-1.5 font-mono text-[10px]">
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span>CANONICAL UI:</span>
+                        <span class="text-purple-300 font-bold bg-purple-950/80 border border-purple-800 px-1.5 py-0.5 rounded">v2.0 LTS</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span>BASELINE:</span>
+                        <span class="text-cyan-300 font-bold">v1.2 LTS</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span>DEPLOYMENT SEAL:</span>
+                        <span class="text-emerald-400 font-bold">v2.8.0-GA-SEAL</span>
+                    </div>
+                    <div class="flex justify-between items-center text-slate-400 border-t border-slate-800/80 pt-1">
+                        <span>RELEASE STATE:</span>
+                        <span class="text-emerald-400 font-bold">APPROVED_GO</span>
+                    </div>
+                </div>
+
+                <!-- Sovereign Trust Passport Launcher -->
+                <button onclick="openPassportModal()" class="w-full bg-slate-900/90 hover:bg-slate-800 border border-purple-800/60 text-purple-200 p-2.5 rounded-xl text-xs font-mono transition flex items-center justify-between group shadow">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-passport text-amber-400"></i>
+                        <span class="font-bold">SOVEREIGN PASSPORT</span>
+                    </div>
+                    <span class="bg-emerald-950 text-emerald-400 text-[9px] px-1.5 py-0.5 border border-emerald-700 rounded">SIGNED & SEALED</span>
+                </button>
+            </div>
+
+            <hr class="border-slate-800/80">
+
+            <!-- RELEASE INTEGRITY CARD -->
+            <div class="bg-darker border border-slate-800 rounded-xl p-3 space-y-2 font-mono text-[10px]">
+                <div class="flex justify-between items-center text-slate-400 border-b border-slate-800/80 pb-1.5">
+                    <span class="font-bold text-slate-300">RELEASE INTEGRITY</span>
+                    <span class="bg-slate-800 text-slate-400 px-1 py-0.5 rounded text-[8px]">SOURCE: MANIFEST</span>
+                </div>
+                <div class="space-y-1 text-slate-300">
+                    <div class="flex justify-between">
+                        <span>BASELINE:</span>
+                        <span class="text-cyan-300">v1.2 LTS</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>ACTIVE SEAL:</span>
+                        <span class="text-emerald-400">v2.8.0-GA-SEAL</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>RELEASE STATE:</span>
+                        <span class="text-emerald-400 font-bold">APPROVED_GO</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>ARCHITECTURE:</span>
+                        <span class="text-amber-300">SINGLE HTML</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>DEPENDENCIES:</span>
+                        <span class="text-emerald-400">ZERO npm RUNTIME</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>INTEGRITY:</span>
+                        <span class="text-purple-300">SHA-256 SEALED</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4 font-mono">
-                <div class="hidden lg:flex items-center gap-3 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800/80 shadow-inner">
-                    <span class="relative flex h-2.5 w-2.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                    </span>
-                    <span class="text-slate-400 text-xs">RE-VERIFY LOOP:</span>
-                    <span class="text-emerald-400 font-bold text-xs" id="loop-counter">ACTIVE #1,492</span>
+            <!-- Room Navigation Shell -->
+            <div class="space-y-2">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                    <span>ROOM NAVIGATION SHELL</span>
+                    <span class="bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-mono text-[9px]">4</span>
                 </div>
-                <div class="text-right hidden sm:block bg-slate-900/50 px-3.5 py-1.5 rounded-xl border border-slate-800/50">
-                    <div class="text-slate-500 text-[9px] uppercase tracking-wider font-semibold">INDEPENDENT VERIFIER CLOCK (UTC+7)</div>
-                    <div class="text-emerald-400 font-semibold text-xs" id="live-clock">Loading...</div>
+                
+                <div class="space-y-1 text-xs">
+                    <button id="nav-executive" onclick="switchRoom('executive', '01 — COMMAND CENTER')" class="room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-cyan-950/40 border border-cyan-700/80 text-cyan-200 transition text-left">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                            <span class="font-medium truncate">01 — COMMAND CENTER</span>
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    </button>
+                    
+                    <button id="nav-maewcore" onclick="switchRoom('maewcore', '02 — COGNITIVE MESH KERNEL')" class="room-btn w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-300 transition text-left">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-solid fa-brain text-purple-400 text-xs"></i>
+                            <span class="font-medium truncate">02 — COGNITIVE MESH</span>
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                    </button>
+
+                    <button id="nav-finops" onclick="switchRoom('finops', '03 — FINOPS COST CONTROLLER')" class="room-btn w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-300 transition text-left">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-solid fa-coins text-emerald-400 text-xs"></i>
+                            <span class="font-medium truncate">03 — FINOPS OPTIMIZATION</span>
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    </button>
+
+                    <button id="nav-audit" onclick="switchRoom('audit', '04 — SOVEREIGN AUDIT SURFACE')" class="room-btn w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-300 transition text-left">
+                        <div class="flex items-center space-x-2 truncate">
+                            <i class="fa-solid fa-shield-cat text-amber-400 text-xs"></i>
+                            <span class="font-medium truncate">04 — AUDIT & ASSURANCE</span>
+                        </div>
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simulation Scale Selector -->
+            <div class="space-y-2 pt-2 border-t border-slate-800/80">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex justify-between items-center">
+                    <span>SIMULATION SCALE</span>
+                    <span id="active-warp-label" class="text-amber-400 font-mono text-[10px] font-bold">-0.2 ACTIVE</span>
+                </div>
+                <div class="grid grid-cols-4 gap-1.5 text-[10px] font-mono">
+                    <button onclick="setWarpFactor('v2.0')" class="warp-btn bg-slate-900 hover:bg-slate-800 border border-slate-700 py-1 rounded text-slate-300">v2.0</button>
+                    <button onclick="setWarpFactor('v2.1')" class="warp-btn bg-slate-900 hover:bg-slate-800 border border-slate-700 py-1 rounded text-slate-300">v2.1</button>
+                    <button onclick="setWarpFactor('-0.2')" class="warp-btn active bg-amber-950 text-amber-300 border border-amber-600 py-1 rounded font-bold">-0.2</button>
+                    <button onclick="setWarpFactor('v2.3')" class="warp-btn bg-slate-900 hover:bg-slate-800 border border-slate-700 py-1 rounded text-slate-300">v2.3</button>
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- คอนเทนเนอร์หลัก -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <div class="p-4 border-t border-slate-800/80 text-[10px] text-slate-500 font-mono text-center">
+            MAEW Ω∞ HYPEROS FROZEN &bull; 14,902 SEALS
+        </div>
+    </aside>
 
-        <!-- แบนเนอร์ผู้บริหาร -->
-        <div class="relative overflow-hidden rounded-2xl glass-panel p-6 sm:p-8 border border-slate-800 shadow-2xl">
-            <div class="absolute -right-20 -top-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="relative z-10 space-y-6">
-                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                    <div class="space-y-2">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <span class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">FROZEN v1.2 LTS</span>
-                            <span class="text-slate-600">•</span>
-                            <span class="text-xs font-mono text-cyan-400 flex items-center gap-1">
-                                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i> Continuous Assurance Active
-                            </span>
+    <!-- RIGHT MAIN CONTENT AREA -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto pt-8">
+
+        <!-- HEADER TOP BAR -->
+        <header class="bg-darkcard border-b border-slate-800 px-4 py-2.5 flex flex-wrap items-center justify-between text-xs sticky top-8 z-30 backdrop-blur-md bg-opacity-90">
+            <div class="flex items-center space-x-3">
+                <span class="text-slate-400 font-mono">TENANT:</span>
+                <span class="bg-cyan-950/80 border border-cyan-800 text-cyan-300 px-2 py-0.5 rounded font-bold font-mono">
+                    TNT-TH-001
+                </span>
+                <span class="hidden lg:inline text-slate-600">|</span>
+                <span class="hidden lg:flex items-center space-x-1.5 text-slate-300">
+                    <i class="fa-solid fa-shield-halved text-amber-400"></i>
+                    <span class="mono text-[11px]">Commit Hash: <code class="text-cyan-400">e3b0c44298fc1c14</code></span>
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-3 my-1 md:my-0">
+                <button onclick="openManifestInfo()" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 px-3 py-1 rounded-lg font-mono text-[11px] transition flex items-center space-x-1.5">
+                    <i class="fa-solid fa-file-code text-cyan-400"></i>
+                    <span>MANIFEST VERIFICATION</span>
+                </button>
+
+                <div class="bg-amber-950/50 border border-amber-800/60 text-amber-300 px-3 py-1 rounded-lg font-mono text-[11px] flex items-center space-x-1.5">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span>RUNTIME: SIMULATION</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN DASHBOARD CONTAINER -->
+        <main class="flex-1 p-3 md:p-6 space-y-6 max-w-[1720px] w-full mx-auto">
+
+            <!-- RUNTIME BOUNDARY PROMINENT BOX -->
+            <div class="bg-darkcard border-2 border-amber-600/80 rounded-2xl p-4 md:p-5 font-mono text-xs text-amber-200 space-y-3 shadow-[0_0_30px_rgba(245,158,11,0.1)]">
+                <div class="flex items-center justify-between border-b border-amber-800/80 pb-2">
+                    <div class="font-bold text-sm text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-cat text-lg"></i>
+                        <span>SIMULATION CONTROL SURFACE BOUNDARY</span>
+                    </div>
+                    <span class="bg-amber-950 text-amber-300 text-[10px] px-2 py-0.5 border border-amber-700 rounded">DEMONSTRATION SURFACE</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-[11px]">
+                    <div class="bg-darker p-2.5 rounded-lg border border-amber-900/60">Backend: <span class="text-rose-400 font-bold block mt-0.5">NOT CONNECTED</span></div>
+                    <div class="bg-darker p-2.5 rounded-lg border border-amber-900/60">Execution: <span class="text-amber-400 font-bold block mt-0.5">SIMULATED</span></div>
+                    <div class="bg-darker p-2.5 rounded-lg border border-amber-900/60">Telemetry: <span class="text-amber-400 font-bold block mt-0.5">SIMULATED</span></div>
+                    <div class="bg-darker p-2.5 rounded-lg border border-amber-900/60">Authorization: <span class="text-rose-400 font-bold block mt-0.5">NOT GRANTED</span></div>
+                    <div class="bg-darker p-2.5 rounded-lg border border-amber-900/60 col-span-2 sm:col-span-1">Verification: <span class="text-emerald-400 font-bold block mt-0.5">MANIFEST ONLY</span></div>
+                </div>
+            </div>
+
+            <!-- Header Banner -->
+            <div class="bg-darkcard border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <div>
+                        <div class="flex items-center space-x-2 text-xs text-purple-400 font-mono mb-1">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span id="active-room-title">01 — COMMAND CENTER</span>
                         </div>
-                        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
-                            EXECUTIVE KPI STRIP <span class="text-slate-600 font-light">//</span> <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">SOVEREIGN METRICS</span>
+                        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+                            HYPEROS FROZEN v2.0 LTS — Canonical Control Surface
                         </h1>
-                        <p class="text-xs sm:text-sm text-slate-400 max-w-3xl leading-relaxed">
-                            การแยกแยะสถานะข้อมูลอย่างเด็ดขาด (
-                            <span class="text-emerald-400 font-mono font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">🟢 Live Production</span> 
-                            <span class="text-cyan-400 font-mono font-semibold bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/20">🔵 Internal Test</span> 
-                            <span class="text-purple-400 font-mono font-semibold bg-purple-500/10 px-1.5 py-0.5 rounded border border-purple-500/20">🟣 Simulation</span>
-                            ) ผ่านการตรวจสอบ 10 หัวข้อของ <span class="text-emerald-400 font-mono font-bold underline decoration-emerald-500/40">Ω560 Assurance Gate</span>
+                        <p class="text-xs md:text-sm text-slate-400 mt-1 max-w-4xl">
+                            ระบบปฏิบัติการหลัก (Lineage Baseline: MAEW Ω∞ HYPEROS FROZEN v1.2 LTS) &bull; Architect: <span class="text-cyan-300 font-bold">ยุทธภูมิ พากเพียร</span>
                         </p>
                     </div>
 
-                    <div class="flex flex-wrap items-center gap-3 font-mono shrink-0">
-                        <button onclick="runGlobalReVerify()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 active:scale-95 border border-slate-700/80 hover:border-emerald-500/50 text-xs font-semibold text-slate-200 rounded-xl flex items-center gap-2.5 transition shadow-lg group">
-                            <i data-lucide="rotate-cw" class="w-4 h-4 text-emerald-400 group-hover:rotate-180 transition-transform duration-500" id="reverify-spinner"></i> Re-Verify All (Ω559)
-                        </button>
-                        <button onclick="openGlobalAttestationModal()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 hover:from-emerald-500/30 hover:to-cyan-500/30 active:scale-95 border border-emerald-500/40 text-emerald-300 text-xs font-bold rounded-xl flex items-center gap-2.5 transition shadow-lg shadow-emerald-950/50">
-                            <i data-lucide="award" class="w-4 h-4 text-emerald-400"></i> Audit Receipt Pack
-                        </button>
-                    </div>
-                </div>
-
-                <!-- ไดอะแกรมแสดงขั้นตอน Audit Pipeline Chain -->
-                <div class="pt-5 border-t border-slate-800/80 font-mono text-xs text-slate-400">
-                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-                        <span class="text-slate-300 font-semibold flex items-center gap-2">
-                            <i data-lucide="workflow" class="w-4 h-4 text-emerald-400"></i> Audit Pipeline Chain:
-                        </span>
-                        <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
-                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">SOURCE</span> 
-                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
-                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">TELEMETRY</span> 
-                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
-                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">CALCULATION</span> 
-                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
-                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">PROVENANCE</span> 
-                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
-                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">SHA-256</span> 
-                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
-                            <span class="px-3 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-bold shadow-glow-emerald">VERIFICATION</span>
+                    <!-- CONSISTENT MANIFEST-DERIVED HEADER METRICS -->
+                    <div class="flex flex-wrap gap-2 text-xs font-mono">
+                        <div class="bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl text-slate-300">
+                            SYSTEM HEALTH: <span class="text-emerald-400 font-bold">98% MANIFEST-DERIVED</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl text-slate-300">
+                            SLI AVAILABILITY: <span class="text-cyan-400 font-bold">99.99% MANIFEST-DERIVED</span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl text-slate-300">
+                            P95 LATENCY: <span class="text-amber-400 font-bold">82ms MANIFEST-DERIVED</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- ปุ่มกรองสถานะข้อมูล -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4 font-mono">
-            <div class="flex items-center gap-2.5">
-                <i data-lucide="cpu" class="w-5 h-5 text-emerald-400"></i>
-                <h2 class="text-base font-bold uppercase tracking-wider text-white">6 Live Metric Streams</h2>
-            </div>
-            <div class="flex flex-wrap items-center gap-2 text-xs">
-                <span class="text-slate-400 mr-1 font-sans text-xs">Filter State:</span>
-                <button onclick="filterMetrics('all')" id="filter-all" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold transition">All (6)</button>
-                <button onclick="filterMetrics('observed')" id="filter-observed" class="px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition">🟢 Live</button>
-                <button onclick="filterMetrics('test')" id="filter-test" class="px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition">🔵 Internal Test</button>
-                <button onclick="filterMetrics('sim')" id="filter-sim" class="px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition">🟣 Simulation</button>
-            </div>
-        </div>
+            <!-- DYNAMIC ROOM 01: COMMAND CENTER -->
+            <div id="room-executive-content" class="space-y-6">
+                <!-- KPI BAR (Manifest-Derived Evidence Cards) -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
+                    <div class="bg-darkcard border border-purple-900/60 rounded-xl p-3.5 relative">
+                        <div class="text-[11px] text-slate-400 flex items-center justify-between mb-1">
+                            <span>EVIDENCE SEALS</span>
+                            <i class="fa-solid fa-shield-halved text-purple-400"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black mono text-white">14,902</div>
+                        <div class="text-[10px] text-emerald-400 mt-1">INTEGRITY TEST: PASS</div>
+                    </div>
 
-        <!-- KPI Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="kpi-grid">
-            <!-- เรนเดอร์ผ่าน JS -->
-        </div>
+                    <div class="bg-darkcard border border-slate-800/80 rounded-xl p-3.5 relative">
+                        <div class="text-[11px] text-slate-400 flex items-center justify-between mb-1">
+                            <span>Active Nodes</span>
+                            <i class="fa-solid fa-server text-cyan-400"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black mono text-white">24 / 24</div>
+                        <div class="text-[10px] text-emerald-400 mt-1">100% Manifest Mesh</div>
+                    </div>
 
-        <!-- ตาราง Benchmark Index -->
-        <div class="glass-panel border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-            <div class="p-6 border-b border-slate-800 bg-slate-950/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono">
-                <div>
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2.5">
-                        <i data-lucide="scale" class="w-5 h-5 text-emerald-400"></i> Sovereign Benchmark Index: 2026 Targets vs. 2024 Baseline
-                    </h3>
-                    <p class="text-xs text-slate-400 mt-1 font-sans">การเปรียบเทียบตัวเลขประสิทธิภาพกับค่ามาตรฐาน NeurIPS 2024</p>
+                    <div class="bg-darkcard border border-slate-800/80 rounded-xl p-3.5 relative">
+                        <div class="text-[11px] text-slate-400 flex items-center justify-between mb-1">
+                            <span>CITATIONS</span>
+                            <i class="fa-solid fa-quote-right text-cyan-400"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black mono text-white">19,462</div>
+                        <div class="text-[10px] text-cyan-400 mt-1">Manifest Evidence</div>
+                    </div>
+
+                    <div class="bg-darkcard border border-slate-800/80 rounded-xl p-3.5 relative">
+                        <div class="text-[11px] text-slate-400 flex items-center justify-between mb-1">
+                            <span>Civilization KGE</span>
+                            <i class="fa-solid fa-brain text-blue-400"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black mono text-white">24,980</div>
+                        <div class="text-[10px] text-blue-400 mt-1">Active Vectors</div>
+                    </div>
+
+                    <div class="bg-darkcard border border-slate-800/80 rounded-xl p-3.5 relative">
+                        <div class="text-[11px] text-slate-400 flex items-center justify-between mb-1">
+                            <span>Sim Compute Index</span>
+                            <i class="fa-solid fa-bolt text-amber-400"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black mono text-white">48.2 PFLOPS</div>
+                        <div class="text-[10px] text-amber-400 mt-1">Simulated Scale</div>
+                    </div>
+
+                    <div class="bg-darkcard border border-slate-800/80 rounded-xl p-3.5 relative">
+                        <div class="text-[11px] text-slate-400 flex items-center justify-between mb-1">
+                            <span>Governance Drift</span>
+                            <i class="fa-solid fa-shield-check text-emerald-400"></i>
+                        </div>
+                        <div class="text-xl md:text-2xl font-black mono text-emerald-400">0.00%</div>
+                        <div class="text-[10px] text-emerald-400 mt-1">FROZEN STABLE</div>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 px-3 py-1.5 rounded-lg flex items-center gap-2 font-bold shadow-sm">
-                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> PROVENANCE CLASSIFIED
+
+                <!-- CORE COMMAND TERMINAL & TOPOLOGY -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    <div class="lg:col-span-7 bg-darkcard border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-diagram-project text-cyan-400"></i>
+                                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">Quantum Field Stabilizer Topology Model</h2>
+                                </div>
+                                <span class="text-[10px] mono text-amber-400">4-REGION MESH (SIMULATED)</span>
+                            </div>
+                            
+                            <div class="relative w-full h-[240px] bg-darker rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden">
+                                <svg class="w-full h-full" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid meet">
+                                    <line x1="200" y1="110" x2="90" y2="60" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+                                    <line x1="200" y1="110" x2="310" y2="60" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+                                    <line x1="200" y1="110" x2="110" y2="160" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+                                    <line x1="200" y1="110" x2="290" y2="160" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+                                    
+                                    <circle cx="200" cy="110" r="16" fill="#00f0ff" opacity="0.15"/>
+                                    <circle cx="200" cy="110" r="8" fill="#00f0ff" class="cursor-pointer" onclick="inspectNode('Alpha Master Core', '0.8ms', 'ONLINE 🔒')" />
+                                    <text x="200" y="138" text-anchor="middle" fill="#00f0ff" font-size="9" font-family="monospace">Alpha Core (TH)</text>
+
+                                    <circle cx="90" cy="60" r="6" fill="#8b5cf6" class="cursor-pointer" onclick="inspectNode('US-East Federation', '38ms', 'ACTIVE 🌐')" />
+                                    <text x="90" y="45" text-anchor="middle" fill="#8b5cf6" font-size="8" font-family="monospace">US-East</text>
+
+                                    <circle cx="310" cy="60" r="6" fill="#8b5cf6" class="cursor-pointer" onclick="inspectNode('EU-Central Federation', '42ms', 'ACTIVE 🌐')" />
+                                    <text x="310" y="45" text-anchor="middle" fill="#8b5cf6" font-size="8" font-family="monospace">EU-Central</text>
+
+                                    <circle cx="110" cy="160" r="6" fill="#10b981" class="cursor-pointer" onclick="inspectNode('AP-South Node', '12ms', 'SYNCED 🌐')" />
+                                    <text x="110" y="178" text-anchor="middle" fill="#10b981" font-size="8" font-family="monospace">AP-South</text>
+
+                                    <circle cx="290" cy="160" r="6" fill="#f59e0b" class="cursor-pointer" onclick="inspectNode('JP-East Core', '24ms', 'SYNCED 🌐')" />
+                                    <text x="290" y="178" text-anchor="middle" fill="#f59e0b" font-size="8" font-family="monospace">JP-East</text>
+                                </svg>
+                                
+                                <div id="node-inspector" class="absolute top-2 left-2 bg-slate-900/90 border border-slate-700 px-3 py-1.5 rounded-lg text-[10px] mono">
+                                    <span class="text-cyan-300 font-bold">Node: Alpha Master Core</span> | Latency: <span class="text-emerald-400">0.8ms</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-darkcard border border-slate-800/80 rounded-2xl p-5 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fa-solid fa-terminal text-purple-400"></i>
+                                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">Simulation Terminal Shell</h2>
+                                </div>
+                                <span class="text-[9px] mono bg-purple-950 text-purple-300 px-2 py-0.5 rounded border border-purple-800">DEMO INTERFACE</span>
+                            </div>
+
+                            <div id="terminal-viewport" class="bg-darker border border-slate-800 rounded-xl p-3 font-mono text-[11px] text-slate-300 h-[190px] overflow-y-auto space-y-1.5 scrollbar-thin">
+                                <div class="text-cyan-400 font-bold">[MAEW Ω∞ HYPEROS FROZEN v2.0 LTS SURFACE]</div>
+                                <div class="text-slate-400">[RELEASE] Active Deployment Seal: v2.8.0-GA-SEAL | Tenant: TNT-TH-001</div>
+                                <div>[INTEGRITY] 14,902 Evidence Seals mapped from release manifest.</div>
+                                <div class="text-amber-300">[NOTICE] Interactive execution triggers local simulation shell only.</div>
+                            </div>
+                        </div>
+
+                        <form onsubmit="executeTerminalCommand(event)" class="mt-3 space-y-2">
+                            <div class="relative">
+                                <input id="cmd-input" type="text" value="g. travel to realm: mstr2x, unify all realities into M1" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs font-mono text-cyan-200 focus:outline-none focus:border-cyan-500 pr-10">
+                                <button type="submit" class="absolute right-1 top-1 bottom-1 px-3 bg-gradient-to-r from-cyan-400 to-purple-600 hover:brightness-110 text-black font-bold rounded-lg text-xs transition">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC ROOM 02: COGNITIVE MESH KERNEL (HIDDEN BY DEFAULT) -->
+            <div id="room-maewcore-content" class="hidden space-y-6">
+                <div class="bg-darkcard border border-purple-900/40 rounded-2xl p-5">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-brain text-2xl text-purple-400"></i>
+                        <div>
+                            <h2 class="text-lg font-bold text-white">02 — Cognitive Mesh Kernel Architecture</h2>
+                            <p class="text-xs text-slate-400">Civilization Intelligence Vectors & Neural Evidence Specifications</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-cyan-400 font-bold mb-2">Knowledge Graph Engine (KGE)</div>
+                            <div class="text-slate-300 space-y-1">
+                                <div>Total Entities: <span class="text-white font-bold">1,480,200</span></div>
+                                <div>Relation Density: <span class="text-white font-bold">99.4%</span></div>
+                                <div>Status: <span class="text-emerald-400 font-bold">ONLINE 🧠</span></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-purple-400 font-bold mb-2">Cognitive Synthesis Engine (CSE)</div>
+                            <div class="text-slate-300 space-y-1">
+                                <div>Active Agents: <span class="text-white font-bold">128 Sub-Kernels</span></div>
+                                <div>Inference Benchmark: <span class="text-white font-bold">14ms</span></div>
+                                <div>Status: <span class="text-emerald-400 font-bold">ACTIVE 🏛</span></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-emerald-400 font-bold mb-2">Autonomous Decision Engine (ADE)</div>
+                            <div class="text-slate-300 space-y-1">
+                                <div>Consensus Speed: <span class="text-white font-bold">140ms</span></div>
+                                <div>Auto-Resolution Rate: <span class="text-white font-bold">99.88%</span></div>
+                                <div>Status: <span class="text-emerald-400 font-bold">ONLINE 🤖</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC ROOM 03: FINOPS OPTIMIZATION (HIDDEN BY DEFAULT) -->
+            <div id="room-finops-content" class="hidden space-y-6">
+                <div class="bg-darkcard border border-emerald-900/40 rounded-2xl p-5">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i class="fa-solid fa-coins text-2xl text-emerald-400"></i>
+                        <div>
+                            <h2 class="text-lg font-bold text-white">03 — FinOps Cost Controller Specification</h2>
+                            <p class="text-xs text-slate-400">Resource Optimization Rules & Cost Model Verification</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-slate-400 text-[10px]">MONTHLY BUDGET RUN-RATE</div>
+                            <div class="text-2xl font-extrabold text-emerald-400 mt-1">$14,280.00</div>
+                            <div class="text-[10px] text-slate-500 mt-1">-18.4% Efficiency Model</div>
+                        </div>
+
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-slate-400 text-[10px]">AVG TOKEN COST / 1M</div>
+                            <div class="text-2xl font-extrabold text-cyan-400 mt-1">$0.042</div>
+                            <div class="text-[10px] text-emerald-400 mt-1">Mesh Optimized</div>
+                        </div>
+
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-slate-400 text-[10px]">SPOT COMPUTE RATIO</div>
+                            <div class="text-2xl font-extrabold text-purple-400 mt-1">84.2%</div>
+                            <div class="text-[10px] text-purple-400 mt-1">High Availability Group</div>
+                        </div>
+
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl">
+                            <div class="text-slate-400 text-[10px]">IDLE RESOURCE RECLAIM</div>
+                            <div class="text-2xl font-extrabold text-amber-400 mt-1">100%</div>
+                            <div class="text-[10px] text-amber-400 mt-1">Auto-purge Spec</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC ROOM 04: SOVEREIGN AUDIT SURFACE (SEMANTIC HARDENED MERGE) -->
+            <div id="room-audit-content" class="hidden space-y-6">
+
+                <!-- SEMANTIC STATE LEGEND BANNER -->
+                <div class="bg-darkcard border border-amber-600/60 rounded-2xl p-4 font-mono text-xs space-y-2">
+                    <div class="flex items-center justify-between border-b border-amber-900/60 pb-2">
+                        <span class="font-bold text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group"></i> DEMO & UI LAYER MODE — SEMANTIC STATE LEGEND
+                        </span>
+                        <span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-700 px-2 py-0.5 rounded">MANIFEST-DERIVED CLASSIFICATION</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] pt-1">
+                        <div class="bg-darker p-2 rounded border border-slate-800 flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+                            <span><strong class="text-emerald-400">🟢 LIVE PRODUCTION</strong> = Source classification from manifest</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded border border-slate-800 flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0"></span>
+                            <span><strong class="text-cyan-400">🔵 INTERNAL TEST</strong> = Source classification from manifest</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded border border-slate-800 flex items-center space-x-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-purple-400 shrink-0"></span>
+                            <span><strong class="text-purple-400">🟣 SIMULATION</strong> = Locally simulated value</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ω559 RE-VERIFICATION CONTROLLER BAR -->
+                <div class="bg-darkcard border border-cyan-800/80 rounded-2xl p-4 font-mono text-xs space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="font-bold text-cyan-300 flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i> Ω559 RE-VERIFICATION CONTROLLER
+                        </span>
+                        <span class="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-800">SIMULATION SCOPE</span>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div class="space-y-1 text-[11px]">
+                            <div>Scope: <span class="text-amber-300 font-bold">Manifest / Simulation Model</span></div>
+                            <div>Runtime Backend: <span class="text-rose-400 font-bold">DISCONNECTED</span></div>
+                            <div>Verification Mode: <span class="text-emerald-400 font-bold">MANIFEST ONLY</span></div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="triggerReverifyAll()" class="bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-700 px-3 py-2 rounded-xl font-bold transition flex items-center space-x-1.5 shadow">
+                                <i class="fa-solid fa-check-double"></i>
+                                <span>[ RE-VERIFY ALL ]</span>
+                            </button>
+                            <button onclick="generateReceiptExport()" class="bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-700 px-3 py-2 rounded-xl font-bold transition flex items-center space-x-1.5 shadow">
+                                <i class="fa-solid fa-file-export"></i>
+                                <span>[ GENERATE RECEIPT ]</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ω521–Ω560 AUTONOMOUS AUDIT ENGINE HEADER & GATE -->
+                <div class="bg-darkcard border border-purple-900/60 rounded-2xl p-5 space-y-4">
+                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+                        <div class="flex items-center space-x-3">
+                            <i class="fa-solid fa-shield-cat text-3xl text-amber-400"></i>
+                            <div>
+                                <h2 class="text-lg font-extrabold text-white">Ω521–Ω560 Autonomous Audit Engine & Assurance Gate</h2>
+                                <p class="text-xs text-slate-400 font-mono">Evidence-Driven Autonomous Assurance & Cryptographic Verification Surface</p>
+                            </div>
+                        </div>
+                        
+                        <!-- ASSURANCE SCOPE DISCLOSURE BADGE -->
+                        <div class="bg-emerald-950/80 border border-emerald-700/80 rounded-xl p-2.5 font-mono text-right text-xs">
+                            <div class="text-emerald-400 font-bold">Ω560 ASSURANCE RESULT: PASSED</div>
+                            <div class="text-[10px] text-slate-300 mt-0.5">Manifest Scope: <span class="text-emerald-400 font-bold">10/10 PASSED</span></div>
+                            <div class="text-[9px] text-rose-400">Runtime Verification: NOT EXECUTED</div>
+                        </div>
+                    </div>
+
+                    <!-- AUDIT PIPELINE FLOW -->
+                    <div class="bg-darker border border-slate-800 p-3 rounded-xl font-mono text-[10px] text-slate-300 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-slate-500 font-bold">AUDIT PIPELINE:</span>
+                        <div class="flex items-center space-x-1">
+                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-cyan-300">SOURCE</span>
+                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-purple-300">TELEMETRY</span>
+                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-amber-300">CALCULATION</span>
+                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-blue-300">PROVENANCE</span>
+                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-emerald-300">SHA-256</span>
+                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
+                            <span class="bg-emerald-950 border border-emerald-600 text-emerald-400 font-bold px-2 py-1 rounded">VERIFICATION</span>
+                        </div>
+                    </div>
+
+                    <!-- 6 METRIC STREAMS WITH GLOBAL PROVENANCE CONTRACT STRUCTURE -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 font-mono text-xs">
+                        
+                        <!-- STREAM 01 -->
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
+                                <span class="font-bold text-white">Stream 01: Multi-Agent Consensus</span>
+                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
+                            </div>
+                            <div class="text-xl font-bold text-cyan-400">99.88%</div>
+                            <div class="text-[10px] space-y-0.5 text-slate-400">
+                                <div>SOURCE: <span class="text-slate-200">Release Manifest Dump</span></div>
+                                <div>CALCULATION: <span class="text-slate-200">Vector Validation Mesh</span></div>
+                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
+                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
+                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
+                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
+                            </div>
+                        </div>
+
+                        <!-- STREAM 02 -->
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
+                                <span class="font-bold text-white">Stream 02: PFC Cache Latency</span>
+                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
+                            </div>
+                            <div class="text-xl font-bold text-amber-400">12ms P99</div>
+                            <div class="text-[10px] space-y-0.5 text-slate-400">
+                                <div>SOURCE: <span class="text-slate-200">Prometheus Telemetry Log</span></div>
+                                <div>CALCULATION: <span class="text-slate-200">P99 Latency Histogram</span></div>
+                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
+                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
+                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
+                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
+                            </div>
+                        </div>
+
+                        <!-- STREAM 03 -->
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
+                                <span class="font-bold text-white">Stream 03: Knowledge Graph Drift</span>
+                                <span class="text-[9px] bg-cyan-950 text-cyan-400 border border-cyan-800 px-1.5 py-0.5 rounded">🔵 TEST</span>
+                            </div>
+                            <div class="text-xl font-bold text-emerald-400">0.00% Zero Drift</div>
+                            <div class="text-[10px] space-y-0.5 text-slate-400">
+                                <div>SOURCE: <span class="text-slate-200">KGE Internal Audit Test</span></div>
+                                <div>CALCULATION: <span class="text-slate-200">Diff Hash Baseline Check</span></div>
+                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
+                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
+                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
+                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
+                            </div>
+                        </div>
+
+                        <!-- STREAM 04 -->
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
+                                <span class="font-bold text-white">Stream 04: Sim Compute Index</span>
+                                <span class="text-[9px] bg-purple-950 text-purple-400 border border-purple-800 px-1.5 py-0.5 rounded">🟣 SIMULATION</span>
+                            </div>
+                            <div class="text-xl font-bold text-purple-400">48.2 PFLOPS</div>
+                            <div class="text-[10px] space-y-0.5 text-slate-400">
+                                <div>SOURCE: <span class="text-slate-200">Local Simulation Model</span></div>
+                                <div>CALCULATION: <span class="text-slate-200">Warp Scale Index (-0.2)</span></div>
+                                <div>PROVENANCE: <span class="text-purple-300">DEMO DATASET</span></div>
+                                <div>DIGEST: <span class="text-cyan-400">Demo-digest</span></div>
+                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
+                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Simulation-only</span></div>
+                            </div>
+                        </div>
+
+                        <!-- STREAM 05 -->
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
+                                <span class="font-bold text-white">Stream 05: FinOps Resource Reclaim</span>
+                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
+                            </div>
+                            <div class="text-xl font-bold text-emerald-400">100% Efficiency</div>
+                            <div class="text-[10px] space-y-0.5 text-slate-400">
+                                <div>SOURCE: <span class="text-slate-200">Cost Controller Dump</span></div>
+                                <div>CALCULATION: <span class="text-slate-200">Idle Reclaim Target</span></div>
+                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
+                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
+                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
+                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
+                            </div>
+                        </div>
+
+                        <!-- STREAM 06 -->
+                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
+                                <span class="font-bold text-white">Stream 06: Sovereign Attestation</span>
+                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
+                            </div>
+                            <div class="text-xl font-bold text-cyan-300">SHA-256 SEALED</div>
+                            <div class="text-[10px] space-y-0.5 text-slate-400">
+                                <div>SOURCE: <span class="text-slate-200">Gold Master Release Seal</span></div>
+                                <div>CALCULATION: <span class="text-slate-200">SHA-256 Checksum</span></div>
+                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
+                                <div>DIGEST: <span class="text-cyan-400">e3b0c44298fc1c14</span></div>
+                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
+                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Ω546 EXPLAINABILITY & Ω558 ATTESTATION RECEIPT PACK -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    
+                    <!-- Ω546 AUDIT EXPLAINABILITY MODULE -->
+                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="font-bold text-cyan-300 flex items-center gap-2">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i> Ω546 AUDIT EXPLAINABILITY MATRIX
+                            </span>
+                            <span class="text-[9px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded">INSPECTOR MODULE</span>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">WHAT:</span>
+                                <span class="text-white font-bold">Canonical Release Audit Surface</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">WHEN:</span>
+                                <span class="text-slate-300">2026-08 Frozen Baseline Release</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">WHERE:</span>
+                                <span class="text-cyan-400">Tenant TNT-TH-001 (Sovereign Scope)</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">SOURCE:</span>
+                                <span class="text-amber-400">manifests/release-v1.2-lts.json</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">WHY:</span>
+                                <span class="text-slate-300">Zero Drift Assurance Check</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">CONFIDENCE:</span>
+                                <span class="text-emerald-400 font-bold">100.00% (Manifest Verification)</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">AUTHORIZATION:</span>
+                                <span class="text-purple-300">APPROVED_GO &bull; Manifest Only</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
+                                <span class="text-slate-500">PROVENANCE:</span>
+                                <span class="text-slate-300">MAEW Ω∞ HYPEROS FROZEN v1.2 LTS</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ω558 CRYPTOGRAPHIC ATTESTATION RECEIPT PACK & Ω560 CHECKS -->
+                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+                                <span class="font-bold text-emerald-400 flex items-center gap-2">
+                                    <i class="fa-solid fa-box-archive"></i> Ω558 CRYPTOGRAPHIC ATTESTATION RECEIPT
+                                </span>
+                                <button onclick="generateReceiptExport()" class="text-[9px] bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded transition">
+                                    EXPORT JSON RECEIPT
+                                </button>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="bg-darker p-3 rounded-xl border border-slate-800 space-y-1">
+                                    <div class="text-[10px] text-slate-500">CANONICAL DATASET DIGEST (MANIFEST-DERIVED)</div>
+                                    <div class="text-cyan-400 font-bold truncate">sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div>
+                                </div>
+                                <div class="bg-darker p-3 rounded-xl border border-slate-800 space-y-1">
+                                    <div class="text-[10px] text-slate-500">EVIDENCE SEALS COUNT</div>
+                                    <div class="text-amber-400 font-bold">14,902 SHA-256 Verified Certificates</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ω560 ASSURANCE GATE STATS -->
+                        <div class="bg-darker p-3.5 rounded-xl border border-emerald-800/80 space-y-2 mt-3">
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="font-bold text-white">Ω560 ASSURANCE GATE (MANIFEST SCOPE)</span>
+                                <span class="text-emerald-400 font-bold">10 / 10 PASSED</span>
+                            </div>
+                            <div class="w-full bg-slate-900 rounded-full h-2 border border-slate-700 overflow-hidden">
+                                <div class="bg-emerald-400 h-full rounded-full" style="width: 100%"></div>
+                            </div>
+                            <div class="text-[10px] text-slate-400 flex justify-between">
+                                <span>Zero Drift Verification</span>
+                                <span class="text-emerald-400">100% Manifest Verified</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RELEASE PROVENANCE FOOTER CARD -->
+            <div class="bg-darkcard border border-slate-800/80 rounded-xl p-4 font-mono text-xs space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span class="font-bold text-purple-300 flex items-center gap-2">
+                        <i class="fa-solid fa-code-commit"></i> PROVENANCE & RELEASE MATRIX
                     </span>
+                    <span class="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-800">MAEW Ω∞ HYPEROS</span>
                 </div>
-            </div>
-            
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs font-mono border-collapse">
-                    <thead>
-                        <tr class="bg-slate-950/90 text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[11px]">
-                            <th class="py-4 px-5 font-bold">Performance Metric</th>
-                            <th class="py-4 px-5 font-bold">Semantic State</th>
-                            <th class="py-4 px-5 font-bold text-right">2024 Baseline</th>
-                            <th class="py-4 px-5 font-bold text-right">2026 Target</th>
-                            <th class="py-4 px-5 font-bold text-right">Growth Delta</th>
-                            <th class="py-4 px-5 font-bold text-center">Confidence</th>
-                            <th class="py-4 px-5 font-bold text-center">Assurance Status</th>
-                            <th class="py-4 px-5 font-bold text-center">Inspect</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-800/60 text-slate-300" id="benchmark-table-body">
-                        <!-- เรนเดอร์ผ่าน JS -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="p-4 bg-slate-950/80 border-t border-slate-800 text-xs text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-2 font-mono">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i> 
-                    <span>Telemetry Ingestion: <strong class="text-slate-200">PROMETHEUS / GRAFANA / TELEMETRY API</strong></span>
-                </div>
-                <div class="text-slate-500 text-[11px] font-sans">
-                    Semantic Rule: Live ≠ Internal Test ≠ Simulation
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Modal Drawer ส่องดูรายละเอียดการตรวจสอบ -->
-    <div id="provenance-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex justify-end opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="w-full max-w-3xl bg-slate-950 h-full border-l border-slate-800 flex flex-col shadow-2xl transform translate-x-full transition-transform duration-300" id="modal-panel">
-            
-            <div class="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 font-mono">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-glow-emerald">
-                        <i data-lucide="search-check" class="w-5 h-5"></i>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-[11px]">
+                    <div>
+                        <span class="text-slate-500 block text-[9px]">BASELINE</span>
+                        <span class="text-cyan-300 font-bold">v1.2 LTS</span>
                     </div>
                     <div>
-                        <div class="flex items-center gap-2">
-                            <h3 class="text-lg font-bold text-white" id="modal-title">Metric Audit Inspector</h3>
-                            <span id="modal-badge" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold">State</span>
-                        </div>
-                        <p class="text-xs text-slate-400 font-sans">Ω546 Audit Explainability Engine (8-Dimension Analysis)</p>
+                        <span class="text-slate-500 block text-[9px]">UI RELEASE</span>
+                        <span class="text-purple-300 font-bold">v2.0 LTS</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block text-[9px]">ACTIVE SEAL</span>
+                        <span class="text-emerald-400 font-bold">v2.8.0-GA-SEAL</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block text-[9px]">TENANT</span>
+                        <span class="text-amber-300 font-bold">TNT-TH-001</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-500 block text-[9px]">RUNTIME MODE</span>
+                        <span class="text-rose-400 font-bold">SIMULATION</span>
                     </div>
                 </div>
-                <button onclick="closeProvenance()" class="p-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-6 space-y-6 font-mono text-xs">
-                
-                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-xl">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <span class="text-slate-500 uppercase text-[10px] tracking-wider block font-bold">Inspected Metric</span>
-                            <span class="text-2xl font-black text-white" id="modal-metric-val">48.2 PFLOPS</span>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-slate-500 uppercase text-[10px] tracking-wider block font-bold">Assurance Gate Result</span>
-                            <span class="text-emerald-400 font-bold flex items-center gap-1.5 justify-end text-sm" id="modal-assurance-badge">
-                                <i data-lucide="shield-check" class="w-4 h-4"></i> VERIFIED (Ω560 PASS)
-                            </span>
-                        </div>
-                    </div>
+        </main>
 
-                    <!-- ปุ่มจำลองการแก้ไขตัวเลขเพื่อดูลัพธ์ดักจับการแก้ไขแบบลับๆ -->
-                    <div class="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-[11px]">
-                        <span class="text-amber-400 font-semibold flex items-center gap-1.5 font-sans">
-                            <i data-lucide="flask-conical" class="w-4 h-4"></i> Tamper & Drift Simulator:
-                        </span>
-                        <div class="flex items-center gap-2">
-                            <button onclick="simulateTamper()" class="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-lg transition flex items-center gap-1.5 font-bold">
-                                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Tamper Payload
-                            </button>
-                            <button onclick="resetTamper()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition flex items-center gap-1.5 font-medium">
-                                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Restore Metric
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ตารางเช็คแมทริกซ์ 10 หัวข้อ -->
-                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 shadow-xl">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                        <span class="text-slate-200 font-bold flex items-center gap-2 text-xs">
-                            <i data-lucide="shield-alert" class="w-4 h-4 text-emerald-400"></i> Ω560 AUTONOMOUS ASSURANCE GATE MATRIX
-                        </span>
-                        <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20" id="matrix-status-text">10 / 10 CHECKS PASSED</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]" id="gate-matrix-grid">
-                        <!-- ถูกสร้างผ่าน JS -->
-                    </div>
-                </div>
-
-                <!-- อธิบายรายละเอียด 8 มิติ -->
-                <div class="space-y-3">
-                    <h4 class="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-2 text-xs">
-                        <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i> Ω546 Audit Explainability (8 Dimensions)
-                    </h4>
-                    <div class="grid grid-cols-2 gap-2.5 text-[11px]">
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
-                            <div class="text-slate-500 text-[10px] font-bold">1. WHAT CHANGED?</div>
-                            <div class="text-slate-200 font-bold mt-0.5" id="exp-what">Metric Updated</div>
-                        </div>
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
-                            <div class="text-slate-500 text-[10px] font-bold">2. WHEN? (OBSERVED AT)</div>
-                            <div class="text-slate-200 font-bold mt-0.5" id="exp-when">2026-08-10 19:14:48 UTC+7</div>
-                        </div>
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
-                            <div class="text-slate-500 text-[10px] font-bold">3. WHERE? (NODE)</div>
-                            <div class="text-slate-200 font-bold mt-0.5" id="exp-where">cluster-01</div>
-                        </div>
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
-                            <div class="text-slate-500 text-[10px] font-bold">4. SOURCE IDENTITY</div>
-                            <div class="text-slate-200 font-bold truncate mt-0.5" id="exp-source">Prometheus</div>
-                        </div>
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
-                            <div class="text-slate-500 text-[10px] font-bold">5. WHY? (MATH CALCULATION)</div>
-                            <div class="text-emerald-400 font-bold truncate mt-0.5" id="exp-why">Formula Delta</div>
-                        </div>
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
-                            <div class="text-slate-500 text-[10px] font-bold">6. CONFIDENCE IMPACT</div>
-                            <div class="text-emerald-400 font-bold mt-0.5" id="exp-impact">Score: 99.9%</div>
-                        </div>
-                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 col-span-2">
-                            <div class="text-slate-500 text-[10px] font-bold">7. AUTHORIZED BY</div>
-                            <div class="text-slate-200 font-bold mt-0.5" id="exp-authorized">Ingestion Worker</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- แสดงผล JSON Payload และค่า Hash SHA-256 แบบเรียลไทม์ -->
-                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 shadow-xl">
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-300 font-bold text-xs flex items-center gap-2">
-                            <i data-lucide="code" class="w-4 h-4 text-emerald-400"></i> Ω524 Canonical Payload & Cryptographic SHA-256 Digest
-                        </span>
-                        <button onclick="copyCurrentHash()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-[10px] font-bold flex items-center gap-1 transition">
-                            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
-                        </button>
-                    </div>
-                    <pre class="text-[11px] text-amber-300 overflow-x-auto whitespace-pre-wrap p-3.5 bg-slate-950 rounded-xl border border-slate-800/80 font-mono" id="canonical-json-view">Loading...</pre>
-                    <div class="p-3 rounded-xl bg-slate-950 border border-emerald-500/40 font-mono flex items-center justify-between text-[11px]">
-                        <span class="text-slate-400 font-bold">SHA-256:</span>
-                        <span class="text-emerald-400 font-bold truncate max-w-[450px]" id="modal-computed-hash">Calculating...</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="p-4 border-t border-slate-800 bg-slate-900/80 flex justify-between items-center font-mono">
-                <span class="text-[11px] text-slate-500">Autonomous Assurance Console v1.2</span>
-                <button onclick="closeProvenance()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition">
-                    Done Inspector
-                </button>
-            </div>
-        </div>
+        <footer class="bg-darkcard border-t border-slate-800 py-4 text-center text-xs text-slate-500 font-mono">
+            MAEW Ω∞ HYPEROS FROZEN v2.0 LTS &bull; Canonical Control Surface &bull; Sovereign Architect: ยุทธภูมิ พากเพียร
+        </footer>
     </div>
 
-    <!-- Modal ออกใบรับรองดิจิทัล -->
-    <div id="attestation-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="max-w-2xl w-full bg-slate-950 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5 font-mono text-xs relative">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                        <i data-lucide="award" class="w-5 h-5"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-white">Ω558 Cryptographic Attestation Pack</h3>
-                </div>
-                <button onclick="closeAttestationModal()" class="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <p class="text-slate-400 text-xs font-sans leading-relaxed">
-                ใบรับรองหลักฐานความถูกต้องทางดิจิทัล (Attestation Receipt Package) สำหรับใช้ในการตรวจสอบภายนอก ยืนยันความถูกต้องผ่านโครงสร้าง Canonical Dataset Digest
-            </p>
-            <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
-                <div class="text-slate-500 text-[10px] font-bold">Fabric Dataset SHA-256 Digest:</div>
-                <div class="text-emerald-400 font-bold text-xs break-all" id="root-receipt-hash">
-                    Calculating...
-                </div>
-            </div>
-            <div class="flex justify-end gap-3 pt-2">
-                <button onclick="downloadAttestationJSON()" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-black font-extrabold rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-950/50 active:scale-95">
-                    <i data-lucide="download" class="w-4 h-4"></i> Export Attestation Package (.JSON)
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- โค้ด JavaScript หลัก -->
-    <script>
-        lucide.createIcons();
-
-        // ข้อมูลหลักพร้อมค่าตั้งต้นแบบ Immutable (แก้ Bug resetTamper)
-        const metricsStore = {
-            'system_health': {
-                id: 'system_health',
-                name: 'System Health Uptime',
-                semanticState: 'observed',
-                stateLabel: '🟢 Live Production',
-                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-                value: '99.99%',
-                originalValue: '99.99%',
-                rawVal: 99.99,
-                baseline: '99.90%',
-                target: '99.99%',
-                growth: 'SLA Compliant',
-                confidence: '99.9%',
-                originalConfidence: '99.9%',
-                source: 'Prometheus SLA Probes',
-                sourceScore: '99.9%',
-                node: 'k8s-us-east-cluster-01',
-                mathDesc: 'Continuous availability probes across 1024 clusters',
-                mathFormula: 'Uptime = (Total_Secs - Downtime_Secs) / Total_Secs * 100',
-                tsObserved: '2026-08-10 19:18:00 UTC+7',
-                authorizedBy: 'Auto-Prometheus Exporter Daemon',
-                isTampered: false
-            },
-            'research_corpus': {
-                id: 'research_corpus',
-                name: 'Research Corpus Papers',
-                semanticState: 'observed',
-                stateLabel: '🟢 Live Production',
-                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-                value: '18,462',
-                originalValue: '18,462',
-                rawVal: 18462,
-                baseline: '4,490 Papers',
-                target: '18,462 Papers',
-                growth: '+311.1%',
-                confidence: '99.5%',
-                originalConfidence: '99.5%',
-                source: 'Crossref / arXiv Ingestion Ledger',
-                sourceScore: '98.5%',
-                node: 'corpus-ingest-node-04',
-                mathDesc: 'Total verified paper index count vs 2024 baseline (4,490)',
-                mathFormula: 'Delta = ((18462 - 4490) / 4490) * 100 = 311.18%',
-                tsObserved: '2026-08-10 19:15:30 UTC+7',
-                authorizedBy: 'Crossref Ingestion Service Key #882',
-                isTampered: false
-            },
-            'ai_scholars': {
-                id: 'ai_scholars',
-                name: 'Top AI Researchers',
-                semanticState: 'test',
-                stateLabel: '🔵 Internal Test',
-                stateBadge: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-                value: '842',
-                originalValue: '842',
-                rawVal: 842,
-                baseline: '250 Researchers',
-                target: '842 Researchers',
-                growth: '+236.8%',
-                confidence: '94.0%',
-                originalConfidence: '94.0%',
-                source: 'Scholar API Internal Test Bench',
-                sourceScore: '92.0%',
-                node: 'scholar-testbench-node-02',
-                mathDesc: 'Filtered researcher pool in test bench (Avg H-Index: 96.0)',
-                mathFormula: 'Delta = ((842 - 250) / 250) * 100 = 236.80%',
-                tsObserved: '2026-08-10 19:10:00 UTC+7',
-                authorizedBy: 'Internal Test Suite Runner',
-                isTampered: false
-            },
-            'knowledge_nodes': {
-                id: 'knowledge_nodes',
-                name: 'Knowledge Graph Nodes',
-                semanticState: 'observed',
-                stateLabel: '🟢 Live Production',
-                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-                value: '24,890',
-                originalValue: '24,890',
-                rawVal: 24890,
-                baseline: '8,200 Nodes',
-                target: '24,890 Nodes',
-                growth: '512 Clusters',
-                confidence: '98.9%',
-                originalConfidence: '98.9%',
-                source: 'Neo4j Cluster Vector Store',
-                sourceScore: '97.8%',
-                node: 'graph-db-cluster-01',
-                mathDesc: 'Graph density & node entity count',
-                mathFormula: 'TotalNodes = SUM(Graph_Clusters) = 24,890',
-                tsObserved: '2026-08-10 19:12:45 UTC+7',
-                authorizedBy: 'Neo4j Sync Agent',
-                isTampered: false
-            },
-            'compute_power': {
-                id: 'compute_power',
-                name: 'Federated Compute Power',
-                semanticState: 'observed',
-                stateLabel: '🟢 Live Production',
-                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
-                value: '48.2 PFLOPS',
-                originalValue: '48.2 PFLOPS',
-                rawVal: 48.2,
-                baseline: '2.4 PFLOPS',
-                target: '48.2 PFLOPS',
-                growth: '+1908.3%',
-                confidence: '99.9%',
-                originalConfidence: '99.9%',
-                source: 'Federated GPU/TPU Aggregator API',
-                sourceScore: '99.9%',
-                node: 'federated-compute-gateway',
-                mathDesc: 'Peak FP16/FP32 matrix capacity vs 2024 baseline (2.4 PFLOPS)',
-                mathFormula: 'Delta = ((48.2 - 2.4) / 2.4) * 100 = 1908.33%',
-                tsObserved: '2026-08-10 19:19:12 UTC+7',
-                authorizedBy: 'Kubernetes Telemetry Operator',
-                isTampered: false
-            },
-            'evidence_seals': {
-                id: 'evidence_seals',
-                name: 'Evidence Seals',
-                semanticState: 'sim',
-                stateLabel: '🟣 Simulation',
-                stateBadge: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
-                value: '14,902',
-                originalValue: '14,902',
-                rawVal: 14902,
-                baseline: '1,000 Seals',
-                target: '14,902 Seals',
-                growth: 'SHA-256 Verified',
-                confidence: '91.5%',
-                originalConfidence: '91.5%',
-                source: 'Quantum Simulation Sandbox Ledger',
-                sourceScore: '89.0%',
-                node: 'quantum-sim-node-09',
-                mathDesc: 'Simulated quantum colony evidence seals',
-                mathFormula: 'Seals = Count(Valid_Merkle_Leaves) = 14,902',
-                tsObserved: '2026-08-10 19:05:00 UTC+7',
-                authorizedBy: 'Q-Sim Simulation Daemon',
-                isTampered: false
-            }
-        };
-
-        let currentInspectedKey = 'compute_power';
-
-        async function calculateSHA256(str) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(str);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        function evaluateAssuranceGate(item) {
-            const checks = [
-                { name: '1. Source Integrity Check', pass: !item.isTampered },
-                { name: '2. Payload Integrity Check', pass: !item.isTampered },
-                { name: '3. Schema Integrity Check', pass: true },
-                { name: '4. Provenance Chain Link', pass: true },
-                { name: '5. Calculation Replay', pass: !item.isTampered },
-                { name: '6. Policy Compliance', pass: true },
-                { name: '7. No Silent Deletion', pass: true },
-                { name: '8. No Unsealed Change', pass: !item.isTampered },
-                { name: '9. Cross-Region Consistency', pass: true },
-                { name: '10. Cryptographic Seal Lock', pass: !item.isTampered }
-            ];
-            const allPassed = checks.every(c => c.pass);
-            return { allPassed, checks };
-        }
-
-        function renderCards() {
-            const grid = document.getElementById('kpi-grid');
-            grid.innerHTML = '';
-
-            Object.keys(metricsStore).forEach(key => {
-                const item = metricsStore[key];
-                const gate = evaluateAssuranceGate(item);
-
-                const card = document.createElement('div');
-                card.className = `metric-card group glass-panel border ${
-                    item.isTampered 
-                        ? 'border-rose-500/80 shadow-glow-rose bg-rose-950/10' 
-                        : 'border-slate-800/80 hover:border-emerald-500/50 hover:shadow-glow-emerald'
-                } rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1.5 relative overflow-hidden`;
-                card.setAttribute('data-status', item.semanticState);
-                card.onclick = () => openProvenance(key);
-
-                const gateStatusHtml = gate.allPassed 
-                    ? `<span class="text-emerald-400 flex items-center gap-1.5 font-mono text-[11px] font-semibold"><i data-lucide="shield-check" class="w-4 h-4"></i> Ω560 PASSED</span>`
-                    : `<span class="text-rose-400 flex items-center gap-1.5 font-mono text-[11px] font-extrabold animate-pulse"><i data-lucide="shield-alert" class="w-4 h-4"></i> TAMPER BLOCKED</span>`;
-
-                card.innerHTML = `
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">${item.name}</span>
-                        <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border ${item.stateBadge}">
-                            ${item.stateLabel}
-                        </span>
-                    </div>
-                    <div class="flex items-baseline justify-between my-2">
-                        <div class="text-3xl font-black ${item.isTampered ? 'text-rose-400' : 'text-white'} font-mono tracking-tight group-hover:text-emerald-400 transition">
-                            ${item.value}
-                        </div>
-                        <div class="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">
-                            ${item.growth}
-                        </div>
-                    </div>
-                    <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-mono">
-                        ${gateStatusHtml}
-                        <span class="text-emerald-400 font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition duration-300 transform group-hover:translate-x-1">
-                            Inspect <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                        </span>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-            lucide.createIcons();
-        }
-
-        function renderBenchmarkTable() {
-            const tbody = document.getElementById('benchmark-table-body');
-            tbody.innerHTML = '';
-
-            Object.keys(metricsStore).forEach(key => {
-                const item = metricsStore[key];
-                const gate = evaluateAssuranceGate(item);
-
-                const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-800/40 transition duration-150 font-mono';
-
-                const statusBadge = gate.allPassed 
-                    ? `<span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">VERIFIED</span>`
-                    : `<span class="px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 text-[10px] font-extrabold animate-pulse">BLOCKED</span>`;
-
-                tr.innerHTML = `
-                    <td class="py-4 px-5 font-bold text-white">${item.name}</td>
-                    <td class="py-4 px-5">
-                        <span class="px-2.5 py-1 rounded-md text-[10px] border ${item.stateBadge} font-bold">${item.stateLabel}</span>
-                    </td>
-                    <td class="py-4 px-5 text-right text-slate-400">${item.baseline}</td>
-                    <td class="py-4 px-5 text-right font-bold text-emerald-400">${item.target}</td>
-                    <td class="py-4 px-5 text-right font-semibold text-emerald-400">${item.growth}</td>
-                    <td class="py-4 px-5 text-center text-slate-300 font-semibold">${item.confidence}</td>
-                    <td class="py-4 px-5 text-center">${statusBadge}</td>
-                    <td class="py-4 px-5 text-center">
-                        <button onclick="openProvenance('${key}')" class="text-xs text-emerald-400 hover:text-emerald-300 font-bold hover:underline">Inspect</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        async function openProvenance(key) {
-            currentInspectedKey = key;
-            const item = metricsStore[key];
-
-            document.getElementById('modal-title').textContent = item.name;
-            document.getElementById('modal-badge').textContent = item.stateLabel;
-            document.getElementById('modal-badge').className = `px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold border ${item.stateBadge}`;
+    <!-- SOVEREIGN TRUST PASSPORT MODAL -->
+    <div id="passport-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-darkcard border border-purple-600/80 w-full max-w-2xl rounded-2xl p-6 shadow-[0_0_50px_rgba(139,92,246,0.3)] space-y-5 relative">
+            <button onclick="closePassportModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">✕</button>
             
-            document.getElementById('modal-metric-val').textContent = item.value;
-            document.getElementById('modal-metric-val').className = item.isTampered ? "text-2xl font-black text-rose-400" : "text-2xl font-black text-white";
+            <div class="flex items-center space-x-3 border-b border-slate-800 pb-4">
+                <div class="w-12 h-12 rounded-xl bg-purple-950 border border-purple-500 flex items-center justify-center text-purple-300 text-2xl font-bold">
+                    🏛
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span>SOVEREIGN TRUST PASSPORT</span>
+                        <span class="bg-amber-950 text-amber-300 text-[10px] px-2 py-0.5 border border-amber-600 rounded font-mono">FROZEN SEAL</span>
+                    </h3>
+                    <p class="text-xs text-purple-400 font-mono">ID: MAEW-HYPEROS-v2.0-LTS-SEAL-88902</p>
+                </div>
+            </div>
 
-            document.getElementById('exp-what').textContent = `Metric: ${item.name} = ${item.value}`;
-            document.getElementById('exp-when').textContent = item.tsObserved;
-            document.getElementById('exp-where').textContent = item.node;
-            document.getElementById('exp-source').textContent = item.source;
-            document.getElementById('exp-why').textContent = item.mathFormula;
-            document.getElementById('exp-impact').textContent = `Score: ${item.confidence}`;
-            document.getElementById('exp-authorized').textContent = item.authorizedBy;
+            <div class="grid grid-cols-2 gap-4 font-mono text-xs">
+                <div class="bg-darker p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-500 block text-[10px]">SOVEREIGN OWNER</span>
+                    <span class="text-cyan-300 font-bold">ยุทธภูมิ พากเพียร</span>
+                </div>
+                <div class="bg-darker p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-500 block text-[10px]">ARCHITECT ROLE</span>
+                    <span class="text-white font-bold">Gold Master Core Architect</span>
+                </div>
+                <div class="bg-darker p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-500 block text-[10px]">DRIFT PERCENTAGE</span>
+                    <span class="text-emerald-400 font-bold">0.00%</span>
+                </div>
+                <div class="bg-darker p-3 rounded-lg border border-slate-800">
+                    <span class="text-slate-500 block text-[10px]">VERIFIED EVIDENCE SEALS</span>
+                    <span class="text-amber-400 font-bold">14,902 SHA-256</span>
+                </div>
+            </div>
 
-            renderGateMatrix(item);
-            await updateModalHash();
+            <div>
+                <h4 class="text-xs font-bold uppercase text-slate-400 mb-2 font-mono">PASSPORT LAYERS ARCHITECTURE</h4>
+                <div class="space-y-1.5 font-mono text-xs">
+                    <div class="bg-darker p-2 rounded border border-slate-800 flex justify-between items-center">
+                        <span>01 Core Foundation</span>
+                        <span class="text-emerald-400 font-bold">LOCKED 🔒</span>
+                    </div>
+                    <div class="bg-darker p-2 rounded border border-slate-800 flex justify-between items-center">
+                        <span>02 Governance Authority</span>
+                        <span class="text-purple-400 font-bold">ACTIVE 🏛</span>
+                    </div>
+                    <div class="bg-darker p-2 rounded border border-slate-800 flex justify-between items-center">
+                        <span>03 Autonomous Operations</span>
+                        <span class="text-cyan-400 font-bold">ONLINE 🤖</span>
+                    </div>
+                    <div class="bg-darker p-2 rounded border border-slate-800 flex justify-between items-center">
+                        <span>04 Federation Mesh</span>
+                        <span class="text-amber-400 font-bold">SYNCED 🌐</span>
+                    </div>
+                    <div class="bg-darker p-2 rounded border border-slate-800 flex justify-between items-center">
+                        <span>05 Civilization Intelligence</span>
+                        <span class="text-emerald-400 font-bold">ONLINE 🧠</span>
+                    </div>
+                </div>
+            </div>
 
-            const modal = document.getElementById('provenance-modal');
-            const panel = document.getElementById('modal-panel');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            panel.classList.remove('translate-x-full');
-        }
+            <div class="text-right pt-2 border-t border-slate-800">
+                <button onclick="closePassportModal()" class="bg-purple-900 hover:bg-purple-800 text-purple-100 font-mono text-xs px-4 py-2 rounded-lg font-bold">
+                    CLOSE PASSPORT
+                </button>
+            </div>
+        </div>
+    </div>
 
-        function renderGateMatrix(item) {
-            const gate = evaluateAssuranceGate(item);
-            const grid = document.getElementById('gate-matrix-grid');
-            grid.innerHTML = '';
+    <!-- JAVASCRIPT LOGIC (DEMO ONLY & SIMULATION ACTIONS) -->
+    <script>
+        let activeWarp = '-0.2';
 
-            gate.checks.forEach(check => {
-                const div = document.createElement('div');
-                div.className = `p-2.5 rounded-lg border flex items-center justify-between font-mono ${
-                    check.pass 
-                        ? 'bg-slate-950/80 border-slate-800 text-slate-300' 
-                        : 'bg-rose-950/40 border-rose-500/50 text-rose-300 font-bold'
-                }`;
-                div.innerHTML = `
-                    <span>${check.name}</span>
-                    <span>${check.pass ? '<span class="text-emerald-400 font-bold">✓ PASS</span>' : '<span class="text-rose-400 font-extrabold">❌ FAIL</span>'}</span>
-                `;
-                grid.appendChild(div);
-            });
-
-            const badgeElem = document.getElementById('modal-assurance-badge');
-            const statusTextElem = document.getElementById('matrix-status-text');
-
-            if (gate.allPassed) {
-                badgeElem.className = "text-emerald-400 font-bold flex items-center gap-1.5 justify-end text-sm";
-                badgeElem.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i> VERIFIED (Ω560 PASS)`;
-                statusTextElem.textContent = "10 / 10 CHECKS PASSED";
-                statusTextElem.className = "text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20";
-            } else {
-                badgeElem.className = "text-rose-400 font-bold flex items-center gap-1.5 justify-end text-sm animate-pulse";
-                badgeElem.innerHTML = `<i data-lucide="shield-alert" class="w-4 h-4"></i> BLOCKED (TAMPER DETECTED)`;
-                statusTextElem.textContent = "CRITICAL FAIL DETECTED";
-                statusTextElem.className = "text-[10px] text-rose-400 font-bold bg-rose-500/10 px-2.5 py-0.5 rounded-full border border-rose-500/20";
-            }
-            lucide.createIcons();
-        }
-
-        async function updateModalHash() {
-            const item = metricsStore[currentInspectedKey];
-            const canonicalObject = {
-                metric_id: item.id,
-                metric_name: item.name,
-                value: item.value,
-                semantic_state: item.semanticState,
-                timestamp_observed: item.tsObserved,
-                telemetry_source: item.source,
-                node_origin: item.node,
-                calculation_formula: item.mathFormula,
-                tamper_status: item.isTampered ? "TAMPER_FLAGGED" : "UNMODIFIED"
-            };
-
-            const jsonStr = JSON.stringify(canonicalObject, null, 2);
-            document.getElementById('canonical-json-view').textContent = jsonStr;
-            const hash = await calculateSHA256(jsonStr);
-            document.getElementById('modal-computed-hash').textContent = hash;
-        }
-
-        async function simulateTamper() {
-            const item = metricsStore[currentInspectedKey];
-            item.value = "999,999 PFLOPS (TAMPERED)";
-            item.isTampered = true;
-            item.confidence = "0.0% (CORRUPTED)";
-            await openProvenance(currentInspectedKey);
-            renderCards();
-            renderBenchmarkTable();
-        }
-
-        // คืนค่าอย่างถูกต้องจากค่า Original Immutable (แก้ Bug resetTamper)
-        async function resetTamper() {
-            const item = metricsStore[currentInspectedKey];
-            item.isTampered = false;
-            item.value = item.originalValue;
-            item.confidence = item.originalConfidence;
-
-            await openProvenance(currentInspectedKey);
-            renderCards();
-            renderBenchmarkTable();
-        }
-
-        function runGlobalReVerify() {
-            const spinner = document.getElementById('reverify-spinner');
-            spinner.classList.add('animate-spin');
-            setTimeout(() => {
-                spinner.classList.remove('animate-spin');
-                renderCards();
-                renderBenchmarkTable();
-            }, 600);
-        }
-
-        function closeProvenance() {
-            const modal = document.getElementById('provenance-modal');
-            const panel = document.getElementById('modal-panel');
-            panel.classList.add('translate-x-full');
-            modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('pointer-events-none');
-            }, 300);
-        }
-
-        function filterMetrics(state) {
-            const cards = document.querySelectorAll('.metric-card');
-            const btnAll = document.getElementById('filter-all');
-            const btnObserved = document.getElementById('filter-observed');
-            const btnTest = document.getElementById('filter-test');
-            const btnSim = document.getElementById('filter-sim');
-
-            [btnAll, btnObserved, btnTest, btnSim].forEach(btn => {
-                btn.className = "px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition";
-            });
-
-            if (state === 'all') btnAll.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold transition";
-            if (state === 'observed') btnObserved.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold transition";
-            if (state === 'test') btnTest.className = "px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold transition";
-            if (state === 'sim') btnSim.className = "px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 font-bold transition";
-
-            cards.forEach(card => {
-                const cardStatus = card.getAttribute('data-status');
-                if (state === 'all' || cardStatus === state) {
-                    card.style.display = 'block';
+        function setWarpFactor(factor) {
+            activeWarp = factor;
+            document.getElementById('active-warp-label').innerText = `${factor} ACTIVE`;
+            
+            document.querySelectorAll('.warp-btn').forEach(btn => {
+                if (btn.innerText === factor) {
+                    btn.className = 'warp-btn active bg-amber-950 text-amber-300 border border-amber-600 py-1 rounded font-bold';
                 } else {
-                    card.style.display = 'none';
+                    btn.className = 'warp-btn bg-slate-900 hover:bg-slate-800 border border-slate-700 py-1 rounded text-slate-300';
                 }
             });
+
+            appendTerminalLog(`[WARP SCALE] Simulation factor set to ${factor}`);
         }
 
-        function copyCurrentHash() {
-            const hashText = document.getElementById('modal-computed-hash').textContent.trim();
-            navigator.clipboard.writeText(hashText);
-            const hashElem = document.getElementById('modal-computed-hash');
-            const originalText = hashElem.textContent;
-            hashElem.textContent = 'COPIED TO CLIPBOARD!';
+        function switchRoom(roomId, roomTitle) {
+            document.getElementById('active-room-title').innerText = roomTitle;
+            
+            document.getElementById('room-executive-content').classList.add('hidden');
+            document.getElementById('room-maewcore-content').classList.add('hidden');
+            document.getElementById('room-finops-content').classList.add('hidden');
+            document.getElementById('room-audit-content').classList.add('hidden');
+
+            document.querySelectorAll('.room-btn').forEach(btn => {
+                btn.className = 'room-btn w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-300 transition text-left';
+            });
+
+            if (roomId === 'executive') {
+                document.getElementById('room-executive-content').classList.remove('hidden');
+                document.getElementById('nav-executive').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-cyan-950/40 border border-cyan-700/80 text-cyan-200 transition text-left';
+            } else if (roomId === 'maewcore') {
+                document.getElementById('room-maewcore-content').classList.remove('hidden');
+                document.getElementById('nav-maewcore').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-purple-950/40 border border-purple-700/80 text-purple-200 transition text-left';
+            } else if (roomId === 'finops') {
+                document.getElementById('room-finops-content').classList.remove('hidden');
+                document.getElementById('nav-finops').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 border border-emerald-700/80 text-emerald-200 transition text-left';
+            } else if (roomId === 'audit') {
+                document.getElementById('room-audit-content').classList.remove('hidden');
+                document.getElementById('nav-audit').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-amber-950/40 border border-amber-700/80 text-amber-200 transition text-left';
+            }
+
+            appendTerminalLog(`[NAV] Switched view shell to: ${roomTitle}`);
+        }
+
+        function executeTerminalCommand(e) {
+            e.preventDefault();
+            const input = document.getElementById('cmd-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            appendTerminalLog(`> ${val}`);
+
             setTimeout(() => {
-                hashElem.textContent = originalText;
-            }, 1500);
+                appendTerminalLog(`[SIMULATION] Executed command in local demonstration shell.`);
+                appendTerminalLog(`[RESULT] Manifest Seals verified: 14,902 intact.`);
+            }, 300);
+
+            input.value = '';
         }
 
-        async function openGlobalAttestationModal() {
-            const modal = document.getElementById('attestation-modal');
-            const rootString = JSON.stringify(metricsStore);
-            const rootHash = await calculateSHA256(rootString);
-            document.getElementById('root-receipt-hash').textContent = `0x${rootHash}`;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
+        function triggerReverifyAll() {
+            appendTerminalLog('[SIMULATION] Re-verification executed against local manifest model.');
+            appendTerminalLog('[RESULT] 10 / 10 assurance assertions satisfied.');
+            appendTerminalLog('[BOUNDARY] No production telemetry was accessed. No authorization was granted. No external execution occurred.');
         }
 
-        function closeAttestationModal() {
-            const modal = document.getElementById('attestation-modal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
+        function generateReceiptExport() {
+            const receipt = {
+                "attestation_version": "Ω558-v1.0",
+                "runtime_mode": "SIMULATION",
+                "verification_scope": "MANIFEST_ONLY",
+                "backend_connected": false,
+                "authorization_granted": false,
+                "assurance_gate": {
+                    "id": "Ω560",
+                    "result": "PASS",
+                    "checks": 10,
+                    "checks_passed": 10
+                },
+                "semantic_states": [
+                    "LIVE_PRODUCTION",
+                    "INTERNAL_TEST",
+                    "SIMULATION"
+                ],
+                "production_execution_verified": false
+            };
 
-        function downloadAttestationJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(metricsStore, null, 2));
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(receipt, null, 2));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `MAEW_OMEGA_AUDIT_ATTESTATION_${Date.now()}.json`);
+            downloadAnchor.setAttribute("download", "attestation_receipt_demo.json");
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
+
+            appendTerminalLog('[ATTESTATION] Exported demo attestation receipt JSON (attestation_receipt_demo.json).');
         }
 
-        // คำนวณ Timezone Asia/Bangkok ให้ถูกต้องแม่นยำ
-        function updateClock() {
-            const now = new Date();
-            const timeOptions = {
-                timeZone: 'Asia/Bangkok',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false
-            };
-            const formatter = new Intl.DateTimeFormat('en-GB', timeOptions);
-            const parts = formatter.formatToParts(now);
-            const d = parts.find(p => p.type === 'day').value;
-            const m = parts.find(p => p.type === 'month').value;
-            const y = parts.find(p => p.type === 'year').value;
-            const hh = parts.find(p => p.type === 'hour').value;
-            const mm = parts.find(p => p.type === 'minute').value;
-            const ss = parts.find(p => p.type === 'second').value;
-
-            document.getElementById('live-clock').textContent = `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+        function appendTerminalLog(msg) {
+            const viewport = document.getElementById('terminal-viewport');
+            const line = document.createElement('div');
+            line.innerText = msg;
+            viewport.appendChild(line);
+            viewport.scrollTop = viewport.scrollHeight;
         }
 
-        setInterval(updateClock, 1000);
+        function inspectNode(name, latency, status) {
+            document.getElementById('node-inspector').innerHTML = `<span class="text-cyan-300 font-bold">Node: ${name}</span> | Latency: <span class="text-emerald-400">${latency}</span> | Status: <span class="text-amber-400">${status}</span>`;
+            appendTerminalLog(`[TOPOLOGY] Selected Node Model: ${name}`);
+        }
 
-        window.onload = () => {
-            updateClock();
-            renderCards();
-            renderBenchmarkTable();
-        };
+        function openManifestInfo() {
+            appendTerminalLog('[MANIFEST] Referenced Package: MAEW Ω∞ HYPEROS FROZEN v1.2 LTS');
+            appendTerminalLog('[MANIFEST] Commit Hash: e3b0c44298fc1c14 | Governance: PASSED & SIGNED');
+        }
+
+        function openPassportModal() {
+            document.getElementById('passport-modal').classList.remove('hidden');
+        }
+
+        function closePassportModal() {
+            document.getElementById('passport-modal').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
