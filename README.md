@@ -4,17 +4,13 @@ MAEW Ω∞ Sovereign Metrics & Provenance Engine
 ""Audit Fabric" (https://img.shields.io/badge/Audit%20Engine-%CE%A9521%E2%80%93%CE%A9560-cyan?style=for-the-badge)" (docs/assurance-gates.md)
 ""Live Demo" (https://img.shields.io/badge/GitHub%20Pages-Live%20Console-purple?style=for-the-badge&logo=github)" (https://hugeplease66-debug.github.io/maew-sovereign-metrics/)
 
-«"Built to Be Examined."»
+"MAEW Ω∞ Sovereign Metrics Banner" (banner.jpg)
 
-A provenance-first, evidence-driven autonomous audit console demonstrating zero-trust telemetry verification, semantic state isolation, and cryptographic assurance.
+"Sovereign Audit & Assurance Console" (sovereign-audit-console.jpg)
 
----
+«"Built to Be Examined."
 
-🖼️ Canonical Visual SSoT
-
-<!-- 1. Hero Header Banner -->"MAEW Ω∞ Sovereign Metrics Banner" (banner.jpg)
-
-<!-- 2. AI Operations & Assurance Console -->"Sovereign Audit & Assurance Console" (sovereign-audit-console.jpg)
+A provenance-first, evidence-driven autonomous audit console demonstrating zero-trust telemetry verification, semantic state isolation, and cryptographic assurance.»
 
 ---
 
@@ -42,21 +38,21 @@ Interactive single-page demonstration of the MAEW Ω∞ Sovereign Metrics & Prov
 MAEW Ω∞ establishes an independent verification boundary between telemetry producers and executive reporting layers.
 
 SOURCE
-   ↓
+  ↓
 TELEMETRY
-   ↓
+  ↓
 CALCULATION
-   ↓
+  ↓
 PROVENANCE
-   ↓
+  ↓
 CANONICAL PAYLOAD
-   ↓
+  ↓
 SHA-256
-   ↓
+  ↓
 Ω560 ASSURANCE GATE
-   ↓
+  ↓
 ATTESTATION
-   ↓
+  ↓
 EXECUTIVE REPORTING
 
 ---
@@ -71,7 +67,7 @@ Strictly isolates execution domains:
 - 🔵 INTERNAL TEST
 - 🟣 SIMULATION
 
-«No semantic state is implicitly promoted across verification boundaries.»
+No semantic state is implicitly promoted across verification boundaries.
 
 🧬 Ω546 Audit Explainability
 
@@ -184,12 +180,11 @@ git clone https://github.com/hugeplease66-debug/maew-sovereign-metrics.git
 cd maew-sovereign-metrics
 python3 -m http.server 8080
 
-Open:
+Open in browser:
 
 http://localhost:8080
 
-Live Demo:
-https://hugeplease66-debug.github.io/maew-sovereign-metrics/
+Live Demo: "https://hugeplease66-debug.github.io/maew-sovereign-metrics/" (https://hugeplease66-debug.github.io/maew-sovereign-metrics/)
 
 ---
 
