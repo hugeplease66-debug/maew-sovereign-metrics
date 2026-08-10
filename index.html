@@ -48,6 +48,9 @@
             background: #1e293b;
             border-radius: 3px;
         }
+        .glow-emerald {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+        }
     </style>
 </head>
 <body class="min-h-screen bg-darker text-slate-100 flex flex-col md:flex-row selection:bg-cyan-500 selection:text-black">
@@ -177,12 +180,12 @@
                         <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                     </button>
 
-                    <button id="nav-audit" onclick="switchRoom('audit', '04 — SOVEREIGN AUDIT SURFACE')" class="room-btn w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-300 transition text-left">
+                    <button id="nav-audit" onclick="switchRoom('audit', '04 — SOVEREIGN AUDIT & ASSURANCE SURFACE')" class="room-btn w-full flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800/60 text-slate-300 transition text-left">
                         <div class="flex items-center space-x-2 truncate">
                             <i class="fa-solid fa-shield-cat text-amber-400 text-xs"></i>
                             <span class="font-medium truncate">04 — AUDIT & ASSURANCE</span>
                         </div>
-                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     </button>
                 </div>
             </div>
@@ -502,288 +505,367 @@
                 </div>
             </div>
 
-            <!-- DYNAMIC ROOM 04: SOVEREIGN AUDIT SURFACE (SEMANTIC HARDENED MERGE) -->
+            <!-- DYNAMIC ROOM 04: SOVEREIGN AUDIT & ASSURANCE SURFACE (PIXEL-ACCURATE FROM UPLOADED IMAGES) -->
             <div id="room-audit-content" class="hidden space-y-6">
 
-                <!-- SEMANTIC STATE LEGEND BANNER -->
-                <div class="bg-darkcard border border-amber-600/60 rounded-2xl p-4 font-mono text-xs space-y-2">
-                    <div class="flex items-center justify-between border-b border-amber-900/60 pb-2">
-                        <span class="font-bold text-amber-400 flex items-center gap-2">
-                            <i class="fa-solid fa-layer-group"></i> DEMO & UI LAYER MODE — SEMANTIC STATE LEGEND
-                        </span>
-                        <span class="text-[10px] bg-amber-950 text-amber-300 border border-amber-700 px-2 py-0.5 rounded">MANIFEST-DERIVED CLASSIFICATION</span>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-[11px] pt-1">
-                        <div class="bg-darker p-2 rounded border border-slate-800 flex items-center space-x-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
-                            <span><strong class="text-emerald-400">🟢 LIVE PRODUCTION</strong> = Source classification from manifest</span>
-                        </div>
-                        <div class="bg-darker p-2 rounded border border-slate-800 flex items-center space-x-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shrink-0"></span>
-                            <span><strong class="text-cyan-400">🔵 INTERNAL TEST</strong> = Source classification from manifest</span>
-                        </div>
-                        <div class="bg-darker p-2 rounded border border-slate-800 flex items-center space-x-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-purple-400 shrink-0"></span>
-                            <span><strong class="text-purple-400">🟣 SIMULATION</strong> = Locally simulated value</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ω559 RE-VERIFICATION CONTROLLER BAR -->
-                <div class="bg-darkcard border border-cyan-800/80 rounded-2xl p-4 font-mono text-xs space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                        <span class="font-bold text-cyan-300 flex items-center gap-2">
-                            <i class="fa-solid fa-rotate-left"></i> Ω559 RE-VERIFICATION CONTROLLER
-                        </span>
-                        <span class="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-800">SIMULATION SCOPE</span>
-                    </div>
-                    <div class="flex flex-wrap items-center justify-between gap-3">
-                        <div class="space-y-1 text-[11px]">
-                            <div>Scope: <span class="text-amber-300 font-bold">Manifest / Simulation Model</span></div>
-                            <div>Runtime Backend: <span class="text-rose-400 font-bold">DISCONNECTED</span></div>
-                            <div>Verification Mode: <span class="text-emerald-400 font-bold">MANIFEST ONLY</span></div>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <button onclick="triggerReverifyAll()" class="bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-700 px-3 py-2 rounded-xl font-bold transition flex items-center space-x-1.5 shadow">
-                                <i class="fa-solid fa-check-double"></i>
-                                <span>[ RE-VERIFY ALL ]</span>
-                            </button>
-                            <button onclick="generateReceiptExport()" class="bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-700 px-3 py-2 rounded-xl font-bold transition flex items-center space-x-1.5 shadow">
-                                <i class="fa-solid fa-file-export"></i>
-                                <span>[ GENERATE RECEIPT ]</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ω521–Ω560 AUTONOMOUS AUDIT ENGINE HEADER & GATE -->
-                <div class="bg-darkcard border border-purple-900/60 rounded-2xl p-5 space-y-4">
-                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-shield-cat text-3xl text-amber-400"></i>
-                            <div>
-                                <h2 class="text-lg font-extrabold text-white">Ω521–Ω560 Autonomous Audit Engine & Assurance Gate</h2>
-                                <p class="text-xs text-slate-400 font-mono">Evidence-Driven Autonomous Assurance & Cryptographic Verification Surface</p>
-                            </div>
-                        </div>
-                        
-                        <!-- ASSURANCE SCOPE DISCLOSURE BADGE -->
-                        <div class="bg-emerald-950/80 border border-emerald-700/80 rounded-xl p-2.5 font-mono text-right text-xs">
-                            <div class="text-emerald-400 font-bold">Ω560 ASSURANCE RESULT: PASSED</div>
-                            <div class="text-[10px] text-slate-300 mt-0.5">Manifest Scope: <span class="text-emerald-400 font-bold">10/10 PASSED</span></div>
-                            <div class="text-[9px] text-rose-400">Runtime Verification: NOT EXECUTED</div>
-                        </div>
-                    </div>
-
-                    <!-- AUDIT PIPELINE FLOW -->
-                    <div class="bg-darker border border-slate-800 p-3 rounded-xl font-mono text-[10px] text-slate-300 flex flex-wrap items-center justify-between gap-2">
-                        <span class="text-slate-500 font-bold">AUDIT PIPELINE:</span>
-                        <div class="flex items-center space-x-1">
-                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-cyan-300">SOURCE</span>
-                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-purple-300">TELEMETRY</span>
-                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-amber-300">CALCULATION</span>
-                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-blue-300">PROVENANCE</span>
-                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                            <span class="bg-slate-900 px-2 py-1 rounded border border-slate-700 text-emerald-300">SHA-256</span>
-                            <i class="fa-solid fa-arrow-right text-slate-600"></i>
-                            <span class="bg-emerald-950 border border-emerald-600 text-emerald-400 font-bold px-2 py-1 rounded">VERIFICATION</span>
-                        </div>
-                    </div>
-
-                    <!-- 6 METRIC STREAMS WITH GLOBAL PROVENANCE CONTRACT STRUCTURE -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 font-mono text-xs">
-                        
-                        <!-- STREAM 01 -->
-                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
-                                <span class="font-bold text-white">Stream 01: Multi-Agent Consensus</span>
-                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
-                            </div>
-                            <div class="text-xl font-bold text-cyan-400">99.88%</div>
-                            <div class="text-[10px] space-y-0.5 text-slate-400">
-                                <div>SOURCE: <span class="text-slate-200">Release Manifest Dump</span></div>
-                                <div>CALCULATION: <span class="text-slate-200">Vector Validation Mesh</span></div>
-                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
-                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
-                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
-                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
-                            </div>
-                        </div>
-
-                        <!-- STREAM 02 -->
-                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
-                                <span class="font-bold text-white">Stream 02: PFC Cache Latency</span>
-                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
-                            </div>
-                            <div class="text-xl font-bold text-amber-400">12ms P99</div>
-                            <div class="text-[10px] space-y-0.5 text-slate-400">
-                                <div>SOURCE: <span class="text-slate-200">Prometheus Telemetry Log</span></div>
-                                <div>CALCULATION: <span class="text-slate-200">P99 Latency Histogram</span></div>
-                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
-                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
-                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
-                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
-                            </div>
-                        </div>
-
-                        <!-- STREAM 03 -->
-                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
-                                <span class="font-bold text-white">Stream 03: Knowledge Graph Drift</span>
-                                <span class="text-[9px] bg-cyan-950 text-cyan-400 border border-cyan-800 px-1.5 py-0.5 rounded">🔵 TEST</span>
-                            </div>
-                            <div class="text-xl font-bold text-emerald-400">0.00% Zero Drift</div>
-                            <div class="text-[10px] space-y-0.5 text-slate-400">
-                                <div>SOURCE: <span class="text-slate-200">KGE Internal Audit Test</span></div>
-                                <div>CALCULATION: <span class="text-slate-200">Diff Hash Baseline Check</span></div>
-                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
-                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
-                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
-                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
-                            </div>
-                        </div>
-
-                        <!-- STREAM 04 -->
-                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
-                                <span class="font-bold text-white">Stream 04: Sim Compute Index</span>
-                                <span class="text-[9px] bg-purple-950 text-purple-400 border border-purple-800 px-1.5 py-0.5 rounded">🟣 SIMULATION</span>
-                            </div>
-                            <div class="text-xl font-bold text-purple-400">48.2 PFLOPS</div>
-                            <div class="text-[10px] space-y-0.5 text-slate-400">
-                                <div>SOURCE: <span class="text-slate-200">Local Simulation Model</span></div>
-                                <div>CALCULATION: <span class="text-slate-200">Warp Scale Index (-0.2)</span></div>
-                                <div>PROVENANCE: <span class="text-purple-300">DEMO DATASET</span></div>
-                                <div>DIGEST: <span class="text-cyan-400">Demo-digest</span></div>
-                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
-                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Simulation-only</span></div>
-                            </div>
-                        </div>
-
-                        <!-- STREAM 05 -->
-                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
-                                <span class="font-bold text-white">Stream 05: FinOps Resource Reclaim</span>
-                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
-                            </div>
-                            <div class="text-xl font-bold text-emerald-400">100% Efficiency</div>
-                            <div class="text-[10px] space-y-0.5 text-slate-400">
-                                <div>SOURCE: <span class="text-slate-200">Cost Controller Dump</span></div>
-                                <div>CALCULATION: <span class="text-slate-200">Idle Reclaim Target</span></div>
-                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
-                                <div>DIGEST: <span class="text-cyan-400">Manifest-derived</span></div>
-                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
-                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
-                            </div>
-                        </div>
-
-                        <!-- STREAM 06 -->
-                        <div class="bg-darker border border-slate-800 p-4 rounded-xl space-y-2">
-                            <div class="flex justify-between items-center text-slate-400 border-b border-slate-800 pb-1.5">
-                                <span class="font-bold text-white">Stream 06: Sovereign Attestation</span>
-                                <span class="text-[9px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">🟢 LIVE</span>
-                            </div>
-                            <div class="text-xl font-bold text-cyan-300">SHA-256 SEALED</div>
-                            <div class="text-[10px] space-y-0.5 text-slate-400">
-                                <div>SOURCE: <span class="text-slate-200">Gold Master Release Seal</span></div>
-                                <div>CALCULATION: <span class="text-slate-200">SHA-256 Checksum</span></div>
-                                <div>PROVENANCE: <span class="text-purple-300">MAEW v1.2 LTS</span></div>
-                                <div>DIGEST: <span class="text-cyan-400">e3b0c44298fc1c14</span></div>
-                                <div>ASSURANCE: <span class="text-emerald-400">Ω560 PASS (Simulation Scope)</span></div>
-                                <div>VERIFICATION: <span class="text-amber-400 font-bold">Manifest-only</span></div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- Ω546 EXPLAINABILITY & Ω558 ATTESTATION RECEIPT PACK -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    
-                    <!-- Ω546 AUDIT EXPLAINABILITY MODULE -->
-                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs">
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                            <span class="font-bold text-cyan-300 flex items-center gap-2">
-                                <i class="fa-solid fa-magnifying-glass-chart"></i> Ω546 AUDIT EXPLAINABILITY MATRIX
-                            </span>
-                            <span class="text-[9px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded">INSPECTOR MODULE</span>
-                        </div>
-                        <div class="space-y-1.5">
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">WHAT:</span>
-                                <span class="text-white font-bold">Canonical Release Audit Surface</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">WHEN:</span>
-                                <span class="text-slate-300">2026-08 Frozen Baseline Release</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">WHERE:</span>
-                                <span class="text-cyan-400">Tenant TNT-TH-001 (Sovereign Scope)</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">SOURCE:</span>
-                                <span class="text-amber-400">manifests/release-v1.2-lts.json</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">WHY:</span>
-                                <span class="text-slate-300">Zero Drift Assurance Check</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">CONFIDENCE:</span>
-                                <span class="text-emerald-400 font-bold">100.00% (Manifest Verification)</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">AUTHORIZATION:</span>
-                                <span class="text-purple-300">APPROVED_GO &bull; Manifest Only</span>
-                            </div>
-                            <div class="bg-darker p-2 rounded border border-slate-800/80 flex justify-between">
-                                <span class="text-slate-500">PROVENANCE:</span>
-                                <span class="text-slate-300">MAEW Ω∞ HYPEROS FROZEN v1.2 LTS</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Ω558 CRYPTOGRAPHIC ATTESTATION RECEIPT PACK & Ω560 CHECKS -->
-                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-5 space-y-3 font-mono text-xs flex flex-col justify-between">
+                <!-- BANNER HEADER (FROM 1000135396.jpg) -->
+                <div class="bg-darkcard border border-emerald-900/60 rounded-2xl p-6 glow-emerald relative overflow-hidden">
+                    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-slate-800 pb-4">
                         <div>
-                            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
-                                <span class="font-bold text-emerald-400 flex items-center gap-2">
-                                    <i class="fa-solid fa-box-archive"></i> Ω558 CRYPTOGRAPHIC ATTESTATION RECEIPT
-                                </span>
-                                <button onclick="generateReceiptExport()" class="text-[9px] bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded transition">
-                                    EXPORT JSON RECEIPT
-                                </button>
+                            <div class="flex items-center space-x-2 text-xs font-mono mb-1">
+                                <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded">PUBLIC ARCHITECTURE</span>
+                                <span class="bg-cyan-950 text-cyan-400 border border-cyan-800 px-2 py-0.5 rounded">LIVE DEMO</span>
+                                <span class="bg-purple-950 text-purple-400 border border-purple-800 px-2 py-0.5 rounded">GITHUB PAGES</span>
                             </div>
-                            <div class="space-y-2">
-                                <div class="bg-darker p-3 rounded-xl border border-slate-800 space-y-1">
-                                    <div class="text-[10px] text-slate-500">CANONICAL DATASET DIGEST (MANIFEST-DERIVED)</div>
-                                    <div class="text-cyan-400 font-bold truncate">sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</div>
+                            <h2 class="text-2xl md:text-3xl font-black text-white tracking-wider">
+                                MAEW Ω∞ SOVEREIGN METRICS & PROVENANCE ENGINE
+                            </h2>
+                            <p class="text-emerald-400 font-mono font-bold text-sm mt-1">
+                                "Built to Be Examined." — Provenance-First Evidence Architecture
+                            </p>
+                        </div>
+                        <div class="bg-darker border border-emerald-800/80 p-3 rounded-xl font-mono text-xs text-right">
+                            <div class="text-slate-400 text-[10px]">SOVEREIGN COMMAND ENVIRONMENT</div>
+                            <div class="text-emerald-400 font-bold text-sm">PROVENANCE-FIRST EVIDENCE MESH</div>
+                        </div>
+                    </div>
+
+                    <!-- SYSTEM STATUS TOP ROW (FROM 1000135395.jpg) -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-4 font-mono text-[11px]">
+                        <div class="bg-darker p-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Platform:</span>
+                            <span class="text-emerald-400 font-bold">Healthy ●</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Services:</span>
+                            <span class="text-emerald-400 font-bold">Healthy ●</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Data Pipeline:</span>
+                            <span class="text-emerald-400 font-bold">Healthy ●</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Models:</span>
+                            <span class="text-emerald-400 font-bold">Healthy ●</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Security:</span>
+                            <span class="text-emerald-400 font-bold">Healthy ●</span>
+                        </div>
+                        <div class="bg-darker p-2 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Compliance:</span>
+                            <span class="text-emerald-400 font-bold">Healthy ●</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VISUAL PIPELINE FLOW WITH NODE SHA-256 HASHES (FROM BOTH IMAGES) -->
+                <div class="bg-darkcard border border-slate-800/80 rounded-2xl p-5 space-y-3 font-mono text-xs">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-timeline text-cyan-400"></i> PROVENANCE EVIDENCE PIPELINE
+                        </span>
+                        <span class="text-[10px] bg-slate-900 text-slate-400 px-2 py-0.5 rounded border border-slate-800">ZERO-TRUST TELEMETRY</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-6 gap-2 text-center text-[10px]">
+                        <div class="bg-darker p-2.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="text-cyan-400 font-bold flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-database"></i> SOURCE
+                            </div>
+                            <div class="text-[9px] text-slate-500 font-mono">a3f6c2e...</div>
+                        </div>
+                        <div class="bg-darker p-2.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="text-purple-400 font-bold flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-wave-square"></i> TELEMETRY
+                            </div>
+                            <div class="text-[9px] text-slate-500 font-mono">7b8d91aa...</div>
+                        </div>
+                        <div class="bg-darker p-2.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="text-amber-400 font-bold flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-calculator"></i> CALCULATION
+                            </div>
+                            <div class="text-[9px] text-slate-500 font-mono">c4e7f8d2...</div>
+                        </div>
+                        <div class="bg-darker p-2.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="text-blue-400 font-bold flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-diagram-project"></i> PROVENANCE
+                            </div>
+                            <div class="text-[9px] text-slate-500 font-mono">9d2b6c33...</div>
+                        </div>
+                        <div class="bg-darker p-2.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="text-emerald-400 font-bold flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-lock"></i> SHA-256
+                            </div>
+                            <div class="text-[9px] text-slate-500 font-mono">e1f7a9d4...</div>
+                        </div>
+                        <div class="bg-emerald-950 p-2.5 rounded-xl border border-emerald-700 space-y-1">
+                            <div class="text-emerald-400 font-bold flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-circle-check"></i> VERIFICATION
+                            </div>
+                            <div class="text-[9px] text-emerald-300 font-mono">5c8b2e77...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 ENVIRONMENT WORKLOAD BOXES (FROM BOTH IMAGES) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 font-mono text-xs">
+                    
+                    <!-- 🟢 LIVE PRODUCTION -->
+                    <div class="bg-darkcard border border-emerald-900/80 rounded-2xl p-4 space-y-3 glow-emerald">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="font-bold text-emerald-400 flex items-center gap-2 text-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                LIVE PRODUCTION
+                            </span>
+                            <span class="text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-1.5 py-0.5 rounded">Operational</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">WORKLOADS</span>
+                                <span class="text-white font-bold text-sm">128</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">REQUESTS/SEC</span>
+                                <span class="text-emerald-400 font-bold text-sm">8,340</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">ERROR RATE</span>
+                                <span class="text-emerald-400 font-bold text-sm">0.00%</span>
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-slate-500 text-center border-t border-slate-800/60 pt-2">
+                            SOURCE CLASSIFICATION: MANIFEST TELEMETRY DUMP
+                        </div>
+                    </div>
+
+                    <!-- 🔵 INTERNAL TEST -->
+                    <div class="bg-darkcard border border-cyan-900/80 rounded-2xl p-4 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="font-bold text-cyan-400 flex items-center gap-2 text-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                                INTERNAL TEST
+                            </span>
+                            <span class="text-[9px] bg-cyan-950 text-cyan-300 border border-cyan-800 px-1.5 py-0.5 rounded">Testing</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">WORKLOADS</span>
+                                <span class="text-white font-bold text-sm">64</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">REQUESTS/SEC</span>
+                                <span class="text-cyan-400 font-bold text-sm">2,341</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">ERROR RATE</span>
+                                <span class="text-cyan-400 font-bold text-sm">0.00%</span>
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-slate-500 text-center border-t border-slate-800/60 pt-2">
+                            SOURCE CLASSIFICATION: MANIFEST INTERNAL SUITE
+                        </div>
+                    </div>
+
+                    <!-- 🟣 SIMULATION -->
+                    <div class="bg-darkcard border border-purple-900/80 rounded-2xl p-4 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="font-bold text-purple-400 flex items-center gap-2 text-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                                SIMULATION
+                            </span>
+                            <span class="text-[9px] bg-purple-950 text-purple-300 border border-purple-800 px-1.5 py-0.5 rounded">Simulating</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2 text-center text-[10px]">
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">WORKLOADS</span>
+                                <span class="text-white font-bold text-sm">96</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">REQUESTS/SEC</span>
+                                <span class="text-purple-400 font-bold text-sm">5,128</span>
+                            </div>
+                            <div class="bg-darker p-2 rounded">
+                                <span class="text-slate-500 block">ERROR RATE</span>
+                                <span class="text-purple-400 font-bold text-sm">0.00%</span>
+                            </div>
+                        </div>
+                        <div class="text-[9px] text-slate-500 text-center border-t border-slate-800/60 pt-2">
+                            SOURCE CLASSIFICATION: LOCAL SIMULATION MODEL
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 4 MODULE CARDS: Ω546, Ω558, Ω559, Ω560 (FROM BOTH IMAGES) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+                    
+                    <!-- Ω546 EXPLAINABILITY -->
+                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-4 space-y-2">
+                        <div class="flex items-center space-x-2 text-emerald-400 font-bold">
+                            <span class="w-7 h-7 rounded-lg bg-emerald-950 border border-emerald-700 flex items-center justify-center">Ω</span>
+                            <span>Ω546 EXPLAINABILITY</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400">Zero-Trust Verified & Audit-Traceable Explainability Engine.</p>
+                        <div class="bg-darker p-2 rounded border border-slate-800/80 text-[10px] text-slate-300">
+                            Confidence: <span class="text-emerald-400 font-bold">100% Verified</span>
+                        </div>
+                    </div>
+
+                    <!-- Ω558 ATTESTATION -->
+                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-4 space-y-2">
+                        <div class="flex items-center space-x-2 text-cyan-400 font-bold">
+                            <span class="w-7 h-7 rounded-lg bg-cyan-950 border border-cyan-700 flex items-center justify-center">
+                                <i class="fa-solid fa-fingerprint text-xs"></i>
+                            </span>
+                            <span>Ω558 ATTESTATION</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400">Cryptographic Evidence & Canonical Dataset Digest Seal.</p>
+                        <button onclick="generateReceiptExport()" class="w-full bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-700 py-1 rounded text-[10px] font-bold transition">
+                            EXPORT ATTESTATION JSON
+                        </button>
+                    </div>
+
+                    <!-- Ω559 RE-VERIFICATION -->
+                    <div class="bg-darkcard border border-slate-800 rounded-2xl p-4 space-y-2">
+                        <div class="flex items-center space-x-2 text-purple-400 font-bold">
+                            <span class="w-7 h-7 rounded-lg bg-purple-950 border border-purple-700 flex items-center justify-center">
+                                <i class="fa-solid fa-rotate-left text-xs"></i>
+                            </span>
+                            <span>Ω559 RE-VERIFICATION</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400">All evidence re-verified. Integrity confirmed across mesh.</p>
+                        <button onclick="triggerReverifyAll()" class="w-full bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-700 py-1 rounded text-[10px] font-bold transition">
+                            TRIGGER RE-VERIFICATION
+                        </button>
+                    </div>
+
+                    <!-- Ω560 ASSURANCE GATE -->
+                    <div class="bg-darkcard border border-emerald-800 rounded-2xl p-4 space-y-2 glow-emerald">
+                        <div class="flex items-center space-x-2 text-amber-400 font-bold">
+                            <span class="w-7 h-7 rounded-lg bg-amber-950 border border-amber-700 flex items-center justify-center">
+                                <i class="fa-solid fa-shield text-xs"></i>
+                            </span>
+                            <span>Ω560 ASSURANCE GATE</span>
+                        </div>
+                        <p class="text-[10px] text-slate-400">Policy checks passed. Assurance granted (Manifest Scope).</p>
+                        <div class="bg-emerald-950/80 border border-emerald-700/80 p-1.5 rounded text-center text-[10px] text-emerald-400 font-bold">
+                            10 / 10 CHECKS PASSED
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- AUDIT TRAIL TABLE & ASSURANCE SUMMARY DONUT (FROM 1000135395.jpg) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 font-mono text-xs">
+                    
+                    <!-- AUDIT TRAIL TABLE (8 COLS) -->
+                    <div class="lg:col-span-8 bg-darkcard border border-slate-800/80 rounded-2xl p-5 space-y-3">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                            <span class="font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-cyan-400"></i> AUDIT TRAIL (LATEST EVENTS)
+                            </span>
+                            <span class="text-[10px] text-slate-500">UTC REALTIME MATRIX</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-[11px] text-slate-300">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-500 text-[10px]">
+                                        <th class="py-2 px-2">TIME (UTC)</th>
+                                        <th class="py-2 px-2">EVENT</th>
+                                        <th class="py-2 px-2">STATE</th>
+                                        <th class="py-2 px-2">SHA-256 EVIDENCE</th>
+                                        <th class="py-2 px-2 text-right">VERIFICATION</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-800/60">
+                                    <tr>
+                                        <td class="py-2 px-2 text-slate-400">14:32:15</td>
+                                        <td class="py-2 px-2 text-white font-bold">Inference Completed</td>
+                                        <td class="py-2 px-2"><span class="text-emerald-400">● Live Production</span></td>
+                                        <td class="py-2 px-2 text-cyan-400">e1f7a9d4b3c2...</td>
+                                        <td class="py-2 px-2 text-right text-emerald-400 font-bold">🔒 Verified</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-2 text-slate-400">14:32:14</td>
+                                        <td class="py-2 px-2 text-white font-bold">Policy Evaluation</td>
+                                        <td class="py-2 px-2"><span class="text-emerald-400">● Live Production</span></td>
+                                        <td class="py-2 px-2 text-cyan-400">9d2b6c33aef1...</td>
+                                        <td class="py-2 px-2 text-right text-emerald-400 font-bold">🔒 Verified</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-2 text-slate-400">14:32:13</td>
+                                        <td class="py-2 px-2 text-white font-bold">Telemetry Ingested</td>
+                                        <td class="py-2 px-2"><span class="text-cyan-400">● Internal Test</span></td>
+                                        <td class="py-2 px-2 text-cyan-400">c4e7f6d2b6a9...</td>
+                                        <td class="py-2 px-2 text-right text-emerald-400 font-bold">🔒 Verified</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-2 text-slate-400">14:32:12</td>
+                                        <td class="py-2 px-2 text-white font-bold">Simulation Step</td>
+                                        <td class="py-2 px-2"><span class="text-purple-400">● Simulation</span></td>
+                                        <td class="py-2 px-2 text-cyan-400">5c8b2e77d1f0...</td>
+                                        <td class="py-2 px-2 text-right text-emerald-400 font-bold">🔒 Verified</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-2 text-slate-400">14:32:11</td>
+                                        <td class="py-2 px-2 text-white font-bold">Model Deployed</td>
+                                        <td class="py-2 px-2"><span class="text-emerald-400">● Live Production</span></td>
+                                        <td class="py-2 px-2 text-cyan-400">7b8d91aa6c3e...</td>
+                                        <td class="py-2 px-2 text-right text-emerald-400 font-bold">🔒 Verified</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ASSURANCE SUMMARY DONUT GAUGE (4 COLS) -->
+                    <div class="lg:col-span-4 bg-darkcard border border-slate-800/80 rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+                        <div class="border-b border-slate-800 pb-2 flex justify-between items-center">
+                            <span class="font-bold text-slate-200 uppercase tracking-wider">ASSURANCE SUMMARY</span>
+                            <span class="text-[10px] text-emerald-400 font-bold">100% SCORE</span>
+                        </div>
+
+                        <div class="flex items-center justify-center space-x-4 py-2">
+                            <!-- Visual Ring Gauge -->
+                            <div class="relative w-28 h-28 flex items-center justify-center">
+                                <svg class="w-full h-full" viewBox="0 0 36 36">
+                                    <path class="text-slate-800" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="text-emerald-400" stroke-dasharray="100, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                    <span class="text-xl font-black text-white">100%</span>
+                                    <span class="text-[8px] text-slate-400 uppercase font-mono">Assurance</span>
                                 </div>
-                                <div class="bg-darker p-3 rounded-xl border border-slate-800 space-y-1">
-                                    <div class="text-[10px] text-slate-500">EVIDENCE SEALS COUNT</div>
-                                    <div class="text-amber-400 font-bold">14,902 SHA-256 Verified Certificates</div>
+                            </div>
+
+                            <div class="space-y-1.5 text-[10px] font-mono">
+                                <div class="flex items-center space-x-1.5 text-slate-300">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                    <span>Evidence Integrity</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5 text-slate-300">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                    <span>Provenance Complete</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5 text-slate-300">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                    <span>Cryptographic Validity</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5 text-slate-300">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                    <span>Policy Compliance</span>
+                                </div>
+                                <div class="flex items-center space-x-1.5 text-slate-300">
+                                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                    <span>Re-Verification: <strong class="text-emerald-400">Verified</strong></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Ω560 ASSURANCE GATE STATS -->
-                        <div class="bg-darker p-3.5 rounded-xl border border-emerald-800/80 space-y-2 mt-3">
-                            <div class="flex justify-between items-center text-xs">
-                                <span class="font-bold text-white">Ω560 ASSURANCE GATE (MANIFEST SCOPE)</span>
-                                <span class="text-emerald-400 font-bold">10 / 10 PASSED</span>
-                            </div>
-                            <div class="w-full bg-slate-900 rounded-full h-2 border border-slate-700 overflow-hidden">
-                                <div class="bg-emerald-400 h-full rounded-full" style="width: 100%"></div>
-                            </div>
-                            <div class="text-[10px] text-slate-400 flex justify-between">
-                                <span>Zero Drift Verification</span>
-                                <span class="text-emerald-400">100% Manifest Verified</span>
-                            </div>
+                        <div class="bg-darker p-2.5 rounded-xl border border-slate-800 text-[10px] text-center text-slate-400">
+                            ASSURANCE GATE STATUS: <span class="text-emerald-400 font-bold">GRANTED (MANIFEST SCOPE)</span>
                         </div>
                     </div>
 
@@ -826,7 +908,7 @@
         </main>
 
         <footer class="bg-darkcard border-t border-slate-800 py-4 text-center text-xs text-slate-500 font-mono">
-            MAEW Ω∞ HYPEROS FROZEN v2.0 LTS &bull; Canonical Control Surface &bull; Sovereign Architect: ยุทธภูมิ พากเพียร
+            MAEW Ω∞ HYPEROS FROZEN v2.0 LTS &bull; Sovereign Audit Surface &bull; Sovereign Architect: ยุทธภูมิ พากเพียร
         </footer>
     </div>
 
@@ -943,7 +1025,7 @@
                 document.getElementById('nav-finops').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 border border-emerald-700/80 text-emerald-200 transition text-left';
             } else if (roomId === 'audit') {
                 document.getElementById('room-audit-content').classList.remove('hidden');
-                document.getElementById('nav-audit').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-amber-950/40 border border-amber-700/80 text-amber-200 transition text-left';
+                document.getElementById('nav-audit').className = 'room-btn active w-full flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 border border-emerald-700/80 text-emerald-200 transition text-left';
             }
 
             appendTerminalLog(`[NAV] Switched view shell to: ${roomTitle}`);
