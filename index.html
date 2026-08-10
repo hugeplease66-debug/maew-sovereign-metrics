@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="th" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAEW Ω∞ Sovereign Metrics & Provenance Engine</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        sovereign: {
+                            50: '#e6fdf4',
+                            100: '#c3fbe2',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        },
+                        darkbg: '#040711',
+                        cardbg: 'rgba(13, 19, 33, 0.85)',
+                        borderbg: '#1e293b'
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+                    },
+                    boxShadow: {
+                        'glow-emerald': '0 0 25px -3px rgba(16, 185, 129, 0.3), 0 0 10px -2px rgba(16, 185, 129, 0.2)',
+                        'glow-rose': '0 0 25px -3px rgba(244, 63, 94, 0.35), 0 0 10px -2px rgba(244, 63, 94, 0.2)',
+                        'glow-cyan': '0 0 25px -3px rgba(6, 182, 212, 0.3)',
+                        'glow-purple': '0 0 25px -3px rgba(168, 85, 247, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #040711;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.5) 0px, transparent 100%);
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #040711; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+        .glass-panel {
+            background: rgba(13, 19, 33, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .cyber-grid {
+            background-size: 30px 30px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col cyber-grid selection:bg-emerald-500 selection:text-black">
+
+    <!-- ป้ายประกาศโหมดความโปร่งใสระดับสถาปัตยกรรม (Trust Boundary) -->
+    <div class="bg-gradient-to-r from-amber-950/80 via-amber-900/40 to-amber-950/80 border-b border-amber-500/30 px-4 py-2 text-center text-amber-300 font-mono text-xs flex flex-wrap items-center justify-center gap-2 backdrop-blur-md">
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 text-[10px] tracking-wider shadow-sm flex items-center gap-1">
+            <i data-lucide="alert-triangle" class="w-3 h-3"></i> DEMO & UI LAYER MODE
+        </span>
+        <span class="text-slate-300">ข้อมูลทั้งหมดแสดงในโหมดจำลอง — สำหรับทดสอบสถาปัตยกรรม <span class="text-amber-400 font-bold">Ω521–Ω560 Autonomous Audit Engine</span></span>
+    </div>
+
+    <!-- ส่วนหัวระบบ Navigation -->
+    <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="relative group">
+                    <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-500"></div>
+                    <div class="relative w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-emerald-400 font-extrabold text-2xl font-mono">
+                        Ω
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <span class="font-black text-lg tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-400">MAEW Ω∞</span>
+                        <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold tracking-wider uppercase shadow-sm">
+                            SOVEREIGN METRICS ENGINE
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium">Provenance-First, Evidence-Driven & Audit-Ready Console</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 font-mono">
+                <div class="hidden lg:flex items-center gap-3 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800/80 shadow-inner">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-slate-400 text-xs">RE-VERIFY LOOP:</span>
+                    <span class="text-emerald-400 font-bold text-xs" id="loop-counter">ACTIVE #1,492</span>
+                </div>
+                <div class="text-right hidden sm:block bg-slate-900/50 px-3.5 py-1.5 rounded-xl border border-slate-800/50">
+                    <div class="text-slate-500 text-[9px] uppercase tracking-wider font-semibold">INDEPENDENT VERIFIER CLOCK (UTC+7)</div>
+                    <div class="text-emerald-400 font-semibold text-xs" id="live-clock">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- คอนเทนเนอร์หลัก -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- แบนเนอร์ผู้บริหาร -->
+        <div class="relative overflow-hidden rounded-2xl glass-panel p-6 sm:p-8 border border-slate-800 shadow-2xl">
+            <div class="absolute -right-20 -top-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 space-y-6">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-xs uppercase font-mono tracking-widest text-emerald-400 font-bold px-2.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20">FROZEN v1.2 LTS</span>
+                            <span class="text-slate-600">•</span>
+                            <span class="text-xs font-mono text-cyan-400 flex items-center gap-1">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-cyan-400"></i> Continuous Assurance Active
+                            </span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
+                            EXECUTIVE KPI STRIP <span class="text-slate-600 font-light">//</span> <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">SOVEREIGN METRICS</span>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-slate-400 max-w-3xl leading-relaxed">
+                            การแยกแยะสถานะข้อมูลอย่างเด็ดขาด (
+                            <span class="text-emerald-400 font-mono font-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">🟢 Live Production</span> 
+                            <span class="text-cyan-400 font-mono font-semibold bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/20">🔵 Internal Test</span> 
+                            <span class="text-purple-400 font-mono font-semibold bg-purple-500/10 px-1.5 py-0.5 rounded border border-purple-500/20">🟣 Simulation</span>
+                            ) ผ่านการตรวจสอบ 10 หัวข้อของ <span class="text-emerald-400 font-mono font-bold underline decoration-emerald-500/40">Ω560 Assurance Gate</span>
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 font-mono shrink-0">
+                        <button onclick="runGlobalReVerify()" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 active:scale-95 border border-slate-700/80 hover:border-emerald-500/50 text-xs font-semibold text-slate-200 rounded-xl flex items-center gap-2.5 transition shadow-lg group">
+                            <i data-lucide="rotate-cw" class="w-4 h-4 text-emerald-400 group-hover:rotate-180 transition-transform duration-500" id="reverify-spinner"></i> Re-Verify All (Ω559)
+                        </button>
+                        <button onclick="openGlobalAttestationModal()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 hover:from-emerald-500/30 hover:to-cyan-500/30 active:scale-95 border border-emerald-500/40 text-emerald-300 text-xs font-bold rounded-xl flex items-center gap-2.5 transition shadow-lg shadow-emerald-950/50">
+                            <i data-lucide="award" class="w-4 h-4 text-emerald-400"></i> Audit Receipt Pack
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ไดอะแกรมแสดงขั้นตอน Audit Pipeline Chain -->
+                <div class="pt-5 border-t border-slate-800/80 font-mono text-xs text-slate-400">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                        <span class="text-slate-300 font-semibold flex items-center gap-2">
+                            <i data-lucide="workflow" class="w-4 h-4 text-emerald-400"></i> Audit Pipeline Chain:
+                        </span>
+                        <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">SOURCE</span> 
+                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">TELEMETRY</span> 
+                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">CALCULATION</span> 
+                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">PROVENANCE</span> 
+                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
+                            <span class="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-300 font-medium shadow-sm">SHA-256</span> 
+                            <i data-lucide="arrow-right" class="w-3 h-3 text-slate-600"></i>
+                            <span class="px-3 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-bold shadow-glow-emerald">VERIFICATION</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ปุ่มกรองสถานะข้อมูล -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4 font-mono">
+            <div class="flex items-center gap-2.5">
+                <i data-lucide="cpu" class="w-5 h-5 text-emerald-400"></i>
+                <h2 class="text-base font-bold uppercase tracking-wider text-white">6 Live Metric Streams</h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="text-slate-400 mr-1 font-sans text-xs">Filter State:</span>
+                <button onclick="filterMetrics('all')" id="filter-all" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold transition">All (6)</button>
+                <button onclick="filterMetrics('observed')" id="filter-observed" class="px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition">🟢 Live</button>
+                <button onclick="filterMetrics('test')" id="filter-test" class="px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition">🔵 Internal Test</button>
+                <button onclick="filterMetrics('sim')" id="filter-sim" class="px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition">🟣 Simulation</button>
+            </div>
+        </div>
+
+        <!-- KPI Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="kpi-grid">
+            <!-- เรนเดอร์ผ่าน JS -->
+        </div>
+
+        <!-- ตาราง Benchmark Index -->
+        <div class="glass-panel border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-slate-800 bg-slate-950/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2.5">
+                        <i data-lucide="scale" class="w-5 h-5 text-emerald-400"></i> Sovereign Benchmark Index: 2026 Targets vs. 2024 Baseline
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 font-sans">การเปรียบเทียบตัวเลขประสิทธิภาพกับค่ามาตรฐาน NeurIPS 2024</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs bg-emerald-950/60 border border-emerald-500/40 text-emerald-400 px-3 py-1.5 rounded-lg flex items-center gap-2 font-bold shadow-sm">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> PROVENANCE CLASSIFIED
+                    </span>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono border-collapse">
+                    <thead>
+                        <tr class="bg-slate-950/90 text-slate-400 border-b border-slate-800 uppercase tracking-wider text-[11px]">
+                            <th class="py-4 px-5 font-bold">Performance Metric</th>
+                            <th class="py-4 px-5 font-bold">Semantic State</th>
+                            <th class="py-4 px-5 font-bold text-right">2024 Baseline</th>
+                            <th class="py-4 px-5 font-bold text-right">2026 Target</th>
+                            <th class="py-4 px-5 font-bold text-right">Growth Delta</th>
+                            <th class="py-4 px-5 font-bold text-center">Confidence</th>
+                            <th class="py-4 px-5 font-bold text-center">Assurance Status</th>
+                            <th class="py-4 px-5 font-bold text-center">Inspect</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-slate-300" id="benchmark-table-body">
+                        <!-- เรนเดอร์ผ่าน JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="p-4 bg-slate-950/80 border-t border-slate-800 text-xs text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-2 font-mono">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i> 
+                    <span>Telemetry Ingestion: <strong class="text-slate-200">PROMETHEUS / GRAFANA / TELEMETRY API</strong></span>
+                </div>
+                <div class="text-slate-500 text-[11px] font-sans">
+                    Semantic Rule: Live ≠ Internal Test ≠ Simulation
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Drawer ส่องดูรายละเอียดการตรวจสอบ -->
+    <div id="provenance-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex justify-end opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="w-full max-w-3xl bg-slate-950 h-full border-l border-slate-800 flex flex-col shadow-2xl transform translate-x-full transition-transform duration-300" id="modal-panel">
+            
+            <div class="p-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 font-mono">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-glow-emerald">
+                        <i data-lucide="search-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-white" id="modal-title">Metric Audit Inspector</h3>
+                            <span id="modal-badge" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold">State</span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-sans">Ω546 Audit Explainability Engine (8-Dimension Analysis)</p>
+                    </div>
+                </div>
+                <button onclick="closeProvenance()" class="p-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 font-mono text-xs">
+                
+                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-slate-500 uppercase text-[10px] tracking-wider block font-bold">Inspected Metric</span>
+                            <span class="text-2xl font-black text-white" id="modal-metric-val">48.2 PFLOPS</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-slate-500 uppercase text-[10px] tracking-wider block font-bold">Assurance Gate Result</span>
+                            <span class="text-emerald-400 font-bold flex items-center gap-1.5 justify-end text-sm" id="modal-assurance-badge">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i> VERIFIED (Ω560 PASS)
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- ปุ่มจำลองการแก้ไขตัวเลขเพื่อดูลัพธ์ดักจับการแก้ไขแบบลับๆ -->
+                    <div class="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2 text-[11px]">
+                        <span class="text-amber-400 font-semibold flex items-center gap-1.5 font-sans">
+                            <i data-lucide="flask-conical" class="w-4 h-4"></i> Tamper & Drift Simulator:
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="simulateTamper()" class="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 rounded-lg transition flex items-center gap-1.5 font-bold">
+                                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Tamper Payload
+                            </button>
+                            <button onclick="resetTamper()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition flex items-center gap-1.5 font-medium">
+                                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Restore Metric
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ตารางเช็คแมทริกซ์ 10 หัวข้อ -->
+                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span class="text-slate-200 font-bold flex items-center gap-2 text-xs">
+                            <i data-lucide="shield-alert" class="w-4 h-4 text-emerald-400"></i> Ω560 AUTONOMOUS ASSURANCE GATE MATRIX
+                        </span>
+                        <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20" id="matrix-status-text">10 / 10 CHECKS PASSED</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]" id="gate-matrix-grid">
+                        <!-- ถูกสร้างผ่าน JS -->
+                    </div>
+                </div>
+
+                <!-- อธิบายรายละเอียด 8 มิติ -->
+                <div class="space-y-3">
+                    <h4 class="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-2 text-xs">
+                        <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i> Ω546 Audit Explainability (8 Dimensions)
+                    </h4>
+                    <div class="grid grid-cols-2 gap-2.5 text-[11px]">
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <div class="text-slate-500 text-[10px] font-bold">1. WHAT CHANGED?</div>
+                            <div class="text-slate-200 font-bold mt-0.5" id="exp-what">Metric Updated</div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <div class="text-slate-500 text-[10px] font-bold">2. WHEN? (OBSERVED AT)</div>
+                            <div class="text-slate-200 font-bold mt-0.5" id="exp-when">2026-08-10 19:14:48 UTC+7</div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <div class="text-slate-500 text-[10px] font-bold">3. WHERE? (NODE)</div>
+                            <div class="text-slate-200 font-bold mt-0.5" id="exp-where">cluster-01</div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <div class="text-slate-500 text-[10px] font-bold">4. SOURCE IDENTITY</div>
+                            <div class="text-slate-200 font-bold truncate mt-0.5" id="exp-source">Prometheus</div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <div class="text-slate-500 text-[10px] font-bold">5. WHY? (MATH CALCULATION)</div>
+                            <div class="text-emerald-400 font-bold truncate mt-0.5" id="exp-why">Formula Delta</div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <div class="text-slate-500 text-[10px] font-bold">6. CONFIDENCE IMPACT</div>
+                            <div class="text-emerald-400 font-bold mt-0.5" id="exp-impact">Score: 99.9%</div>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 col-span-2">
+                            <div class="text-slate-500 text-[10px] font-bold">7. AUTHORIZED BY</div>
+                            <div class="text-slate-200 font-bold mt-0.5" id="exp-authorized">Ingestion Worker</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- แสดงผล JSON Payload และค่า Hash SHA-256 แบบเรียลไทม์ -->
+                <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-300 font-bold text-xs flex items-center gap-2">
+                            <i data-lucide="code" class="w-4 h-4 text-emerald-400"></i> Ω524 Canonical Payload & Cryptographic SHA-256 Digest
+                        </span>
+                        <button onclick="copyCurrentHash()" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-[10px] font-bold flex items-center gap-1 transition">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                        </button>
+                    </div>
+                    <pre class="text-[11px] text-amber-300 overflow-x-auto whitespace-pre-wrap p-3.5 bg-slate-950 rounded-xl border border-slate-800/80 font-mono" id="canonical-json-view">Loading...</pre>
+                    <div class="p-3 rounded-xl bg-slate-950 border border-emerald-500/40 font-mono flex items-center justify-between text-[11px]">
+                        <span class="text-slate-400 font-bold">SHA-256:</span>
+                        <span class="text-emerald-400 font-bold truncate max-w-[450px]" id="modal-computed-hash">Calculating...</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="p-4 border-t border-slate-800 bg-slate-900/80 flex justify-between items-center font-mono">
+                <span class="text-[11px] text-slate-500">Autonomous Assurance Console v1.2</span>
+                <button onclick="closeProvenance()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition">
+                    Done Inspector
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ออกใบรับรองดิจิทัล -->
+    <div id="attestation-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="max-w-2xl w-full bg-slate-950 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-5 font-mono text-xs relative">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <i data-lucide="award" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-white">Ω558 Cryptographic Attestation Pack</h3>
+                </div>
+                <button onclick="closeAttestationModal()" class="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-slate-400 text-xs font-sans leading-relaxed">
+                ใบรับรองหลักฐานความถูกต้องทางดิจิทัล (Attestation Receipt Package) สำหรับใช้ในการตรวจสอบภายนอก ยืนยันความถูกต้องผ่านโครงสร้าง Canonical Dataset Digest
+            </p>
+            <div class="p-4 bg-slate-900/80 rounded-xl border border-slate-800 space-y-2">
+                <div class="text-slate-500 text-[10px] font-bold">Fabric Dataset SHA-256 Digest:</div>
+                <div class="text-emerald-400 font-bold text-xs break-all" id="root-receipt-hash">
+                    Calculating...
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="downloadAttestationJSON()" class="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-black font-extrabold rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-950/50 active:scale-95">
+                    <i data-lucide="download" class="w-4 h-4"></i> Export Attestation Package (.JSON)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- โค้ด JavaScript หลัก -->
+    <script>
+        lucide.createIcons();
+
+        // ข้อมูลหลักพร้อมค่าตั้งต้นแบบ Immutable (แก้ Bug resetTamper)
+        const metricsStore = {
+            'system_health': {
+                id: 'system_health',
+                name: 'System Health Uptime',
+                semanticState: 'observed',
+                stateLabel: '🟢 Live Production',
+                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+                value: '99.99%',
+                originalValue: '99.99%',
+                rawVal: 99.99,
+                baseline: '99.90%',
+                target: '99.99%',
+                growth: 'SLA Compliant',
+                confidence: '99.9%',
+                originalConfidence: '99.9%',
+                source: 'Prometheus SLA Probes',
+                sourceScore: '99.9%',
+                node: 'k8s-us-east-cluster-01',
+                mathDesc: 'Continuous availability probes across 1024 clusters',
+                mathFormula: 'Uptime = (Total_Secs - Downtime_Secs) / Total_Secs * 100',
+                tsObserved: '2026-08-10 19:18:00 UTC+7',
+                authorizedBy: 'Auto-Prometheus Exporter Daemon',
+                isTampered: false
+            },
+            'research_corpus': {
+                id: 'research_corpus',
+                name: 'Research Corpus Papers',
+                semanticState: 'observed',
+                stateLabel: '🟢 Live Production',
+                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+                value: '18,462',
+                originalValue: '18,462',
+                rawVal: 18462,
+                baseline: '4,490 Papers',
+                target: '18,462 Papers',
+                growth: '+311.1%',
+                confidence: '99.5%',
+                originalConfidence: '99.5%',
+                source: 'Crossref / arXiv Ingestion Ledger',
+                sourceScore: '98.5%',
+                node: 'corpus-ingest-node-04',
+                mathDesc: 'Total verified paper index count vs 2024 baseline (4,490)',
+                mathFormula: 'Delta = ((18462 - 4490) / 4490) * 100 = 311.18%',
+                tsObserved: '2026-08-10 19:15:30 UTC+7',
+                authorizedBy: 'Crossref Ingestion Service Key #882',
+                isTampered: false
+            },
+            'ai_scholars': {
+                id: 'ai_scholars',
+                name: 'Top AI Researchers',
+                semanticState: 'test',
+                stateLabel: '🔵 Internal Test',
+                stateBadge: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+                value: '842',
+                originalValue: '842',
+                rawVal: 842,
+                baseline: '250 Researchers',
+                target: '842 Researchers',
+                growth: '+236.8%',
+                confidence: '94.0%',
+                originalConfidence: '94.0%',
+                source: 'Scholar API Internal Test Bench',
+                sourceScore: '92.0%',
+                node: 'scholar-testbench-node-02',
+                mathDesc: 'Filtered researcher pool in test bench (Avg H-Index: 96.0)',
+                mathFormula: 'Delta = ((842 - 250) / 250) * 100 = 236.80%',
+                tsObserved: '2026-08-10 19:10:00 UTC+7',
+                authorizedBy: 'Internal Test Suite Runner',
+                isTampered: false
+            },
+            'knowledge_nodes': {
+                id: 'knowledge_nodes',
+                name: 'Knowledge Graph Nodes',
+                semanticState: 'observed',
+                stateLabel: '🟢 Live Production',
+                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+                value: '24,890',
+                originalValue: '24,890',
+                rawVal: 24890,
+                baseline: '8,200 Nodes',
+                target: '24,890 Nodes',
+                growth: '512 Clusters',
+                confidence: '98.9%',
+                originalConfidence: '98.9%',
+                source: 'Neo4j Cluster Vector Store',
+                sourceScore: '97.8%',
+                node: 'graph-db-cluster-01',
+                mathDesc: 'Graph density & node entity count',
+                mathFormula: 'TotalNodes = SUM(Graph_Clusters) = 24,890',
+                tsObserved: '2026-08-10 19:12:45 UTC+7',
+                authorizedBy: 'Neo4j Sync Agent',
+                isTampered: false
+            },
+            'compute_power': {
+                id: 'compute_power',
+                name: 'Federated Compute Power',
+                semanticState: 'observed',
+                stateLabel: '🟢 Live Production',
+                stateBadge: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+                value: '48.2 PFLOPS',
+                originalValue: '48.2 PFLOPS',
+                rawVal: 48.2,
+                baseline: '2.4 PFLOPS',
+                target: '48.2 PFLOPS',
+                growth: '+1908.3%',
+                confidence: '99.9%',
+                originalConfidence: '99.9%',
+                source: 'Federated GPU/TPU Aggregator API',
+                sourceScore: '99.9%',
+                node: 'federated-compute-gateway',
+                mathDesc: 'Peak FP16/FP32 matrix capacity vs 2024 baseline (2.4 PFLOPS)',
+                mathFormula: 'Delta = ((48.2 - 2.4) / 2.4) * 100 = 1908.33%',
+                tsObserved: '2026-08-10 19:19:12 UTC+7',
+                authorizedBy: 'Kubernetes Telemetry Operator',
+                isTampered: false
+            },
+            'evidence_seals': {
+                id: 'evidence_seals',
+                name: 'Evidence Seals',
+                semanticState: 'sim',
+                stateLabel: '🟣 Simulation',
+                stateBadge: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+                value: '14,902',
+                originalValue: '14,902',
+                rawVal: 14902,
+                baseline: '1,000 Seals',
+                target: '14,902 Seals',
+                growth: 'SHA-256 Verified',
+                confidence: '91.5%',
+                originalConfidence: '91.5%',
+                source: 'Quantum Simulation Sandbox Ledger',
+                sourceScore: '89.0%',
+                node: 'quantum-sim-node-09',
+                mathDesc: 'Simulated quantum colony evidence seals',
+                mathFormula: 'Seals = Count(Valid_Merkle_Leaves) = 14,902',
+                tsObserved: '2026-08-10 19:05:00 UTC+7',
+                authorizedBy: 'Q-Sim Simulation Daemon',
+                isTampered: false
+            }
+        };
+
+        let currentInspectedKey = 'compute_power';
+
+        async function calculateSHA256(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function evaluateAssuranceGate(item) {
+            const checks = [
+                { name: '1. Source Integrity Check', pass: !item.isTampered },
+                { name: '2. Payload Integrity Check', pass: !item.isTampered },
+                { name: '3. Schema Integrity Check', pass: true },
+                { name: '4. Provenance Chain Link', pass: true },
+                { name: '5. Calculation Replay', pass: !item.isTampered },
+                { name: '6. Policy Compliance', pass: true },
+                { name: '7. No Silent Deletion', pass: true },
+                { name: '8. No Unsealed Change', pass: !item.isTampered },
+                { name: '9. Cross-Region Consistency', pass: true },
+                { name: '10. Cryptographic Seal Lock', pass: !item.isTampered }
+            ];
+            const allPassed = checks.every(c => c.pass);
+            return { allPassed, checks };
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('kpi-grid');
+            grid.innerHTML = '';
+
+            Object.keys(metricsStore).forEach(key => {
+                const item = metricsStore[key];
+                const gate = evaluateAssuranceGate(item);
+
+                const card = document.createElement('div');
+                card.className = `metric-card group glass-panel border ${
+                    item.isTampered 
+                        ? 'border-rose-500/80 shadow-glow-rose bg-rose-950/10' 
+                        : 'border-slate-800/80 hover:border-emerald-500/50 hover:shadow-glow-emerald'
+                } rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1.5 relative overflow-hidden`;
+                card.setAttribute('data-status', item.semanticState);
+                card.onclick = () => openProvenance(key);
+
+                const gateStatusHtml = gate.allPassed 
+                    ? `<span class="text-emerald-400 flex items-center gap-1.5 font-mono text-[11px] font-semibold"><i data-lucide="shield-check" class="w-4 h-4"></i> Ω560 PASSED</span>`
+                    : `<span class="text-rose-400 flex items-center gap-1.5 font-mono text-[11px] font-extrabold animate-pulse"><i data-lucide="shield-alert" class="w-4 h-4"></i> TAMPER BLOCKED</span>`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-mono text-slate-400 uppercase tracking-wider font-semibold">${item.name}</span>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold border ${item.stateBadge}">
+                            ${item.stateLabel}
+                        </span>
+                    </div>
+                    <div class="flex items-baseline justify-between my-2">
+                        <div class="text-3xl font-black ${item.isTampered ? 'text-rose-400' : 'text-white'} font-mono tracking-tight group-hover:text-emerald-400 transition">
+                            ${item.value}
+                        </div>
+                        <div class="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">
+                            ${item.growth}
+                        </div>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-mono">
+                        ${gateStatusHtml}
+                        <span class="text-emerald-400 font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 transition duration-300 transform group-hover:translate-x-1">
+                            Inspect <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function renderBenchmarkTable() {
+            const tbody = document.getElementById('benchmark-table-body');
+            tbody.innerHTML = '';
+
+            Object.keys(metricsStore).forEach(key => {
+                const item = metricsStore[key];
+                const gate = evaluateAssuranceGate(item);
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/40 transition duration-150 font-mono';
+
+                const statusBadge = gate.allPassed 
+                    ? `<span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">VERIFIED</span>`
+                    : `<span class="px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 text-[10px] font-extrabold animate-pulse">BLOCKED</span>`;
+
+                tr.innerHTML = `
+                    <td class="py-4 px-5 font-bold text-white">${item.name}</td>
+                    <td class="py-4 px-5">
+                        <span class="px-2.5 py-1 rounded-md text-[10px] border ${item.stateBadge} font-bold">${item.stateLabel}</span>
+                    </td>
+                    <td class="py-4 px-5 text-right text-slate-400">${item.baseline}</td>
+                    <td class="py-4 px-5 text-right font-bold text-emerald-400">${item.target}</td>
+                    <td class="py-4 px-5 text-right font-semibold text-emerald-400">${item.growth}</td>
+                    <td class="py-4 px-5 text-center text-slate-300 font-semibold">${item.confidence}</td>
+                    <td class="py-4 px-5 text-center">${statusBadge}</td>
+                    <td class="py-4 px-5 text-center">
+                        <button onclick="openProvenance('${key}')" class="text-xs text-emerald-400 hover:text-emerald-300 font-bold hover:underline">Inspect</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function openProvenance(key) {
+            currentInspectedKey = key;
+            const item = metricsStore[key];
+
+            document.getElementById('modal-title').textContent = item.name;
+            document.getElementById('modal-badge').textContent = item.stateLabel;
+            document.getElementById('modal-badge').className = `px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold border ${item.stateBadge}`;
+            
+            document.getElementById('modal-metric-val').textContent = item.value;
+            document.getElementById('modal-metric-val').className = item.isTampered ? "text-2xl font-black text-rose-400" : "text-2xl font-black text-white";
+
+            document.getElementById('exp-what').textContent = `Metric: ${item.name} = ${item.value}`;
+            document.getElementById('exp-when').textContent = item.tsObserved;
+            document.getElementById('exp-where').textContent = item.node;
+            document.getElementById('exp-source').textContent = item.source;
+            document.getElementById('exp-why').textContent = item.mathFormula;
+            document.getElementById('exp-impact').textContent = `Score: ${item.confidence}`;
+            document.getElementById('exp-authorized').textContent = item.authorizedBy;
+
+            renderGateMatrix(item);
+            await updateModalHash();
+
+            const modal = document.getElementById('provenance-modal');
+            const panel = document.getElementById('modal-panel');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            panel.classList.remove('translate-x-full');
+        }
+
+        function renderGateMatrix(item) {
+            const gate = evaluateAssuranceGate(item);
+            const grid = document.getElementById('gate-matrix-grid');
+            grid.innerHTML = '';
+
+            gate.checks.forEach(check => {
+                const div = document.createElement('div');
+                div.className = `p-2.5 rounded-lg border flex items-center justify-between font-mono ${
+                    check.pass 
+                        ? 'bg-slate-950/80 border-slate-800 text-slate-300' 
+                        : 'bg-rose-950/40 border-rose-500/50 text-rose-300 font-bold'
+                }`;
+                div.innerHTML = `
+                    <span>${check.name}</span>
+                    <span>${check.pass ? '<span class="text-emerald-400 font-bold">✓ PASS</span>' : '<span class="text-rose-400 font-extrabold">❌ FAIL</span>'}</span>
+                `;
+                grid.appendChild(div);
+            });
+
+            const badgeElem = document.getElementById('modal-assurance-badge');
+            const statusTextElem = document.getElementById('matrix-status-text');
+
+            if (gate.allPassed) {
+                badgeElem.className = "text-emerald-400 font-bold flex items-center gap-1.5 justify-end text-sm";
+                badgeElem.innerHTML = `<i data-lucide="shield-check" class="w-4 h-4"></i> VERIFIED (Ω560 PASS)`;
+                statusTextElem.textContent = "10 / 10 CHECKS PASSED";
+                statusTextElem.className = "text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20";
+            } else {
+                badgeElem.className = "text-rose-400 font-bold flex items-center gap-1.5 justify-end text-sm animate-pulse";
+                badgeElem.innerHTML = `<i data-lucide="shield-alert" class="w-4 h-4"></i> BLOCKED (TAMPER DETECTED)`;
+                statusTextElem.textContent = "CRITICAL FAIL DETECTED";
+                statusTextElem.className = "text-[10px] text-rose-400 font-bold bg-rose-500/10 px-2.5 py-0.5 rounded-full border border-rose-500/20";
+            }
+            lucide.createIcons();
+        }
+
+        async function updateModalHash() {
+            const item = metricsStore[currentInspectedKey];
+            const canonicalObject = {
+                metric_id: item.id,
+                metric_name: item.name,
+                value: item.value,
+                semantic_state: item.semanticState,
+                timestamp_observed: item.tsObserved,
+                telemetry_source: item.source,
+                node_origin: item.node,
+                calculation_formula: item.mathFormula,
+                tamper_status: item.isTampered ? "TAMPER_FLAGGED" : "UNMODIFIED"
+            };
+
+            const jsonStr = JSON.stringify(canonicalObject, null, 2);
+            document.getElementById('canonical-json-view').textContent = jsonStr;
+            const hash = await calculateSHA256(jsonStr);
+            document.getElementById('modal-computed-hash').textContent = hash;
+        }
+
+        async function simulateTamper() {
+            const item = metricsStore[currentInspectedKey];
+            item.value = "999,999 PFLOPS (TAMPERED)";
+            item.isTampered = true;
+            item.confidence = "0.0% (CORRUPTED)";
+            await openProvenance(currentInspectedKey);
+            renderCards();
+            renderBenchmarkTable();
+        }
+
+        // คืนค่าอย่างถูกต้องจากค่า Original Immutable (แก้ Bug resetTamper)
+        async function resetTamper() {
+            const item = metricsStore[currentInspectedKey];
+            item.isTampered = false;
+            item.value = item.originalValue;
+            item.confidence = item.originalConfidence;
+
+            await openProvenance(currentInspectedKey);
+            renderCards();
+            renderBenchmarkTable();
+        }
+
+        function runGlobalReVerify() {
+            const spinner = document.getElementById('reverify-spinner');
+            spinner.classList.add('animate-spin');
+            setTimeout(() => {
+                spinner.classList.remove('animate-spin');
+                renderCards();
+                renderBenchmarkTable();
+            }, 600);
+        }
+
+        function closeProvenance() {
+            const modal = document.getElementById('provenance-modal');
+            const panel = document.getElementById('modal-panel');
+            panel.classList.add('translate-x-full');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+            }, 300);
+        }
+
+        function filterMetrics(state) {
+            const cards = document.querySelectorAll('.metric-card');
+            const btnAll = document.getElementById('filter-all');
+            const btnObserved = document.getElementById('filter-observed');
+            const btnTest = document.getElementById('filter-test');
+            const btnSim = document.getElementById('filter-sim');
+
+            [btnAll, btnObserved, btnTest, btnSim].forEach(btn => {
+                btn.className = "px-3 py-1.5 rounded-lg bg-slate-900/80 text-slate-400 border border-slate-800 hover:bg-slate-800 transition";
+            });
+
+            if (state === 'all') btnAll.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold transition";
+            if (state === 'observed') btnObserved.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold transition";
+            if (state === 'test') btnTest.className = "px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold transition";
+            if (state === 'sim') btnSim.className = "px-3 py-1.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40 font-bold transition";
+
+            cards.forEach(card => {
+                const cardStatus = card.getAttribute('data-status');
+                if (state === 'all' || cardStatus === state) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function copyCurrentHash() {
+            const hashText = document.getElementById('modal-computed-hash').textContent.trim();
+            navigator.clipboard.writeText(hashText);
+            const hashElem = document.getElementById('modal-computed-hash');
+            const originalText = hashElem.textContent;
+            hashElem.textContent = 'COPIED TO CLIPBOARD!';
+            setTimeout(() => {
+                hashElem.textContent = originalText;
+            }, 1500);
+        }
+
+        async function openGlobalAttestationModal() {
+            const modal = document.getElementById('attestation-modal');
+            const rootString = JSON.stringify(metricsStore);
+            const rootHash = await calculateSHA256(rootString);
+            document.getElementById('root-receipt-hash').textContent = `0x${rootHash}`;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeAttestationModal() {
+            const modal = document.getElementById('attestation-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function downloadAttestationJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(metricsStore, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `MAEW_OMEGA_AUDIT_ATTESTATION_${Date.now()}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // คำนวณ Timezone Asia/Bangkok ให้ถูกต้องแม่นยำ
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = {
+                timeZone: 'Asia/Bangkok',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const formatter = new Intl.DateTimeFormat('en-GB', timeOptions);
+            const parts = formatter.formatToParts(now);
+            const d = parts.find(p => p.type === 'day').value;
+            const m = parts.find(p => p.type === 'month').value;
+            const y = parts.find(p => p.type === 'year').value;
+            const hh = parts.find(p => p.type === 'hour').value;
+            const mm = parts.find(p => p.type === 'minute').value;
+            const ss = parts.find(p => p.type === 'second').value;
+
+            document.getElementById('live-clock').textContent = `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+        }
+
+        setInterval(updateClock, 1000);
+
+        window.onload = () => {
+            updateClock();
+            renderCards();
+            renderBenchmarkTable();
+        };
+    </script>
+</body>
+</html>
+
