@@ -1,1314 +1,1276 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import {
-  Shield, Activity, Layers, Database, Lock, Cpu, Server, AlertTriangle,
-  CheckCircle2, HelpCircle, ArrowRight, RefreshCw, Eye, GitCommit, FileText,
-  Radio, Compass, ChevronRight, Terminal, BarChart2, ShieldCheck, Zap, Globe, DollarSign, Award, X,
-  Brain, FileCode, Play, Fingerprint, RotateCcw, History, Quote, Search, Star,
-  Sliders, Link as LinkIcon, ExternalLink, Menu, Sparkles, Check, Bookmark, Grid,
-  Boxes, Network, Workflow, TerminalSquare, HeartPulse, LineChart, FileSpreadsheet,
-  FolderTree, Share2, CornerDownRight, Command, AlertOctagon, Scale, Gauge, Verified,
-  ShieldAlert, CpuIcon, CheckSquare, Layers3, Presentation, PieChart, LockKeyhole,
-  Github, ChevronDown, PanelLeftClose, PanelLeft, ArrowUpRight, BookOpen, Layers2, TrendingUp
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAEW Ω∞ HYPEROS — Sovereign Metrics & Provenance Engine</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & React DOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <!-- Babel Standalone -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: #06080e;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.4)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.6)); }
+    }
+    .omega-glow {
+      animation: pulseGlow 4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="selection:bg-cyan-500 selection:text-black">
+  <div id="root"></div>
 
-// ============================================================================
-// ค่าคงที่สถาปัตยกรรมหลัก (CANONICAL LINEAGE & FROZEN CORE)
-// ============================================================================
-const CANONICAL = {
-  PLATFORM: "MAEW Ω∞ HYPEROS",
-  BASELINE: "FROZEN v1.2 LTS",
-  CONTROL_PLANE: "v2.1 LTS",
-  TENANT_ID: "TNT-TH-001",
-  PDP: "P3-PDP-AUTH-001",
-  HISTORICAL_SEALS: 14902,
-  DOMAINS: 13,
-  OPERATIONAL_GRAPHS: 10,
-  HARD_STOP: true,
-  NEXT_SAFE_OMEGA: "Ω1011",
-  LINEAGE_ID: "MAEW-OMEGA-INFINITY-HYPEROS-FROZEN-V1.2-LTS",
-  CONTROL_PLANE_ID: "MAEW-CONTROL-PLANE-V2.1-LTS",
-  SYSTEM_STATUS: "VERIFIED_SEALED",
-  EXECUTION_ID: "EXEC-823-1010-MASTER-FULL-20260811",
-  COMMIT_HASH: "e3b0c44298fc1c14",
-  DEPLOYMENT_SEAL: "v2.8.0-GA-SEAL-Ω1010",
-  ARCHITECT: "ยุทธภูมิ พากเพียร",
-  ROLE: "Gold Master Core Architect"
-} as const;
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useMemo } = React;
 
-// ============================================================================
-// ทะเบียนกราฟปฏิบัติการระดับสูงทั้ง 10 กราฟ (CANONICAL 10 OPERATIONAL GRAPHS)
-// ============================================================================
-const OPERATIONAL_GRAPHS = [
-  { id: "G01", key: "latency_heatmap", name: "24-Hour Control Plane Latency Heatmap", semantics: "Latency → Runtime Operations", domain: "command_center" },
-  { id: "G02", key: "trend_forecast", name: "Trend & Holt-Winters Forecast", semantics: "Actual → Forecast → Confidence", domain: "command_center" },
-  { id: "G03", key: "slo_reliability", name: "SLO & Reliability Assurance", semantics: "SLI → SLO → Reliability", domain: "system" },
-  { id: "G04", key: "control_coverage", name: "Control Definition vs Execution Coverage", semantics: "Control Definition → Control Execution", domain: "trust_governance" },
-  { id: "G05", key: "agent_execution", name: "Agent Execution Flow", semantics: "Agent → Tool → Action → Result → Evidence", domain: "intelligence" },
-  { id: "G06", key: "capacity_dynamics", name: "Capacity, Saturation & Queue Dynamics", semantics: "Compute → Queue → Saturation", domain: "system" },
-  { id: "G07", key: "observability_timeline", name: "Observability Event Timeline", semantics: "Event → Trace → Log → Decision → Evidence", domain: "evidence" },
-  { id: "G08", key: "governance_decision", name: "Governance Policy Decision Graph", semantics: "Policy → PDP → Authorization → Execution", domain: "trust_governance" },
-  { id: "G09", key: "regional_dependency", name: "Multi-Region System Dependency", semantics: "AP → US → EU → JP", domain: "registry" },
-  { id: "G10", key: "architecture_flow", name: "30-Layer Enterprise Execution Flow", semantics: "L1 → L30", domain: "evolution" },
-] as const;
-
-// ============================================================================
-// โครงสร้างโดเมนหลักทั้ง 13 โดเมน (00–12 CANONICAL DOMAIN SPECIFICATION)
-// ============================================================================
-const CANONICAL_MASTER_MENU = [
-  {
-    id: 'master_gate',
-    code: '00',
-    badge: '⭐ SHOWCASE HUB',
-    name: 'ศูนย์รวมการนำเสนอและประตูหลัก',
-    category: 'Executive',
-    room: 'master_gate',
-    icon: Verified,
-    desc: 'ศูนย์รวมการนำเสนอระดับผู้บริหาร และ Master Platform Gate Ω1000/Ω1010',
-    subModules: [
-      { id: 'gate_1000', name: 'Ω1000 Master Gate', surface: 'master_gate' },
-      { id: 'exec_showcase', name: 'Executive Showcase Surface', surface: 'master_gate' },
-      { id: 'platform_overview', name: 'ภาพรวมสถาปัตยกรรมแพลตฟอร์ม', surface: 'master_gate' }
-    ]
-  },
-  {
-    id: 'command_center',
-    code: '01',
-    badge: '🏛 COMMAND CENTER',
-    name: 'ศูนย์บัญชาการการปฏิบัติการทั่วโลก',
-    category: 'Ops',
-    room: 'command_center',
-    icon: Compass,
-    desc: 'แบบจำลอง Quantum Field Topology และชุดกราฟปฏิบัติการเชิงลึก',
-    subModules: [
-      { id: 'latency_heatmap', name: 'แผนภูมิความร้อน Latency 168 ชม.', surface: 'command_center' },
-      { id: 'trend_forecast', name: 'กราฟแนวโน้มและการคาดการณ์ Predictive', surface: 'command_center' },
-      { id: 'slo_reliability', name: 'ตัวชี้วัดความน่าเชื่อถือ SLO/SLI', surface: 'command_center' },
-      { id: 'control_coverage', name: 'ตารางความครอบคลุมการควบคุม P1–P8', surface: 'command_center' },
-      { id: 'agent_execution', name: 'กราฟการประมวลผลของ Agent', surface: 'command_center' },
-      { id: 'capacity_dynamics', name: 'กราฟความจุและการอิ่มตัวระบบ', surface: 'command_center' }
-    ]
-  },
-  {
-    id: 'intelligence',
-    code: '02',
-    badge: '🧠 INTELLIGENCE',
-    name: 'เครือข่ายปัญญาประดิษฐ์และค็อกนิทิฟ',
-    category: 'AI Mesh',
-    room: 'intelligence',
-    icon: Brain,
-    desc: 'Knowledge Graph Engine และระบบสังเคราะห์ปัญญาประดิษฐ์แบบกระจายศูนย์',
-    subModules: [
-      { id: 'cog_mesh', name: 'Cognitive Mesh Sub-Kernels', surface: 'intelligence' },
-      { id: 'ai_intel', name: 'AI Intelligence Node Synthesis', surface: 'intelligence' },
-      { id: 'ctrl_intel', name: 'Control Intelligence Pipeline', surface: 'intelligence' },
-      { id: 'assure_intel', name: 'Assurance Intelligence Node', surface: 'intelligence' },
-      { id: 'exec_intel', name: 'Executive Intelligence Summary', surface: 'intelligence' }
-    ]
-  },
-  {
-    id: 'knowledge',
-    code: '03',
-    badge: '📚 KNOWLEDGE',
-    name: 'ฐานความรู้และเครื่องมือสังเกตการณ์',
-    category: 'Research',
-    room: 'knowledge',
-    icon: Database,
-    desc: 'เครื่องมือจัดการบริบทจากการสังเกตการณ์ กราฟความสอดคล้องข้อมูล',
-    subModules: [
-      { id: 'kb_home', name: 'คลังข้อมูลหลัก Knowledge Base', surface: 'knowledge' },
-      { id: 'res_intel', name: 'วิเคราะห์ผลงานวิจัย Research Intel', surface: 'knowledge' },
-      { id: 'kg_graph', name: 'แผนผังกราฟความรู้ Knowledge Graph', surface: 'knowledge' },
-      { id: 'cite_intel', name: 'ระบบวิเคราะห์การอ้างอิง Citation', surface: 'knowledge' }
-    ]
-  },
-  {
-    id: 'trust_governance',
-    code: '04',
-    badge: '🔐 TRUST & GOVERNANCE',
-    name: 'ศูนย์ธรรมาภิบาลและการกำกับดูแล PDP',
-    category: 'Security',
-    room: 'trust_governance',
-    icon: Sliders,
-    desc: 'กลไกบังคับใช้ P1–P8 PDP และหลักฐานการแยกส่วนข้อมูลผู้ใช้งาน',
-    subModules: [
-      { id: 'p3_pdp', name: 'อำนาจการตัดสินใจ P3 PDP Authority', surface: 'trust_governance' },
-      { id: 'governance_decision', name: 'กราฟการตัดสินใจนโยบาย Governance', surface: 'trust_governance' },
-      { id: 'p1_p8_arch', name: 'สถาปัตยกรรมข้อกำหนด P1–P8', surface: 'trust_governance' },
-      { id: 'tenant_iso', name: 'หลักฐานการแยกส่วน Tenant Isolation', surface: 'trust_governance' }
-    ]
-  },
-  {
-    id: 'evidence',
-    code: '05',
-    badge: '🧾 EVIDENCE',
-    name: 'ระบบสำรวจหลักฐานและที่มาของข้อมูล',
-    category: 'Audit',
-    room: 'evidence',
-    icon: ShieldCheck,
-    desc: 'คลังรอยตราประทับทางประวัติศาสตร์ 14,902 SHA-256 และ Observability Timeline',
-    subModules: [
-      { id: 'observability_timeline', name: 'เส้นเวลาสังเกตการณ์ Observability', surface: 'evidence' },
-      { id: 'evidence_ledger', name: 'บัญชีหลักฐาน Evidence Ledger', surface: 'evidence' },
-      { id: 'provenance_pipe', name: 'ท่อส่งที่มาข้อมูล Provenance Pipeline', surface: 'evidence' },
-      { id: 'seal_wall', name: 'คลังรอยตราประทับ 14,902 Seals Wall', surface: 'evidence' }
-    ]
-  },
-  {
-    id: 'evolution',
-    code: '06',
-    badge: '🧬 EVOLUTION',
-    name: 'แผนผังสถาปัตยกรรมและวิวัฒนาการ',
-    category: 'Architecture',
-    room: 'evolution',
-    icon: Workflow,
-    desc: 'แผนผังสถาปัตยกรรมระดับองค์กร 30 ชั้น และดรรชนีระบบย่อย',
-    subModules: [
-      { id: 'architecture_flow', name: 'กราฟสถาปัตยกรรม 30 ชั้น L1–L30', surface: 'evolution' },
-      { id: 'omega_lineage', name: 'ประวัติสายตระกูล Ω Lineage History', surface: 'evolution' },
-      { id: 'plat_mat', name: 'ประตูวัดวุฒิภาวะ Platform Maturity', surface: 'evolution' }
-    ]
-  },
-  {
-    id: 'registry',
-    code: '07',
-    badge: '📦 REGISTRY',
-    name: 'ทะเบียนสถานะการทำงานการผลิต',
-    category: 'Inventory',
-    room: 'registry',
-    icon: Boxes,
-    desc: 'ทะเบียนสถานะการทำงานระดับการผลิต และบริบทการยืนยันความถูกต้อง',
-    subModules: [
-      { id: 'sys_reg', name: 'ทะเบียนระบบ System Registry', surface: 'registry' },
-      { id: 'regional_dependency', name: 'กราฟความสัมพันธ์ระบบ Dependency', surface: 'registry' },
-      { id: 'svc_reg', name: 'ทะเบียนบริการ Runtime Services', surface: 'registry' }
-    ]
-  },
-  {
-    id: 'release',
-    code: '08',
-    badge: '🚀 RELEASE',
-    name: 'เครื่องมือยืนยันความพร้อมในการรับรอง',
-    category: 'Deployment',
-    room: 'release',
-    icon: GitCommit,
-    desc: 'รอยตราประทับ Release Manifest ความพร้อมในการปรับใช้ และกราฟผู้รับรอง',
-    subModules: [
-      { id: 'rel_center', name: 'ศูนย์ควบคุมการปล่อยระบบ Release Center', surface: 'release' },
-      { id: 'attest_engine', name: 'เครื่องมือรับรอง Attestation Engine', surface: 'release' },
-      { id: 'rel_artifacts', name: 'ชิ้นงานซอฟต์แวร์ Release Artifacts', surface: 'release' }
-    ]
-  },
-  {
-    id: 'reports',
-    code: '09',
-    badge: '📊 REPORTS',
-    name: 'การรายงานเชิงบริหารและผลการวิจัย',
-    category: 'Analytics',
-    room: 'reports',
-    icon: BarChart2,
-    desc: 'เครื่องมือวิเคราะห์การอ้างอิงระดับโลก ประสิทธิภาพการประมวลผลงานวิจัย',
-    subModules: [
-      { id: 'exec_reports', name: 'รายงานระดับบริหาร Executive Reports', surface: 'reports' },
-      { id: 'ops_reports', name: 'รายงานการปฏิบัติการ Operational Reports', surface: 'reports' },
-      { id: 'cite_reports', name: 'วิเคราะห์การอ้างอิง Citation Analytics', surface: 'reports' }
-    ]
-  },
-  {
-    id: 'system',
-    code: '10',
-    badge: '⚙️ SYSTEM',
-    name: 'ระบบ SRE PHOENIX และการคุมต้นทุน',
-    category: 'SRE',
-    room: 'system',
-    icon: HeartPulse,
-    desc: 'กลไกฟื้นฟูตัวเอง Phoenix SRE การรับประกัน SLI/SLO และกฎ FinOps',
-    subModules: [
-      { id: 'sys_ctrl', name: 'การควบคุมระบบ System Control', surface: 'system' },
-      { id: 'sli_slo_graph', name: 'กราฟประสิทธิภาพ SLI/SLO Performance', surface: 'system' },
-      { id: 'self_healing', name: 'ระบบฟื้นฟูตัวเอง Self-Healing Phoenix', surface: 'system' }
-    ]
-  },
-  {
-    id: 'github_fabric',
-    code: '11',
-    badge: '🧑‍💻 DEVELOPER',
-    name: 'ศูนย์รวมนักพัฒนาและคลังโค้ด',
-    category: 'DevOps',
-    room: 'github_fabric',
-    icon: Github,
-    desc: 'โครงสร้างคลังโค้ดมาตรฐาน ท่อตรวจสอบ TypeScript และระบบคุณภาพ',
-    subModules: [
-      { id: 'dev_hub', name: 'ศูนย์รวมนักพัฒนา Developer Hub', surface: 'github_fabric' },
-      { id: 'ci_cd_pipe', name: 'ท่อตรวจสอบคุณภาพ CI/CD Pipeline', surface: 'github_fabric' }
-    ]
-  },
-  {
-    id: 'ecosystem',
-    code: '12',
-    badge: '🌐 ECOSYSTEM',
-    name: 'ระบบนิเวศสากลและทะเบียน SDK',
-    category: 'Ecosystem',
-    room: 'ecosystem',
-    icon: Network,
-    desc: 'ส่วนประสานงาน SDK เขตจำกัดการขยายตัว และตารางความสามารถระบบ',
-    subModules: [
-      { id: 'global_eco', name: 'ภาพรวมระบบนิเวศ Global Ecosystem', surface: 'ecosystem' },
-      { id: 'ext_sandbox', name: 'เขตทดสอบส่วนขยาย Extension Sandbox', surface: 'ecosystem' }
-    ]
-  }
-];
-
-// คอมโพเนนต์ส่วนหัวของกราฟ
-function GraphHeader({ title, status }: { title: string; status: string }) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800 pb-2 mb-3">
-      <span className="font-bold text-cyan-300 text-xs">{title}</span>
-      <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80 shrink-0">
-        {status}
-      </span>
-    </div>
-  );
-}
-
-export default function App() {
-  const [activeTab, setActiveTab] = useState('master_gate');
-  const [activeSubModule, setActiveSubModule] = useState('gate_1000');
-  const [workspaceContext, setWorkspaceContext] = useState('SOVEREIGN_PROD');
-
-  const [favorites, setFavorites] = useState(['master_gate', 'command_center', 'system', 'trust_governance']);
-  const [recentRooms, setRecentRooms] = useState(['master_gate', 'command_center', 'evidence']);
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [expandedDomain, setExpandedDomain] = useState<string | null>('master_gate');
-
-  const [simBannerVisible, setSimBannerVisible] = useState(true);
-  const [activeGraphKey, setActiveGraphKey] = useState('latency_heatmap');
-  const [cmdInput, setCmdInput] = useState("status");
-  const [terminalLogs, setTerminalLogs] = useState<string[]>([
-    `[${CANONICAL.PLATFORM}] ${CANONICAL.BASELINE} / CONTROL PLANE ${CANONICAL.CONTROL_PLANE}`,
-    `[MASTER SYSTEM] โหลดระบบสมบูรณ์ครบทั้ง 13 โดเมนหลัก (00–12) เรียบร้อยแล้ว`,
-    `[POLICY PDP] หน่วยงานกำกับดูแล ${CANONICAL.PDP} บังคับใช้นโยบาย 100% Zero Bypass`,
-    `[INTEGRITY] ตราประทับ SHA-256 ย้อนหลัง ${CANONICAL.HISTORICAL_SEALS.toLocaleString()} รายการอยู่ในสถานะสมบูรณ์`,
-    `[GRAPHS] ชุดกราฟปฏิบัติการครบทั้ง 10 กราฟ (G01–G10) ลงทะเบียนสมบูรณ์`,
-    `[STATUS] พิมพ์ 'help' เพื่อดูคำสั่งที่อนุญาตใน Policy Shell Command Router`
-  ]);
-
-  const terminalEndRef = useRef<HTMLDivElement>(null);
-
-  // ตรวจสอบความถูกต้องของสถาปัตยกรรมระดับ Runtime (Integrity Gate)
-  const integrityAudit = useMemo(() => {
-    const domainsPass = CANONICAL_MASTER_MENU.length === CANONICAL.DOMAINS;
-    const graphsPass = OPERATIONAL_GRAPHS.length === CANONICAL.OPERATIONAL_GRAPHS;
-    const graphIdsPass = new Set(OPERATIONAL_GRAPHS.map(g => g.id)).size === CANONICAL.OPERATIONAL_GRAPHS;
-    const baselinePass = CANONICAL.BASELINE === "FROZEN v1.2 LTS";
-    const controlPlanePass = CANONICAL.CONTROL_PLANE === "v2.1 LTS";
-    return {
-      domainsPass,
-      graphsPass,
-      graphIdsPass,
-      baselinePass,
-      controlPlanePass,
-      verified: domainsPass && graphsPass && graphIdsPass && baselinePass && controlPlanePass,
+    // ============================================================================
+    // SVG ICON SHIM SYSTEM (แก้ปัญหา Lucide Icon ไม่ Refresh ใน React)
+    // ============================================================================
+    const LucideIcons = {
+      Shield: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+      Activity: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>,
+      Layers: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>,
+      Database: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>,
+      Compass: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>,
+      AlertTriangle: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>,
+      CheckCircle2: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>,
+      ArrowRight: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+      Terminal: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>,
+      BarChart2: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+      ShieldCheck: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>,
+      Globe: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+      Brain: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M12 5v13"/></svg>,
+      Search: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
+      Sliders: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>,
+      Menu: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>,
+      X: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+      Boxes: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>,
+      Network: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>,
+      Workflow: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><path d="M6 9v3a1 1 0 0 0 1 1h5"/><path d="M18 9v3a1 1 0 0 1-1 1h-5"/></svg>,
+      HeartPulse: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>,
+      LineChart: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>,
+      GitCommit: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22.95" y2="12"/></svg>,
+      Github: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>,
+      ChevronRight: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+      PanelLeft: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>,
+      PanelLeftClose: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><path d="m16 15-3-3 3-3"/></svg>,
+      Verified: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/><path d="m9 12 2 2 4-4"/></svg>,
+      History: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/><polyline points="12 6 12 12 16 14"/></svg>,
+      Play: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+      CornerDownRight: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 10 20 15 15 20"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/></svg>,
     };
-  }, []);
 
-  // แผนภูมิความร้อน Latency แบบ 168 ช่อง (24 ชั่วโมง x 7 วัน)
-  const latencyHeatmapData = useMemo(() => {
-    return Array.from({ length: 7 * 24 }, (_, index) => {
-      const day = Math.floor(index / 24);
-      const hour = index % 24;
-      const value = Math.max(
-        4,
-        Math.round(18 + Math.sin(hour * 0.4) * 7 + Math.cos(day * 0.7) * 4)
-      );
-      return { id: `${day}-${hour}`, day, hour, latencyMs: value };
-    });
-  }, []);
+    const Icon = ({ name, className = "w-4 h-4" }) => {
+      const Component = LucideIcons[name] || LucideIcons.Activity;
+      return <Component className={className} />;
+    };
 
-  // ดรรชนีสืบค้น Universal Search Router (Domains + Sub-modules + Operational Graphs)
-  const searchIndex = useMemo(() => {
-    const domains = CANONICAL_MASTER_MENU.flatMap(domain => [
+    // ============================================================================
+    // 1. CANONICAL SYSTEM CONSTANTS & HISTORICAL LINEAGE INVARIANT (Ω001–Ω1011)
+    // ============================================================================
+    const CANONICAL = {
+      PLATFORM: "MAEW Ω∞ HYPEROS",
+      BASELINE: "FROZEN v1.2 LTS",
+      CONTROL_PLANE: "v2.1 LTS",
+      TENANT_ID: "TNT-TH-001",
+      PDP: "P3-PDP-AUTH-001",
+      HISTORICAL_SEALS: 14902,
+      DOMAINS: 13,
+      OPERATIONAL_GRAPHS: 10,
+      HARD_STOP: true,
+      NEXT_SAFE_OMEGA: "Ω1011",
+      LINEAGE_ID: "MAEW-OMEGA-INFINITY-HYPEROS-FROZEN-V1.2-LTS",
+      CONTROL_PLANE_ID: "MAEW-CONTROL-PLANE-V2.1-LTS",
+      SYSTEM_STATUS: "VERIFIED_SEALED",
+      EXECUTION_ID: "EXEC-823-1010-MASTER-FULL-20260811",
+      COMMIT_HASH: "e3b0c44298fc1c14",
+      ARCHITECT: "ยุทธภูมิ พากเพียร",
+      ROLE: "Gold Master Core Architect"
+    };
+
+    const HISTORICAL_LINEAGE = [
+      { range: "Ω001–Ω100", title: "Foundational Quantum Topology & Kernel Baseline", status: "IMMUTABLE_PRESERVED" },
+      { range: "Ω101–Ω545", title: "Intermediate Domain Matrix & Protocol Fabric", status: "IMMUTABLE_PRESERVED" },
+      { range: "Ω546–Ω560", title: "Sovereign Metrics & Provenance Engine + Ω560 Assurance Matrix", status: "ACTIVE_ASSURANCE" },
+      { range: "Ω561–Ω732", title: "Enterprise Integration & Multi-Mesh Orchestration", status: "IMMUTABLE_PRESERVED" },
+      { range: "Ω733–Ω742", title: "HYPEROS Unified Workspace Fabric (7 Modules / 10 Controls)", status: "ACTIVE_FABRIC" },
+      { range: "Ω743–Ω999", title: "Platform Maturity & Extended Execution Horizon", status: "PRESERVED_LINEAGE" },
+      { range: "Ω1000",     title: "Master Platform Gate & Executive Showcase Surface", status: "MASTER_SURFACE" },
+      { range: "Ω1010",     title: "Integration Verification Artifact & Attestation Gate", status: "VERIFICATION_SEALED" },
+      { range: "Ω1011",     title: "Next Safe Boundary — HARD STOP ENFORCED", status: "HARD_STOP_ENFORCED" },
+    ];
+
+    const TOPOLOGY_ENVIRONMENTS = [
+      { id: "live_prod", name: "LIVE PRODUCTION", status: "Operational", workloads: 128, requestsPerSec: "8,340", errorRate: "0.00%", badgeBg: "bg-emerald-950 border-emerald-700 text-emerald-300", indicatorColor: "bg-emerald-400 animate-pulse" },
+      { id: "internal_test", name: "INTERNAL TEST", status: "Testing", workloads: 64, requestsPerSec: "2,341", errorRate: "0.00%", badgeBg: "bg-cyan-950 border-cyan-700 text-cyan-300", indicatorColor: "bg-cyan-400" },
+      { id: "simulation", name: "SIMULATION", status: "Simulating", workloads: 96, requestsPerSec: "5,128", errorRate: "0.00%", badgeBg: "bg-purple-950 border-purple-700 text-purple-300", indicatorColor: "bg-purple-400" }
+    ];
+
+    const PIPELINE_STAGES = [
+      { step: "01", name: "SOURCE", hash: "a3f6c2e...", desc: "Data Origin & Schema Validate" },
+      { step: "02", name: "TELEMETRY", hash: "7b8d91a...", desc: "Zero-Trust Stream Ingestion" },
+      { step: "03", name: "CALCULATION", hash: "c4e7f8d...", desc: "Math Kernel & Replay Engine ∑f(x)" },
+      { step: "04", name: "PROVENANCE", hash: "9d2b6c3...", desc: "Lineage Graph & Context Link" },
+      { step: "05", name: "CANONICAL PAYLOAD", hash: "e1f7a9d...", desc: "Standard Structural Framing" },
+      { step: "06", name: "SHA-256", hash: "5c8b2e7...", desc: "Immutable Cryptographic Seal" },
+      { step: "07", name: "ASSURANCE GATE", hash: "Ω560-PASS", desc: "Dynamic Policy & Rule Check" },
+      { step: "08", name: "ATTESTATION", hash: "Ω742-VERIFIED", desc: "Canonical Proof Artifact" }
+    ];
+
+    // ============================================================================
+    // 2. CANONICAL 10 OPERATIONAL GRAPHS REGISTRY (G01–G10)
+    // ============================================================================
+    const OPERATIONAL_GRAPHS = [
+      { id: "G01", key: "latency_heatmap", name: "24-Hour Control Plane Latency Heatmap", semantics: "Latency → Runtime Operations", domain: "command_center" },
+      { id: "G02", key: "trend_forecast", name: "Trend & Holt-Winters Forecast", semantics: "Actual → Forecast → Confidence", domain: "command_center" },
+      { id: "G03", key: "slo_reliability", name: "SLO & Reliability Assurance", semantics: "SLI → SLO → Reliability", domain: "system" },
+      { id: "G04", key: "control_coverage", name: "Control Definition vs Execution Coverage", semantics: "Control Definition → Control Execution", domain: "trust_governance" },
+      { id: "G05", key: "agent_execution", name: "Agent Execution Flow", semantics: "Agent → Tool → Action → Result → Evidence", domain: "intelligence" },
+      { id: "G06", key: "capacity_dynamics", name: "Capacity, Saturation & Queue Dynamics", semantics: "Compute → Queue → Saturation", domain: "system" },
+      { id: "G07", key: "observability_timeline", name: "Observability Event Timeline", semantics: "Event → Trace → Log → Decision → Evidence", domain: "evidence" },
+      { id: "G08", key: "governance_decision", name: "Governance Policy Decision Graph", semantics: "Policy → PDP → Authorization → Execution", domain: "trust_governance" },
+      { id: "G09", key: "regional_dependency", name: "Multi-Region System Dependency", semantics: "AP → US → EU → JP", domain: "registry" },
+      { id: "G10", key: "architecture_flow", name: "30-Layer Enterprise Execution Flow", semantics: "L1 → L30", domain: "evolution" },
+    ];
+
+    // ============================================================================
+    // 3. CANONICAL 13 DOMAINS SPECIFICATION (00–12)
+    // ============================================================================
+    const CANONICAL_MASTER_MENU = [
       {
-        type: "DOMAIN",
-        id: domain.id,
-        code: domain.code,
-        name: domain.name,
-        description: domain.desc,
-        room: domain.room,
-        subId: domain.subModules[0]?.id
+        id: 'master_gate', code: '00', badge: '⭐ SHOWCASE HUB', name: 'ศูนย์รวมการนำเสนอและประตูหลัก', room: 'master_gate', icon: 'Verified', desc: 'ศูนย์รวมการนำเสนอระดับผู้บริหาร และ Master Platform Gate Ω1000/Ω1010',
+        subModules: [
+          { id: 'gate_1000', name: 'Ω1000 Master Gate', surface: 'master_gate' },
+          { id: 'exec_showcase', name: 'Executive Showcase Surface', surface: 'master_gate' },
+          { id: 'platform_overview', name: 'ภาพรวมสถาปัตยกรรมแพลตฟอร์ม', surface: 'master_gate' }
+        ]
       },
-      ...domain.subModules.map(sub => ({
-        type: "SUB_MODULE",
-        id: sub.id,
-        code: domain.code,
-        name: sub.name,
-        description: `ส่วนย่อยของโดเมน ${domain.name}`,
-        room: domain.room,
-        subId: sub.id
-      }))
-    ]);
-
-    const graphs = OPERATIONAL_GRAPHS.map(graph => ({
-      type: "GRAPH",
-      id: graph.id,
-      code: graph.id,
-      name: graph.name,
-      description: graph.semantics,
-      graphKey: graph.key,
-      room: graph.domain,
-      subId: graph.key
-    }));
-
-    return [...domains, ...graphs];
-  }, []);
-
-  const searchResults = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
-    if (!q) return searchIndex.slice(0, 10);
-    return searchIndex.filter(item =>
-      [item.id, item.code, item.name, item.description, item.type]
-        .filter(Boolean)
-        .some(value => String(value).toLowerCase().includes(q))
-    ).slice(0, 20);
-  }, [searchIndex, searchQuery]);
-
-  // ทางลัดคีย์บอร์ด ⌘K หรือ Ctrl+K
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setIsSearchOpen(prev => !prev);
+      {
+        id: 'command_center', code: '01', badge: '🏛 COMMAND CENTER', name: 'ศูนย์บัญชาการการปฏิบัติการทั่วโลก', room: 'command_center', icon: 'Compass', desc: 'แบบจำลอง Quantum Field Topology และชุดกราฟปฏิบัติการเชิงลึก',
+        subModules: [
+          { id: 'latency_heatmap', name: 'แผนภูมิความร้อน Latency 168 ชม.', surface: 'command_center' },
+          { id: 'trend_forecast', name: 'กราฟแนวโน้มและการคาดการณ์ Predictive', surface: 'command_center' },
+          { id: 'slo_reliability', name: 'ตัวชี้วัดความน่าเชื่อถือ SLO/SLI', surface: 'command_center' }
+        ]
+      },
+      {
+        id: 'intelligence', code: '02', badge: '🧠 INTELLIGENCE', name: 'เครือข่ายปัญญาประดิษฐ์และค็อกนิทิฟ', room: 'intelligence', icon: 'Brain', desc: 'Knowledge Graph Engine และระบบสังเคราะห์ปัญญาประดิษฐ์แบบกระจายศูนย์',
+        subModules: [
+          { id: 'cog_mesh', name: 'Cognitive Mesh Sub-Kernels', surface: 'intelligence' },
+          { id: 'agent_execution', name: 'กราฟการประมวลผลของ Agent', surface: 'intelligence' }
+        ]
+      },
+      {
+        id: 'knowledge', code: '03', badge: '📚 KNOWLEDGE', name: 'ฐานความรู้และเครื่องมือสังเกตการณ์', room: 'knowledge', icon: 'Database', desc: 'เครื่องมือจัดการบริบทจากการสังเกตการณ์ กราฟความสอดคล้องข้อมูล',
+        subModules: [
+          { id: 'kb_home', name: 'คลังข้อมูลหลัก Knowledge Base', surface: 'knowledge' },
+          { id: 'kg_graph', name: 'แผนผังกราฟความรู้ Knowledge Graph', surface: 'knowledge' }
+        ]
+      },
+      {
+        id: 'trust_governance', code: '04', badge: '🔐 TRUST & GOVERNANCE', name: 'ศูนย์ธรรมาภิบาลและการกำกับดูแล PDP', room: 'trust_governance', icon: 'Sliders', desc: 'กลไกบังคับใช้ P1–P8 PDP และหลักฐานการแยกส่วนข้อมูลผู้ใช้งาน',
+        subModules: [
+          { id: 'p3_pdp', name: 'อำนาจการตัดสินใจ P3 PDP Authority', surface: 'trust_governance' },
+          { id: 'control_coverage', name: 'ตารางความครอบคลุมการควบคุม P1–P8', surface: 'trust_governance' },
+          { id: 'governance_decision', name: 'กราฟการตัดสินใจนโยบาย Governance', surface: 'trust_governance' }
+        ]
+      },
+      {
+        id: 'evidence', code: '05', badge: '🧾 EVIDENCE', name: 'ระบบสำรวจหลักฐานและที่มาของข้อมูล (Ω546–Ω560 Engine)', room: 'evidence', icon: 'ShieldCheck', desc: 'คลังรอยตราประทับทางประวัติศาสตร์ 14,902 SHA-256 และ Ω560 Assurance Matrix',
+        subModules: [
+          { id: 'observability_timeline', name: 'เส้นเวลาสังเกตการณ์ Observability', surface: 'evidence' },
+          { id: 'evidence_ledger', name: 'บัญชีหลักฐาน Evidence Ledger', surface: 'evidence' }
+        ]
+      },
+      {
+        id: 'evolution', code: '06', badge: '🧬 EVOLUTION', name: 'แผนผังสถาปัตยกรรมและวิวัฒนาการ', room: 'evolution', icon: 'Workflow', desc: 'แผนผังสถาปัตยกรรมระดับองค์กร 30 ชั้น และดรรชนีระบบย่อย',
+        subModules: [
+          { id: 'architecture_flow', name: 'กราฟสถาปัตยกรรม 30 ชั้น L1–L30', surface: 'evolution' },
+          { id: 'omega_lineage', name: 'ประวัติสายตระกูล Ω Lineage History', surface: 'evolution' }
+        ]
+      },
+      {
+        id: 'registry', code: '07', badge: '📦 REGISTRY', name: 'ทะเบียนสถานะการทำงานการผลิต', room: 'registry', icon: 'Boxes', desc: 'ทะเบียนสถานะการทำงานระดับการผลิต และบริบทการยืนยันความถูกต้อง',
+        subModules: [
+          { id: 'sys_reg', name: 'ทะเบียนระบบ System Registry', surface: 'registry' },
+          { id: 'regional_dependency', name: 'กราฟความสัมพันธ์ระบบ Regional Dependency', surface: 'registry' }
+        ]
+      },
+      {
+        id: 'release', code: '08', badge: '🚀 RELEASE', name: 'เครื่องมือยืนยันความพร้อมในการรับรอง', room: 'release', icon: 'GitCommit', desc: 'รอยตราประทับ Release Manifest ความพร้อมในการปรับใช้ และกราฟผู้รับรอง',
+        subModules: [
+          { id: 'rel_center', name: 'ศูนย์ควบคุมการปล่อยระบบ Release Center', surface: 'release' },
+          { id: 'attest_engine', name: 'เครื่องมือรับรอง Attestation Engine', surface: 'release' }
+        ]
+      },
+      {
+        id: 'reports', code: '09', badge: '📊 REPORTS', name: 'การรายงานเชิงบริหารและผลการวิจัย', room: 'reports', icon: 'BarChart2', desc: 'เครื่องมือวิเคราะห์การอ้างอิงระดับโลก ประสิทธิภาพการประมวลผลงานวิจัย',
+        subModules: [
+          { id: 'exec_reports', name: 'รายงานระดับบริหาร Executive Reports', surface: 'reports' }
+        ]
+      },
+      {
+        id: 'system', code: '10', badge: '⚙️ SYSTEM', name: 'ระบบ SRE PHOENIX และการคุมต้นทุน', room: 'system', icon: 'HeartPulse', desc: 'กลไกฟื้นฟูตัวเอง Phoenix SRE การรับประกัน SLI/SLO และกฎ FinOps',
+        subModules: [
+          { id: 'sys_ctrl', name: 'การควบคุมระบบ System Control', surface: 'system' },
+          { id: 'capacity_dynamics', name: 'กราฟความจุและการอิ่มตัวระบบ', surface: 'system' }
+        ]
+      },
+      {
+        id: 'github_fabric', code: '11', badge: '🧑‍💻 DEVELOPER', name: 'ศูนย์รวมนักพัฒนาและคลังโค้ด', room: 'github_fabric', icon: 'Github', desc: 'โครงสร้างคลังโค้ดมาตรฐาน ท่อตรวจสอบ TypeScript และระบบคุณภาพ',
+        subModules: [
+          { id: 'dev_hub', name: 'ศูนย์รวมนักพัฒนา Developer Hub', surface: 'github_fabric' }
+        ]
+      },
+      {
+        id: 'ecosystem', code: '12', badge: '🌐 ECOSYSTEM', name: 'ระบบนิเวศสากลและทะเบียน SDK', room: 'ecosystem', icon: 'Network', desc: 'ส่วนประสานงาน SDK เขตจำกัดการขยายตัว และตารางความสามารถระบบ',
+        subModules: [
+          { id: 'global_eco', name: 'ภาพรวมระบบนิเวศ Global Ecosystem', surface: 'ecosystem' }
+        ]
       }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+    ];
 
-  const addTerminalLog = (msg: string) => {
-    setTerminalLogs(prev => [...prev, msg]);
-  };
-
-  useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [terminalLogs]);
-
-  const navigateToRoom = (roomId: string, subId?: string) => {
-    setActiveTab(roomId);
-    const domainObj = CANONICAL_MASTER_MENU.find(m => m.room === roomId);
-    if (subId) {
-      setActiveSubModule(subId);
-      const matchedGraph = OPERATIONAL_GRAPHS.find(g => g.key === subId);
-      if (matchedGraph) {
-        setActiveGraphKey(matchedGraph.key);
-      }
-    } else if (domainObj && domainObj.subModules.length > 0) {
-      setActiveSubModule(domainObj.subModules[0].id);
-    }
-    setRecentRooms(prev => [roomId, ...prev.filter(r => r !== roomId)].slice(0, 5));
-    window.location.hash = roomId;
-    setIsSearchOpen(false);
-    setMobileDrawerOpen(false);
-    addTerminalLog(`[NAVIGATED] สลับไปยังโดเมน ${domainObj?.code || 'XX'} (${domainObj?.name || roomId})`);
-  };
-
-  const handleSearchNavigation = (item: any) => {
-    if (item.type === "GRAPH") {
-      navigateToRoom(item.room);
-      setActiveGraphKey(item.graphKey);
-      addTerminalLog(`[SEARCH] นำทางไปยังกราฟ ${item.code} — ${item.name}`);
-    } else {
-      navigateToRoom(item.room, item.subId);
-      addTerminalLog(`[SEARCH] นำทางไปยัง ${item.name}`);
-    }
-    setSearchQuery("");
-    setIsSearchOpen(false);
-  };
-
-  const toggleFavorite = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFavorites(prev => {
-      const isFav = prev.includes(id);
-      return isFav ? prev.filter(item => item !== id) : [...prev, id];
-    });
-  };
-
-  // Policy Command Router
-  const executePolicyCommand = (rawCommand: string) => {
-    const command = rawCommand.trim().toLowerCase().replace(/^hyperos\.system\./, "");
-    addTerminalLog(`> ${rawCommand}`);
-
-    switch (command) {
-      case "status":
-      case "status --all":
-      case "status --all-13-domains":
-        [
-          "[STATUS]",
-          `PLATFORM: ${CANONICAL.PLATFORM}`,
-          `BASELINE: ${CANONICAL.BASELINE}`,
-          `CONTROL PLANE: ${CANONICAL.CONTROL_PLANE}`,
-          `DOMAINS: ${CANONICAL.DOMAINS}/13`,
-          `GRAPHS: ${CANONICAL.OPERATIONAL_GRAPHS}/10`,
-          `PDP: ${CANONICAL.PDP}`,
-          `TENANT: ${CANONICAL.TENANT_ID}`,
-          `STATUS: ${CANONICAL.SYSTEM_STATUS}`
-        ].forEach(line => addTerminalLog(line));
-        break;
-
-      case "domains":
-        addTerminalLog(`[DOMAINS] ${CANONICAL_MASTER_MENU.length}/13 Domain Surfaces verified`);
-        CANONICAL_MASTER_MENU.forEach(d => addTerminalLog(`  [${d.code}] ${d.name}`));
-        break;
-
-      case "graphs":
-        addTerminalLog(`[GRAPHS] ${OPERATIONAL_GRAPHS.length}/10 Operational Graphs registered`);
-        OPERATIONAL_GRAPHS.forEach(g => addTerminalLog(`  [${g.id}] ${g.name}`));
-        break;
-
-      case "policy":
-        [
-          "[POLICY]",
-          `PDP AUTHORITY: ${CANONICAL.PDP}`,
-          "MODE: ZERO-BYPASS",
-          "STATUS: ENFORCED 100%"
-        ].forEach(line => addTerminalLog(line));
-        break;
-
-      case "evidence":
-        [
-          "[EVIDENCE]",
-          `SHA-256 HISTORICAL SEALS: ${CANONICAL.HISTORICAL_SEALS.toLocaleString()}`,
-          "PROVENANCE: SOURCE → TELEMETRY → COMPUTE → ORIGIN → SHA-256 → VERIFICATION",
-          "STATUS: IMMUTABLE"
-        ].forEach(line => addTerminalLog(line));
-        break;
-
-      case "hard-stop":
-        [
-          "[HARD STOP]",
-          "AUTONOMOUS OMEGA EXPANSION: BLOCKED",
-          `NEXT SAFE OMEGA BOUNDARY: ${CANONICAL.NEXT_SAFE_OMEGA}`,
-          "FROZEN CORE MODIFICATION: BLOCKED"
-        ].forEach(line => addTerminalLog(line));
-        break;
-
-      case "help":
-        [
-          "AVAILABLE COMMANDS IN POLICY COMMAND ROUTER:",
-          "  status      - ตรวจสอบสถานะภาพรวมสถาปัตยกรรม",
-          "  domains     - แสดงรายชื่อ 13 Canonical Domains",
-          "  graphs      - แสดงรายชื่อ 10 Operational Graphs",
-          "  policy      - แสดงสถานะการบังคับใช้นโยบาย PDP",
-          "  evidence    - แสดงประวัติรอยตราประทับ 14,902 SHA-256",
-          "  hard-stop   - แสดงสถานะการบล็อกการขยายตัว Ω",
-          "  help        - แสดงรายการคำสั่งช่วยเหลือ"
-        ].forEach(line => addTerminalLog(line));
-        break;
-
-      default:
-        [
-          `[REJECTED] UNKNOWN COMMAND: ${rawCommand}`,
-          "[POLICY] Command not recognized by Policy Command Router",
-          `[HARD STOP BOUNDARY] ${CANONICAL.NEXT_SAFE_OMEGA}`
-        ].forEach(line => addTerminalLog(line));
-        break;
-    }
-  };
-
-  // การส่งออก Attestation Metadata Export
-  const handleExportAttestation = () => {
-    const receipt = {
-      attestation_schema: "MAEW-ATTESTATION-v1",
-      intent: {
-        purpose: "CANONICAL_OPERATIONAL_INTEGRITY",
-        mode: "READ_ONLY_ATTESTATION",
-        mutation: false,
-        omega_expansion: false,
-      },
-      canonical: {
-        platform: CANONICAL.PLATFORM,
-        baseline: CANONICAL.BASELINE,
-        control_plane: CANONICAL.CONTROL_PLANE,
-        lineage_id: CANONICAL.LINEAGE_ID,
-        control_plane_id: CANONICAL.CONTROL_PLANE_ID,
-      },
-      topology: {
-        canonical_domains: CANONICAL.DOMAINS,
-        rendered_domains: CANONICAL_MASTER_MENU.length,
-        operational_graphs: CANONICAL.OPERATIONAL_GRAPHS,
-        rendered_graphs: OPERATIONAL_GRAPHS.length,
-      },
-      governance: {
-        tenant_id: CANONICAL.TENANT_ID,
-        policy_decision_point: CANONICAL.PDP,
-        authority_model: "SOLE_AUTHORITY",
-        zero_bypass: true,
-      },
-      evidence: {
-        historical_sha256_seals: CANONICAL.HISTORICAL_SEALS,
-        integrity_state: "IMMUTABLE",
-      },
-      hard_stop: {
-        enforced: CANONICAL.HARD_STOP,
-        next_safe_omega: CANONICAL.NEXT_SAFE_OMEGA,
-      },
-      verification: {
-        domains: CANONICAL_MASTER_MENU.length === CANONICAL.DOMAINS,
-        graphs: OPERATIONAL_GRAPHS.length === CANONICAL.OPERATIONAL_GRAPHS,
-        frozen_baseline: CANONICAL.BASELINE === "FROZEN v1.2 LTS",
-        control_plane: CANONICAL.CONTROL_PLANE === "v2.1 LTS",
-        status: integrityAudit.verified ? "VERIFIED" : "FAILED",
-      },
-      generated_at: new Date().toISOString(),
-    };
-
-    const blob = new Blob([JSON.stringify(receipt, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "maew-hyperos-canonical-attestation-v1.json";
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(url);
-    addTerminalLog("[ATTESTATION] Canonical metadata exported successfully");
-  };
-
-  const activeDomainObj = useMemo(() => {
-    return CANONICAL_MASTER_MENU.find(d => d.room === activeTab) || CANONICAL_MASTER_MENU[0];
-  }, [activeTab]);
-
-  const activeSubModuleObj = useMemo(() => {
-    return activeDomainObj.subModules.find(s => s.id === activeSubModule) || activeDomainObj.subModules[0];
-  }, [activeDomainObj, activeSubModule]);
-
-  // Dynamic Icon Component ป้องกัน JSX/TypeScript issue
-  const ActiveDomainIcon = activeDomainObj.icon;
-
-  return (
-    <div className="min-h-screen bg-[#06080e] text-slate-100 flex flex-col md:flex-row selection:bg-cyan-500 selection:text-black font-mono">
-
-      {/* แถบแจ้งเตือนระดับบนสุด */}
-      {simBannerVisible && (
-        <div className="fixed top-0 left-0 right-0 z-50 bg-emerald-950/95 border-b border-emerald-600/80 text-emerald-200 text-[10px] md:text-[11px] font-mono font-bold py-1.5 px-4 flex items-center justify-between shadow-xl">
-          <div className="flex items-center justify-center gap-2 mx-auto truncate">
-            <Verified className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-            <span className="truncate">{CANONICAL.PLATFORM} {CANONICAL.BASELINE} • CONTROL PLANE {CANONICAL.CONTROL_PLANE} • 13 Domains & 10 Graphs Verified</span>
-          </div>
-          <button onClick={() => setSimBannerVisible(false)} className="text-emerald-400 hover:text-white px-2 cursor-pointer" title="ปิดแถบแจ้งเตือน">✕</button>
+    function GraphHeader({ title, status }) {
+      return (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800 pb-2 mb-3">
+          <span className="font-bold text-cyan-300 text-xs">{title}</span>
+          <span className="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80 shrink-0">
+            {status}
+          </span>
         </div>
-      )}
+      );
+    }
 
-      {/* แถบนำทางด้านข้างบนหน้าจอคอมพิวเตอร์ (DESKTOP SIDEBAR) */}
-      <aside className={`hidden md:flex flex-col justify-between bg-[#0f121d] border-r border-slate-800/80 shrink-0 z-40 transition-all duration-300 ${
-        sidebarCollapsed ? 'w-20' : 'w-80'
-      } ${simBannerVisible ? 'pt-8' : 'pt-0'}`}>
-        <div className="p-4 space-y-4 overflow-y-auto max-h-screen scrollbar-thin">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2.5 cursor-pointer" onClick={() => navigateToRoom('master_gate')}>
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-emerald-500 flex items-center justify-center text-black font-black text-xl shrink-0 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-                Ω
+    // ============================================================================
+    // MAIN APP COMPONENT
+    // ============================================================================
+    function App() {
+      const [activeTab, setActiveTab] = useState('master_gate');
+      const [activeSubModule, setActiveSubModule] = useState('gate_1000');
+      const [workspaceContext, setWorkspaceContext] = useState('SOVEREIGN_PROD');
+
+      const [searchQuery, setSearchQuery] = useState('');
+      const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+      const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+      const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+      const [expandedDomain, setExpandedDomain] = useState('master_gate');
+
+      const [simBannerVisible, setSimBannerVisible] = useState(true);
+      const [activeGraphKey, setActiveGraphKey] = useState('latency_heatmap');
+      const [cmdInput, setCmdInput] = useState("status");
+      const [terminalLogs, setTerminalLogs] = useState([
+        `[${CANONICAL.PLATFORM}] ${CANONICAL.BASELINE} / CONTROL PLANE ${CANONICAL.CONTROL_PLANE}`,
+        `[MASTER SYSTEM] โหลดระบบสมบูรณ์ครบทั้ง 13 โดเมนหลัก (00–12) เรียบร้อยแล้ว`,
+        `[POLICY PDP] หน่วยงานกำกับดูแล ${CANONICAL.PDP} บังคับใช้นโยบาย 100% Zero Bypass`,
+        `[INTEGRITY] ตราประทับ SHA-256 ย้อนหลัง ${CANONICAL.HISTORICAL_SEALS.toLocaleString()} รายการอยู่ในสถานะสมบูรณ์`,
+        `[ASSURANCE] โหลดกลไกตรวจสอบ Ω560 Assurance Matrix & Ω742 Reconciliation เรียบร้อย`,
+        `[STATUS] พิมพ์ 'help' เพื่อดูคำสั่งที่อนุญาตใน Policy Command Router`
+      ]);
+
+      const terminalEndRef = useRef(null);
+
+      // Dynamic Calculation: Integrity Gate
+      const integrityAudit = useMemo(() => {
+        const domainsPass = CANONICAL_MASTER_MENU.length === CANONICAL.DOMAINS;
+        const graphsPass = OPERATIONAL_GRAPHS.length === CANONICAL.OPERATIONAL_GRAPHS;
+        const graphIdsPass = new Set(OPERATIONAL_GRAPHS.map(g => g.id)).size === CANONICAL.OPERATIONAL_GRAPHS;
+        const baselinePass = CANONICAL.BASELINE === "FROZEN v1.2 LTS";
+        const controlPlanePass = CANONICAL.CONTROL_PLANE === "v2.1 LTS";
+        const sealsPass = CANONICAL.HISTORICAL_SEALS === 14902;
+        const hardStopPass = CANONICAL.HARD_STOP === true;
+
+        return {
+          domainsPass,
+          graphsPass,
+          graphIdsPass,
+          baselinePass,
+          controlPlanePass,
+          sealsPass,
+          hardStopPass,
+          verified: domainsPass && graphsPass && graphIdsPass && baselinePass && controlPlanePass && sealsPass && hardStopPass
+        };
+      }, []);
+
+      // Dynamic Calculation: Ω560 Dynamic Assurance Matrix
+      const assuranceMatrix = useMemo(() => {
+        return [
+          { id: "AC01", title: "Source Integrity Check", status: integrityAudit.baselinePass, desc: "ตรวจสอบความสอดคล้องของแหล่งกำเนิดโค้ด" },
+          { id: "AC02", title: "Payload Schema Integrity", status: integrityAudit.domainsPass, desc: "ตรวจสอบ Schema ของโครงสร้าง 13 โดเมน" },
+          { id: "AC03", title: "Provenance Chain Link", status: integrityAudit.sealsPass, desc: "ตรวจสอบสายการเชื่อมโยงตราประทับ 14,902 SHA-256" },
+          { id: "AC04", title: "Calculation Replay Audit", status: true, desc: "จำลองการประมวลผลคำนวณย้อนหลังตรงกัน 100%" },
+          { id: "AC05", title: "Policy PDP Compliance", status: true, desc: "ตรวจสอบสิทธิ์ P3-PDP-AUTH-001 ปราศจากการข้ามผ่าน" },
+          { id: "AC06", title: "No Silent Deletion Rule", status: true, desc: "รับรองหลักการ Additive-only ไร้การลบข้อมูลแบบซ่อนเร้น" },
+          { id: "AC07", title: "No Unsealed Change Rule", status: integrityAudit.controlPlanePass, desc: "รับรองการล็อกซีล Control Plane v2.1" },
+          { id: "AC08", title: "Multi-Region Consistency", status: integrityAudit.graphsPass, desc: "ตรวจสอบความสอดคล้อง topology ข้ามภูมิภาค G09" },
+          { id: "AC09", title: "Cryptographic Seal Lock", status: integrityAudit.sealsPass, desc: "การล็อกตราประทับทางรหัสวิทยาแบบ Immutable" },
+          { id: "AC10", title: "Hard-Stop Boundary Lock", status: integrityAudit.hardStopPass, desc: "บังคับใช้ขอบเขตความปลอดภัย Ω1011 Block Autonomous Expansion" },
+        ];
+      }, [integrityAudit]);
+
+      // Latency Heatmap Data
+      const latencyHeatmapData = useMemo(() => {
+        return Array.from({ length: 7 * 24 }, (_, index) => {
+          const day = Math.floor(index / 24);
+          const hour = index % 24;
+          const value = Math.max(
+            4,
+            Math.round(18 + Math.sin(hour * 0.4) * 7 + Math.cos(day * 0.7) * 4)
+          );
+          return { id: `${day}-${hour}`, day, hour, latencyMs: value };
+        });
+      }, []);
+
+      // Search Index
+      const searchIndex = useMemo(() => {
+        const domains = CANONICAL_MASTER_MENU.flatMap(domain => [
+          {
+            type: "DOMAIN", id: domain.id, code: domain.code, name: domain.name, description: domain.desc, room: domain.room, subId: domain.subModules[0]?.id
+          },
+          ...domain.subModules.map(sub => ({
+            type: "SUB_MODULE", id: sub.id, code: domain.code, name: sub.name, description: `ส่วนย่อยของโดเมน ${domain.name}`, room: domain.room, subId: sub.id
+          }))
+        ]);
+
+        const graphs = OPERATIONAL_GRAPHS.map(graph => ({
+          type: "GRAPH", id: graph.id, code: graph.id, name: graph.name, description: graph.semantics, graphKey: graph.key, room: graph.domain, subId: graph.key
+        }));
+
+        const lineage = HISTORICAL_LINEAGE.map(lin => ({
+          type: "LINEAGE", id: lin.range, code: lin.range, name: lin.title, description: `สถานะสายตระกูล: ${lin.status}`, room: "evolution", subId: "omega_lineage"
+        }));
+
+        return [...domains, ...graphs, ...lineage];
+      }, []);
+
+      const searchResults = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return searchIndex.slice(0, 10);
+        return searchIndex.filter(item =>
+          [item.id, item.code, item.name, item.description, item.type]
+            .filter(Boolean)
+            .some(value => String(value).toLowerCase().includes(q))
+        ).slice(0, 20);
+      }, [searchIndex, searchQuery]);
+
+      // Keyboard Shortcut (Cmd+K)
+      useEffect(() => {
+        const handleKeyDown = (e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            setIsSearchOpen(prev => !prev);
+          }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+      }, []);
+
+      const addTerminalLog = (msg) => {
+        setTerminalLogs(prev => [...prev, msg]);
+      };
+
+      useEffect(() => {
+        terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, [terminalLogs]);
+
+      const navigateToRoom = (roomId, subId) => {
+        setActiveTab(roomId);
+        const domainObj = CANONICAL_MASTER_MENU.find(m => m.room === roomId);
+        if (subId) {
+          setActiveSubModule(subId);
+          const matchedGraph = OPERATIONAL_GRAPHS.find(g => g.key === subId);
+          if (matchedGraph) {
+            setActiveGraphKey(matchedGraph.key);
+          }
+        } else if (domainObj && domainObj.subModules.length > 0) {
+          setActiveSubModule(domainObj.subModules[0].id);
+        }
+        setIsSearchOpen(false);
+        setMobileDrawerOpen(false);
+        addTerminalLog(`[NAVIGATED] สลับไปยังโดเมน ${domainObj?.code || 'XX'} (${domainObj?.name || roomId})`);
+      };
+
+      const handleSearchNavigation = (item) => {
+        if (item.type === "GRAPH") {
+          navigateToRoom(item.room);
+          setActiveGraphKey(item.graphKey);
+          addTerminalLog(`[SEARCH] นำทางไปยังกราฟ ${item.code} — ${item.name}`);
+        } else {
+          navigateToRoom(item.room, item.subId);
+          addTerminalLog(`[SEARCH] นำทางไปยัง ${item.name}`);
+        }
+        setSearchQuery("");
+        setIsSearchOpen(false);
+      };
+
+      const executePolicyCommand = (rawCommand) => {
+        const command = rawCommand.trim().toLowerCase().replace(/^hyperos\.system\./, "");
+        addTerminalLog(`> ${rawCommand}`);
+
+        switch (command) {
+          case "status":
+          case "status --all":
+            [
+              "[STATUS REPORT]",
+              `PLATFORM: ${CANONICAL.PLATFORM}`,
+              `BASELINE: ${CANONICAL.BASELINE}`,
+              `CONTROL PLANE: ${CANONICAL.CONTROL_PLANE}`,
+              `DOMAINS: ${CANONICAL.DOMAINS}/13 Verified`,
+              `GRAPHS: ${CANONICAL.OPERATIONAL_GRAPHS}/10 Registered`,
+              `ASSURANCE MATRIX: 10/10 Dynamic Checks Passed`,
+              `PDP: ${CANONICAL.PDP} (Zero-Bypass)`,
+              `TENANT: ${CANONICAL.TENANT_ID}`,
+              `STATUS: ${CANONICAL.SYSTEM_STATUS}`
+            ].forEach(line => addTerminalLog(line));
+            break;
+
+          case "domains":
+            addTerminalLog(`[DOMAINS] ${CANONICAL_MASTER_MENU.length}/13 Domain Surfaces verified`);
+            CANONICAL_MASTER_MENU.forEach(d => addTerminalLog(`  [${d.code}] ${d.name}`));
+            break;
+
+          case "graphs":
+            addTerminalLog(`[GRAPHS] ${OPERATIONAL_GRAPHS.length}/10 Operational Graphs registered`);
+            OPERATIONAL_GRAPHS.forEach(g => addTerminalLog(`  [${g.id}] ${g.name}`));
+            break;
+
+          case "policy":
+            [
+              "[POLICY EVALUATION]",
+              `PDP AUTHORITY: ${CANONICAL.PDP}`,
+              "MODE: ZERO-BYPASS ENFORCED",
+              "STATUS: 100% COMPLIANT"
+            ].forEach(line => addTerminalLog(line));
+            break;
+
+          case "evidence":
+            [
+              "[EVIDENCE PROVENANCE]",
+              `SHA-256 HISTORICAL SEALS: ${CANONICAL.HISTORICAL_SEALS.toLocaleString()}`,
+              "PIPELINE: SOURCE → TELEMETRY → CALCULATION → PROVENANCE → CANONICAL PAYLOAD → SHA-256 → ASSURANCE GATE → ATTESTATION",
+              "INTEGRITY: IMMUTABLE"
+            ].forEach(line => addTerminalLog(line));
+            break;
+
+          case "hard-stop":
+            [
+              "[HARD STOP BOUNDARY]",
+              "AUTONOMOUS OMEGA EXPANSION: BLOCKED",
+              `NEXT SAFE OMEGA BOUNDARY: ${CANONICAL.NEXT_SAFE_OMEGA}`,
+              "FROZEN CORE MODIFICATION: BLOCKED"
+            ].forEach(line => addTerminalLog(line));
+            break;
+
+          case "clear":
+            setTerminalLogs([`[${CANONICAL.PLATFORM}] Terminal cleared.`]);
+            break;
+
+          case "help":
+            [
+              "AVAILABLE COMMANDS IN POLICY COMMAND ROUTER:",
+              "  status      - ตรวจสอบสถานะภาพรวมสถาปัตยกรรม และ Control Plane",
+              "  domains     - แสดงรายชื่อและรหัสของทั้ง 13 Canonical Domains",
+              "  graphs      - แสดงรายชื่อและรหัสของทั้ง 10 Operational Graphs",
+              "  policy      - แสดงสถานะการบังคับใช้นโยบาย PDP (Zero-Bypass)",
+              "  evidence    - แสดงสถานะรอยตราประทับ SHA-256 (14,902 Seals)",
+              "  hard-stop   - แสดงขอบเขตความปลอดภัยการหยุดทำงาน (Ω1011 Boundary)",
+              "  clear       - ล้างหน้าจอ Terminal Logs",
+              "  help        - แสดงรายการคำสั่งช่วยเหลือ"
+            ].forEach(line => addTerminalLog(line));
+            break;
+
+          default:
+            [
+              `[REJECTED] UNKNOWN COMMAND: ${rawCommand}`,
+              "[POLICY] Command not recognized by Policy Command Router",
+              `[HARD STOP BOUNDARY] ${CANONICAL.NEXT_SAFE_OMEGA}`
+            ].forEach(line => addTerminalLog(line));
+            break;
+        }
+      };
+
+      const handleExportAttestation = () => {
+        const receipt = {
+          attestation_schema: "MAEW-ATTESTATION-v1",
+          canonical: CANONICAL,
+          lineage_summary: HISTORICAL_LINEAGE,
+          provenance_pipeline: PIPELINE_STAGES,
+          topology_environments: TOPOLOGY_ENVIRONMENTS,
+          assurance_matrix: assuranceMatrix,
+          verification: {
+            domains: integrityAudit.domainsPass,
+            graphs: integrityAudit.graphsPass,
+            frozen_baseline: integrityAudit.baselinePass,
+            control_plane: integrityAudit.controlPlanePass,
+            assurance_matrix_passed: assuranceMatrix.every(a => a.status),
+            status: integrityAudit.verified ? "VERIFIED" : "FAILED",
+          },
+          trust_boundary_notice: "DEMO / UI LAYER • SYNTHETIC DATA • BACKEND: NOT CONNECTED",
+          generated_at: new Date().toISOString(),
+        };
+
+        const blob = new Blob([JSON.stringify(receipt, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = "maew-hyperos-canonical-attestation-v1.json";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+        addTerminalLog("[ATTESTATION] Canonical metadata exported successfully");
+      };
+
+      const activeDomainObj = useMemo(() => {
+        return CANONICAL_MASTER_MENU.find(d => d.room === activeTab) || CANONICAL_MASTER_MENU[0];
+      }, [activeTab]);
+
+      const activeSubModuleObj = useMemo(() => {
+        return activeDomainObj.subModules.find(s => s.id === activeSubModule) || activeDomainObj.subModules[0];
+      }, [activeDomainObj, activeSubModule]);
+
+      return (
+        <div className="min-h-screen bg-[#06080e] text-slate-100 flex flex-col md:flex-row selection:bg-cyan-500 selection:text-black font-mono">
+
+          {/* Banner Notification */}
+          {simBannerVisible && (
+            <div className="fixed top-0 left-0 right-0 z-50 bg-amber-950/95 border-b border-amber-600/80 text-amber-200 text-[10px] md:text-[11px] font-mono font-bold py-1.5 px-4 flex items-center justify-between shadow-xl">
+              <div className="flex items-center justify-center gap-2 mx-auto truncate">
+                <Icon name="AlertTriangle" className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span className="truncate">TRUST BOUNDARY: DEMO / UI LAYER • SYNTHETIC DATA • BACKEND: NOT CONNECTED • {CANONICAL.PLATFORM} {CANONICAL.BASELINE}</span>
               </div>
-              {!sidebarCollapsed && (
-                <div className="truncate font-mono">
-                  <div className="font-extrabold text-sm tracking-wider text-white">MAEW HYPEROS</div>
-                  <div className="text-[10px] text-emerald-400 font-bold">{CANONICAL.BASELINE}</div>
-                </div>
-              )}
+              <button onClick={() => setSimBannerVisible(false)} className="text-amber-400 hover:text-white px-2 cursor-pointer">✕</button>
             </div>
-            <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer transition shrink-0"
-              title={sidebarCollapsed ? "ขยายแถบข้าง" : "ย่อแถบข้าง"}
-            >
-              {sidebarCollapsed ? <PanelLeft className="w-4 h-4 text-cyan-400" /> : <PanelLeftClose className="w-4 h-4 text-slate-400" />}
-            </button>
-          </div>
-
-          {!sidebarCollapsed && (
-            <>
-              <div className="bg-[#06080e] border border-cyan-900/80 p-2 rounded-xl font-mono text-[10px] space-y-1">
-                <div className="text-slate-400 flex items-center justify-between">
-                  <span>บริบทการทำงาน:</span>
-                  <span className="text-emerald-400 font-bold">13 โดเมนเปิดสมบูรณ์</span>
-                </div>
-                <select
-                  value={workspaceContext}
-                  onChange={(e) => setWorkspaceContext(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 text-cyan-300 font-bold rounded px-2 py-1 focus:outline-none cursor-pointer"
-                >
-                  <option value="SOVEREIGN_PROD">🏛 Sovereign Production Surface</option>
-                  <option value="GITHUB_RELEASE">🐙 GitHub Release Readiness</option>
-                  <option value="GLOBAL_ECOSYSTEM">🌐 Global Ecosystem Surface</option>
-                </select>
-              </div>
-
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="w-full bg-slate-950 hover:bg-slate-900 border border-slate-700 text-slate-300 p-2 rounded-xl text-xs font-mono flex items-center justify-between transition cursor-pointer"
-              >
-                <div className="flex items-center space-x-2">
-                  <Search className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>ค้นหา Universal Router</span>
-                </div>
-                <kbd className="bg-slate-800 text-slate-400 text-[9px] px-1.5 py-0.5 rounded border border-slate-700">⌘K</kbd>
-              </button>
-            </>
           )}
 
-          <hr className="border-slate-800/80" />
-
-          {/* รายการเมนูโดเมนหลักทั้ง 13 โดเมน */}
-          <div className="space-y-1 text-xs font-mono">
-            {CANONICAL_MASTER_MENU.map((dom) => {
-              const DomIcon = dom.icon;
-              const isActive = activeTab === dom.room;
-              const isExpanded = expandedDomain === dom.id;
-              const isFav = favorites.includes(dom.id);
-
-              return (
-                <div key={dom.id} className="space-y-1">
-                  <div className={`w-full flex items-center justify-between p-2 rounded-xl transition ${
-                    isActive
-                      ? 'bg-cyan-950/60 border border-cyan-600/80 text-cyan-200 font-bold'
-                      : 'bg-slate-900/50 border border-slate-800 hover:bg-slate-800/60 text-slate-300'
-                  }`}>
-                    <button
-                      onClick={() => {
-                        navigateToRoom(dom.room);
-                        setExpandedDomain(isExpanded ? null : dom.id);
-                      }}
-                      className="flex items-center space-x-2 truncate flex-1 text-left cursor-pointer min-h-[36px]"
-                    >
-                      <DomIcon className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-400' : 'text-cyan-400'}`} />
-                      {!sidebarCollapsed && <span className="font-medium truncate text-[11px]">{dom.code} — {dom.name}</span>}
-                    </button>
-                    {!sidebarCollapsed && (
-                      <div className="flex items-center space-x-1 shrink-0">
-                        <button onClick={(e) => toggleFavorite(dom.id, e)} className="text-slate-500 hover:text-amber-400 p-1 cursor-pointer">
-                          <Star className={`w-3.5 h-3.5 ${isFav ? 'text-amber-400 fill-amber-400' : ''}`} />
-                        </button>
-                        <button onClick={() => setExpandedDomain(isExpanded ? null : dom.id)} className="text-slate-500 hover:text-white p-1 cursor-pointer">
-                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                        </button>
-                      </div>
-                    )}
+          {/* Desktop Sidebar */}
+          <aside className={`hidden md:flex flex-col justify-between bg-[#0f121d] border-r border-slate-800/80 shrink-0 z-40 transition-all duration-300 ${
+            sidebarCollapsed ? 'w-20' : 'w-80'
+          } ${simBannerVisible ? 'pt-8' : 'pt-0'}`}>
+            <div className="p-4 space-y-4 overflow-y-auto max-h-screen scrollbar-thin">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2.5 cursor-pointer" onClick={() => navigateToRoom('master_gate')}>
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-emerald-500 flex items-center justify-center text-black font-black text-xl shrink-0 omega-glow">
+                    Ω
                   </div>
-
-                  {!sidebarCollapsed && isExpanded && (
-                    <div className="ml-5 pl-2 border-l border-slate-800 space-y-1 text-[10px] text-slate-400">
-                      {dom.subModules.map((sub) => (
-                        <button
-                          key={sub.id}
-                          onClick={() => navigateToRoom(dom.room, sub.id)}
-                          className={`w-full text-left py-1.5 px-2 rounded hover:bg-slate-800/80 transition flex items-center justify-between cursor-pointer ${
-                            activeSubModule === sub.id ? 'text-emerald-300 font-bold bg-slate-900 border border-slate-800' : 'text-slate-400'
-                          }`}
-                        >
-                          <span className="truncate">{sub.name}</span>
-                          <CornerDownRight className="w-2.5 h-2.5 text-slate-600 shrink-0" />
-                        </button>
-                      ))}
+                  {!sidebarCollapsed && (
+                    <div className="truncate font-mono">
+                      <div className="font-extrabold text-sm tracking-wider text-white">MAEW HYPEROS</div>
+                      <div className="text-[10px] text-emerald-400 font-bold">{CANONICAL.BASELINE}</div>
                     </div>
                   )}
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </aside>
-
-      {/* แถบนโยบายส่วนหัวบนโทรศัพท์มือถือ (MOBILE HEADER) */}
-      <div className={`md:hidden bg-[#0f121d] border-b border-slate-800 p-3 flex items-center justify-between sticky top-0 z-40 font-mono text-xs ${simBannerVisible ? 'mt-8' : 'mt-0'}`}>
-        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigateToRoom('master_gate')}>
-          <div className="w-8 h-8 rounded-lg bg-emerald-500 text-black font-black flex items-center justify-center text-sm shadow">
-            Ω
-          </div>
-          <span className="font-bold text-white">MAEW HYPEROS</span>
-          <span className="bg-emerald-950 text-emerald-400 text-[9px] px-1.5 py-0.5 border border-emerald-800 rounded">
-            {activeDomainObj.code}
-          </span>
-        </div>
-        <div className="flex items-center space-x-2">
-          <button onClick={() => setIsSearchOpen(true)} className="p-2.5 bg-slate-900 border border-slate-700 text-cyan-400 rounded-lg cursor-pointer">
-            <Search className="w-4 h-4" />
-          </button>
-          <button onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)} className="p-2.5 bg-emerald-950 border border-emerald-700 text-emerald-300 rounded-lg font-bold flex items-center gap-1 cursor-pointer">
-            <Menu className="w-4 h-4" />
-            <span>เมนู</span>
-          </button>
-        </div>
-      </div>
-
-      {/* หน้าต่างเมนูข้างบนมือถือ (MOBILE NAVIGATION DRAWER EXECUTION) */}
-      {mobileDrawerOpen && (
-        <div className="fixed inset-0 z-[60] md:hidden">
-          <button
-            aria-label="Close navigation drawer"
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={() => setMobileDrawerOpen(false)}
-          />
-          <aside className="absolute left-0 top-0 bottom-0 w-[88vw] max-w-[360px] bg-[#0f121d] border-r border-slate-700 shadow-2xl overflow-y-auto font-mono text-xs">
-            <div className="sticky top-0 z-10 bg-[#0f121d] border-b border-slate-800 p-4 flex items-center justify-between">
-              <div>
-                <div className="text-white font-black">{CANONICAL.PLATFORM}</div>
-                <div className="text-[10px] text-emerald-400 font-mono">{CANONICAL.BASELINE} / CONTROL PLANE {CANONICAL.CONTROL_PLANE}</div>
+                <button
+                  onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                  className="text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-900 border border-slate-800 cursor-pointer transition shrink-0"
+                >
+                  <Icon name={sidebarCollapsed ? "PanelLeft" : "PanelLeftClose"} className="w-4 h-4 text-cyan-400" />
+                </button>
               </div>
-              <button
-                onClick={() => setMobileDrawerOpen(false)}
-                className="p-2 rounded-lg bg-slate-900 border border-slate-700 text-slate-300"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="p-3 space-y-2">
-              {CANONICAL_MASTER_MENU.map(domain => {
-                const Icon = domain.icon;
-                const isCurrent = activeTab === domain.room;
-                return (
-                  <button
-                    key={domain.id}
-                    onClick={() => navigateToRoom(domain.room)}
-                    className={`w-full min-h-[44px] p-3 rounded-xl border text-left flex items-center gap-3 transition ${
-                      isCurrent
-                        ? "bg-cyan-950/60 border-cyan-600 text-cyan-200 font-bold"
-                        : "bg-slate-900/60 border-slate-800 text-slate-300"
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 shrink-0 text-cyan-400" />
-                    <div className="min-w-0">
-                      <div className="text-[10px] text-slate-500"> DOMAIN {domain.code} </div>
-                      <div className="text-xs font-bold truncate"> {domain.name} </div>
+
+              {!sidebarCollapsed && (
+                <>
+                  <div className="bg-[#06080e] border border-cyan-900/80 p-2 rounded-xl font-mono text-[10px] space-y-1">
+                    <div className="text-slate-400 flex items-center justify-between">
+                      <span>บริบทการทำงาน:</span>
+                      <span className="text-emerald-400 font-bold">13 โดเมนเปิดสมบูรณ์</span>
                     </div>
+                    <select
+                      value={workspaceContext}
+                      onChange={(e) => setWorkspaceContext(e.target.value)}
+                      className="w-full bg-slate-900 border border-slate-700 text-cyan-300 font-bold rounded px-2 py-1 focus:outline-none cursor-pointer"
+                    >
+                      <option value="SOVEREIGN_PROD">🏛 Sovereign Production Surface</option>
+                      <option value="GITHUB_RELEASE">🐙 GitHub Release Readiness</option>
+                      <option value="GLOBAL_ECOSYSTEM">🌐 Global Ecosystem Surface</option>
+                    </select>
+                  </div>
+
+                  <button
+                    onClick={() => setIsSearchOpen(true)}
+                    className="w-full bg-slate-950 hover:bg-slate-900 border border-slate-700 text-slate-300 p-2 rounded-xl text-xs font-mono flex items-center justify-between transition cursor-pointer"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Icon name="Search" className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>ค้นหา Universal Router</span>
+                    </div>
+                    <kbd className="bg-slate-800 text-slate-400 text-[9px] px-1.5 py-0.5 rounded border border-slate-700">⌘K</kbd>
                   </button>
-                );
-              })}
+                </>
+              )}
+
+              <hr className="border-slate-800/80" />
+
+              <div className="space-y-1 text-xs font-mono">
+                {CANONICAL_MASTER_MENU.map((dom) => {
+                  const isActive = activeTab === dom.room;
+                  const isExpanded = expandedDomain === dom.id;
+
+                  return (
+                    <div key={dom.id} className="space-y-1">
+                      <div className={`w-full flex items-center justify-between p-2 rounded-xl transition ${
+                        isActive
+                          ? 'bg-cyan-950/60 border border-cyan-600/80 text-cyan-200 font-bold'
+                          : 'bg-slate-900/50 border border-slate-800 hover:bg-slate-800/60 text-slate-300'
+                      }`}>
+                        <button
+                          onClick={() => {
+                            navigateToRoom(dom.room);
+                            setExpandedDomain(isExpanded ? null : dom.id);
+                          }}
+                          className="flex items-center space-x-2 truncate flex-1 text-left cursor-pointer min-h-[36px]"
+                        >
+                          <Icon name={dom.icon} className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-400' : 'text-cyan-400'}`} />
+                          {!sidebarCollapsed && <span className="font-medium truncate text-[11px]">{dom.code} — {dom.name}</span>}
+                        </button>
+                      </div>
+
+                      {!sidebarCollapsed && isExpanded && (
+                        <div className="ml-5 pl-2 border-l border-slate-800 space-y-1 text-[10px] text-slate-400">
+                          {dom.subModules.map((sub) => (
+                            <button
+                              key={sub.id}
+                              onClick={() => navigateToRoom(dom.room, sub.id)}
+                              className={`w-full text-left py-1.5 px-2 rounded hover:bg-slate-800/80 transition flex items-center justify-between cursor-pointer ${
+                                activeSubModule === sub.id ? 'text-emerald-300 font-bold bg-slate-900 border border-slate-800' : 'text-slate-400'
+                              }`}
+                            >
+                              <span className="truncate">{sub.name}</span>
+                              <Icon name="CornerDownRight" className="w-2.5 h-2.5 text-slate-600 shrink-0" />
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </aside>
-        </div>
-      )}
 
-      {/* พื้นที่หลักสำหรับการแสดงผลและปฏิบัติการ (MAIN WORKSPACE) */}
-      <div className={`flex-1 flex flex-col min-w-0 overflow-y-auto ${simBannerVisible ? 'pt-8' : 'pt-0'}`}>
-        {/* แถบเส้นทางการนำทาง (HEADER BREADCRUMB) */}
-        <header className="bg-[#0f121d] border-b border-slate-800 px-4 py-2.5 flex items-center justify-between text-xs sticky top-0 z-30 backdrop-blur-md bg-opacity-90 font-mono">
-          <div className="flex items-center space-x-1.5 text-slate-400 truncate">
-            <span className="text-cyan-400 font-bold cursor-pointer" onClick={() => navigateToRoom('master_gate')}>MAEW Ω∞</span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-            <span className="text-slate-300">{activeDomainObj.badge}</span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-600 shrink-0" />
-            <span className="text-emerald-400 font-bold truncate">{activeDomainObj.code} — {activeDomainObj.name}</span>
-          </div>
-          <span className="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-bold">
-            P3 PDP ENFORCED
-          </span>
-        </header>
+          {/* Main Workspace Surface */}
+          <div className={`flex-1 flex flex-col min-w-0 overflow-y-auto ${simBannerVisible ? 'pt-8' : 'pt-0'}`}>
+            <header className="bg-[#0f121d] border-b border-slate-800 px-4 py-2.5 flex items-center justify-between text-xs sticky top-0 z-30 backdrop-blur-md bg-opacity-90 font-mono">
+              <div className="flex items-center space-x-1.5 text-slate-400 truncate">
+                <span className="text-cyan-400 font-bold cursor-pointer" onClick={() => navigateToRoom('master_gate')}>MAEW Ω∞</span>
+                <Icon name="ChevronRight" className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                <span className="text-slate-300">{activeDomainObj.badge}</span>
+                <Icon name="ChevronRight" className="w-3.5 h-3.5 text-slate-600 shrink-0" />
+                <span className="text-emerald-400 font-bold truncate">{activeDomainObj.code} — {activeDomainObj.name}</span>
+              </div>
+              <span className="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded font-bold">
+                P3 PDP ENFORCED
+              </span>
+            </header>
 
-        {/* แดชบอร์ดเนื้อหาหลัก */}
-        <main className="flex-1 p-3 md:p-6 space-y-6 max-w-[1720px] w-full mx-auto font-mono">
+            <main className="flex-1 p-3 md:p-6 space-y-6 max-w-[1720px] w-full mx-auto font-mono">
 
-          {/* แผงแสดงสถิติและชุดกราฟปฏิบัติการ (CANONICAL OPERATIONAL GRAPH SUITE - 10 GRAPHS) */}
-          <div className="bg-[#0f121d] border border-emerald-600/80 rounded-2xl p-5 space-y-4 shadow-[0_0_30px_rgba(16,185,129,0.15)]">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 border-b border-slate-800 pb-3">
-              <div className="flex items-center space-x-3">
-                <LineChart className="w-8 h-8 text-cyan-400 shrink-0" />
-                <div>
-                  <h1 className="text-xl font-bold text-white">ชุดกราฟการปฏิบัติการระดับสูง (10 OPERATIONAL GRAPHS)</h1>
-                  <p className="text-xs text-slate-400">สถาปัตยกรรมเชื่อมโยง: G01–G10 Registered (168h Latency, Predictive, SLO, Coverage, Agent Flow, Capacity, Trace, PDP, Region, 30-Layer Flow)</p>
+              {/* PROVENANCE PIPELINE & 3-TIER TOPOLOGY SURFACE */}
+              <div className="bg-[#0f121d] border border-cyan-500/80 rounded-2xl p-5 space-y-5 shadow-[0_0_35px_rgba(0,240,255,0.15)] relative overflow-hidden">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 border-b border-slate-800 pb-3">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl font-extrabold text-white tracking-wide">SOVEREIGN METRICS & PROVENANCE ENGINE</span>
+                      <span className="bg-cyan-950 text-cyan-300 border border-cyan-700 text-[10px] font-bold px-2 py-0.5 rounded">PUBLIC LIVE · GITHUB PAGES</span>
+                    </div>
+                    <p className="text-xs text-cyan-400 font-bold mt-0.5">Built to Be Examined. — Provenance-First Evidence Architecture</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] bg-emerald-950 border border-emerald-700 text-emerald-300 font-bold px-2.5 py-1 rounded">
+                      ASSURANCE SCORE: 100%
+                    </span>
+                    <span className="text-[10px] bg-slate-900 border border-slate-700 text-slate-300 font-bold px-2.5 py-1 rounded">
+                      LATENCY: 12.4ms
+                    </span>
+                  </div>
+                </div>
+
+                {/* Flow Pipeline Bar (8 Steps) */}
+                <div className="space-y-1.5">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">PROVENANCE PIPELINE ARCHITECTURE FLOW</div>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+                    {PIPELINE_STAGES.map((s) => (
+                      <div key={s.step} className="bg-[#06080e] border border-cyan-900/80 hover:border-cyan-500 rounded-xl p-2.5 text-center space-y-1 transition">
+                        <div className="text-[9px] text-cyan-400 font-extrabold">STEP {s.step}</div>
+                        <div className="text-xs font-black text-white truncate">{s.name}</div>
+                        <div className="text-[8px] text-emerald-400 font-mono font-bold truncate">{s.hash}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 3-Tier Execution Topology */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                  {TOPOLOGY_ENVIRONMENTS.map((env) => (
+                    <div key={env.id} className="bg-[#06080e] border border-slate-800 hover:border-slate-700 rounded-xl p-3 space-y-2">
+                      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                        <div className="flex items-center space-x-2">
+                          <div className={`w-2 h-2 rounded-full ${env.indicatorColor}`} />
+                          <span className="font-bold text-xs text-white">{env.name}</span>
+                        </div>
+                        <span className={`text-[9px] font-bold px-2 py-0.5 rounded border ${env.badgeBg}`}>
+                          {env.status}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1 text-[10px]">
+                        <div>
+                          <span className="text-slate-500 block">WORKLOADS</span>
+                          <span className="font-bold text-white">{env.workloads}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">REQ/SEC</span>
+                          <span className="font-bold text-cyan-300">{env.requestsPerSec}</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-500 block">ERROR RATE</span>
+                          <span className="font-bold text-emerald-400">{env.errorRate}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* ปุ่มเลือกดูกราฟทั้ง 10 ประเภท */}
-              <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                {OPERATIONAL_GRAPHS.map((g) => (
-                  <button
-                    key={g.id}
-                    onClick={() => {
-                      setActiveGraphKey(g.key);
-                      addTerminalLog(`[GRAPH SUITE] สลับมุมมองไปยัง [${g.id}] ${g.name}`);
-                    }}
-                    className={`px-2.5 py-1.5 rounded-xl border transition cursor-pointer font-bold text-[10px] ${
-                      activeGraphKey === g.key
-                        ? 'bg-cyan-950 border-cyan-500 text-cyan-200 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
-                        : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-                    }`}
-                  >
-                    {g.id} · {g.name.split(' ')[0]}
-                  </button>
-                ))}
-              </div>
-            </div>
+              {/* 10 Operational Graphs Suite (INTERACTIVE VISUALIZATIONS) */}
+              <div className="bg-[#0f121d] border border-emerald-600/80 rounded-2xl p-5 space-y-4 shadow-[0_0_30px_rgba(16,185,129,0.15)]">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 border-b border-slate-800 pb-3">
+                  <div className="flex items-center space-x-3">
+                    <Icon name="LineChart" className="w-8 h-8 text-cyan-400 shrink-0" />
+                    <div>
+                      <h1 className="text-xl font-bold text-white">ชุดกราฟการปฏิบัติการระดับสูง (10 OPERATIONAL GRAPHS)</h1>
+                      <p className="text-xs text-slate-400">สถาปัตยกรรมเชื่อมโยง: G01–G10 Registered (168h Latency, Predictive, SLO, Coverage, Agent Flow, Capacity, Trace, PDP, Region, 30-Layer Flow)</p>
+                    </div>
+                  </div>
 
-            {/* พื้นที่วาดรูปกราฟและอินเทอร์เฟซของกราฟที่เลือก (G01–G10) */}
-            <div className="bg-[#06080e] p-4 rounded-xl border border-slate-800 min-h-[300px]">
+                  <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                    {OPERATIONAL_GRAPHS.map((g) => (
+                      <button
+                        key={g.id}
+                        onClick={() => {
+                          setActiveGraphKey(g.key);
+                          addTerminalLog(`[GRAPH SUITE] สลับมุมมองไปยัง [${g.id}] ${g.name}`);
+                        }}
+                        className={`px-2.5 py-1.5 rounded-xl border transition cursor-pointer font-bold text-[10px] ${
+                          activeGraphKey === g.key
+                            ? 'bg-cyan-950 border-cyan-500 text-cyan-200 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                        }`}
+                      >
+                        {g.id} · {g.name.split(' ')[0]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-              {/* G01: แผนภูมิความร้อน LATENCY HEATMAP 168 ช่อง */}
-              {activeGraphKey === 'latency_heatmap' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🔥 G01 — แผนภูมิความร้อน Latency ย้อนหลัง 168 ชั่วโมง (7 วัน x 24 ชั่วโมง)"
-                    status="Latency → Runtime Operations • Avg: 12ms"
-                  />
-                  <div className="overflow-x-auto pb-2">
-                    <div className="min-w-[700px]">
-                      <div className="grid grid-cols-[repeat(24,minmax(0,1fr))] gap-1 pt-1">
-                        {latencyHeatmapData.map((cell) => {
-                          const intensity = cell.latencyMs > 28
-                            ? 'bg-amber-500/90'
-                            : cell.latencyMs > 20
-                            ? 'bg-cyan-600/80'
-                            : 'bg-emerald-600/80';
+                {/* Render Selected Interactive Visualizations */}
+                <div className="bg-[#06080e] p-4 rounded-xl border border-slate-800 min-h-[300px]">
+                  
+                  {/* G01: Latency Heatmap */}
+                  {activeGraphKey === 'latency_heatmap' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🔥 G01 — แผนภูมิความร้อน Latency ย้อนหลัง 168 ชั่วโมง (7 วัน x 24 ชั่วโมง)" status="Latency → Runtime Operations • Avg: 12ms" />
+                      <div className="overflow-x-auto pb-2">
+                        <div className="min-w-[700px]">
+                          <div className="grid grid-cols-[repeat(24,minmax(0,1fr))] gap-1 pt-1">
+                            {latencyHeatmapData.map((cell) => {
+                              const intensity = cell.latencyMs > 28 ? 'bg-amber-500/90' : cell.latencyMs > 20 ? 'bg-cyan-600/80' : 'bg-emerald-600/80';
+                              return (
+                                <div key={cell.id} title={`วันที่ ${cell.day + 1} / เวลา ${cell.hour}:00 — ${cell.latencyMs}ms`} className={`h-4 rounded-sm ${intensity} border border-slate-800/60 hover:scale-125 transition-transform cursor-pointer`} />
+                              );
+                            })}
+                          </div>
+                          <div className="flex justify-between text-[9px] text-slate-500 mt-2 font-bold">
+                            <span>00:00 (Day 1)</span><span>12:00</span><span>00:00 (Day 4)</span><span>12:00</span><span>23:00 (Day 7)</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G02: Trend Forecast */}
+                  {activeGraphKey === 'trend_forecast' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="📈 G02 — กราฟคาดการณ์แนวโน้มอนาคต (Trend & Holt-Winters Forecast)" status="Actual → Forecast → Confidence 99.88%" />
+                      <div className="w-full h-52 bg-[#090d16] rounded-xl border border-slate-800 relative flex items-end justify-between p-4 overflow-hidden">
+                        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                          <path d="M0,70 L20,65 L40,55 L60,50 L80,42 L100,30 L100,50 L80,60 L60,65 L40,70 L20,78 Z" fill="#8b5cf6" opacity="0.15" />
+                          <path d="M0,70 L20,65 L40,55 L60,50" fill="none" stroke="#00f0ff" strokeWidth="2.5" />
+                          <path d="M60,50 L80,42 L100,30" fill="none" stroke="#8b5cf6" strokeWidth="2.5" strokeDasharray="3 3" />
+                        </svg>
+                        <div className="relative z-10 text-[10px] text-slate-400 flex justify-between w-full">
+                          <span>ย้อนหลัง 12 ชม. (ข้อมูลจริง)</span>
+                          <span className="text-purple-300 font-bold">ปัจจุบัน (เริ่มคาดการณ์)</span>
+                          <span>อนาคต 12 ชม. (ผลคาดการณ์)</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G03: SLO Reliability */}
+                  {activeGraphKey === 'slo_reliability' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="📊 G03 — กราฟมาตรวัดความน่าเชื่อถือของระบบ (SLO & Reliability Assurance)" status="SLI → SLO → Availability 99.999%" />
+                      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs pt-2">
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">เป้าหมายความพร้อม SLO</span>
+                          <span className="text-emerald-400 font-black text-lg">99.999%</span>
+                        </div>
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">LATENCY P95 / P99</span>
+                          <span className="text-cyan-300 font-black text-lg">12.4ms / 18ms</span>
+                        </div>
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">เวลาฟื้นฟูเฉลี่ย MTTR</span>
+                          <span className="text-purple-300 font-black text-lg">&lt; 1.2 วินาที</span>
+                        </div>
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">อัตราข้อผิดพลาด ERROR RATE</span>
+                          <span className="text-emerald-400 font-black text-lg">0.000%</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G04: Control Coverage */}
+                  {activeGraphKey === 'control_coverage' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🧩 G04 — ตารางการเปรียบเทียบขอบเขตการควบคุม (Control Definition vs Execution Coverage)" status="Control Definition → Control Execution Coverage 100%" />
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">
+                        {[
+                          { code: 'P1', title: 'แยกส่วนพื้นที่ Tenant Isolation', status: 'ครอบคลุม 100%' },
+                          { code: 'P2', title: 'รอยตราประทับ SHA-256 Seal', status: 'ครอบคลุม 100%' },
+                          { code: 'P3', title: 'อำนาจอนุมัติ P3 PDP สิทธิ์เดียว', status: 'ครอบคลุม 100%' },
+                          { code: 'P4', title: 'ป้องกันการเบี่ยงเบน Zero Drift', status: 'ครอบคลุม 100%' },
+                          { code: 'P5', title: 'ขอบเขต Manifest Bounds', status: 'ครอบคลุม 100%' },
+                          { code: 'P6', title: 'การฟื้นฟูอัตโนมัติ Phoenix SRE', status: 'ครอบคลุม 100%' },
+                          { code: 'P7', title: 'กฎการควบคุมต้นทุน FinOps', status: 'ครอบคลุม 100%' },
+                          { code: 'P8', title: 'ล็อกรอยตราประทับ 14,902 รายการ', status: 'ครอบคลุม 100%' }
+                        ].map((p) => (
+                          <div key={p.code} className="p-2 bg-[#090d16] rounded-lg border border-slate-800 space-y-0.5">
+                            <div className="text-cyan-300 font-bold">{p.code} &bull; {p.title}</div>
+                            <div className="text-emerald-400 font-bold text-[9px]">{p.status}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G05: Agent Execution Flow */}
+                  {activeGraphKey === 'agent_execution' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🧠 G05 — กราฟขั้นตอนการประมวลผลของ Agent (Agent Execution Flow)" status="Agent → Tool → Action → Result → Evidence" />
+                      <div className="bg-[#090d16] p-4 rounded-xl border border-slate-800 text-xs font-mono space-y-2">
+                        <div className="flex flex-wrap items-center gap-2 text-cyan-300">
+                          <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">AGENT #128</span> &rarr;
+                          <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">TOOL: PDP_EVAL</span> &rarr;
+                          <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">ACTION: AUTHORIZE</span> &rarr;
+                          <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">RESULT: PERMIT</span> &rarr;
+                          <span className="text-emerald-400 font-bold">EVIDENCE ATTESTED (SHA-256)</span>
+                        </div>
+                        <div className="text-[10px] text-slate-400 pt-2">
+                          ทุกขั้นตอนการตัดสินใจของปัญญาประดิษฐ์ถูกบันทึกลงในรอยตราประทับทางประวัติศาสตร์ {CANONICAL.HISTORICAL_SEALS.toLocaleString()} SHA-256 โดยอัตโนมัติ
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G06: Capacity Dynamics */}
+                  {activeGraphKey === 'capacity_dynamics' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="📉 G06 — กราฟความจุระบบและการคิวประมวลผล (Capacity, Saturation & Queue Dynamics)" status="Compute → Queue → Saturation 18.4%" />
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">การใช้งาน CPU / MEMORY</span>
+                          <span className="text-cyan-300 font-bold text-sm">24.2% / 38.6%</span>
+                        </div>
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">คิวประมวลผลตกค้าง</span>
+                          <span className="text-emerald-400 font-bold text-sm">0 รายการ (ไม่มีคิวค้าง)</span>
+                        </div>
+                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                          <span className="text-slate-400 block text-[10px]">สัดส่วน SPOT COMPUTE</span>
+                          <span className="text-purple-300 font-bold text-sm">94.2% Spot Compute</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G07: Observability Timeline */}
+                  {activeGraphKey === 'observability_timeline' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🛰️ G07 — เส้นเวลาสังเกตการณ์เหตุการณ์ (Observability Event Timeline)" status="Event → Trace → Log → Decision → Evidence" />
+                      <div className="space-y-2 text-xs">
+                        {[
+                          ["EVENT", "evt-82391-init", "RECEIVED", "text-cyan-400"],
+                          ["TRACE", "trace-7f91-span", "CORRELATED", "text-purple-400"],
+                          ["LOG", "log-2910-audit", "RECORDED", "text-amber-400"],
+                          ["DECISION", CANONICAL.PDP, "PERMITTED", "text-emerald-400"],
+                          ["EVIDENCE", "sha256:e1f7a9d4...", "ATTESTED", "text-emerald-300"],
+                        ].map(([stage, id, status, colorClass]) => (
+                          <div key={id} className="flex items-center gap-3 p-2.5 bg-[#090d16] border border-slate-800 rounded-xl">
+                            <Icon name="CheckCircle2" className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <span className={`font-bold ${colorClass} shrink-0 w-20`}>{stage}</span>
+                            <Icon name="ArrowRight" className="w-3 h-3 text-slate-600 shrink-0" />
+                            <code className="text-slate-300 truncate font-mono text-[11px]">{id}</code>
+                            <span className="ml-auto text-emerald-400 text-[10px] font-bold shrink-0">{status}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G08: Governance Policy Decision Graph */}
+                  {activeGraphKey === 'governance_decision' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🔐 G08 — กราฟการตัดสินใจนโยบายธรรมาภิบาล (Governance Policy Decision Graph)" status="Policy → PDP → Authorization → Execution" />
+                      <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs">
+                        {["POLICY CLAUSE", "P3 PDP EVAL", "AUTHORIZATION", "EXECUTION", "EVIDENCE LEDGER"].map((node) => (
+                          <div key={node} className="p-3 rounded-xl bg-[#090d16] border border-emerald-800/80 text-center space-y-1">
+                            <Icon name="ShieldCheck" className="w-5 h-5 mx-auto text-emerald-400" />
+                            <div className="text-[10px] font-bold text-emerald-300">{node}</div>
+                            <div className="text-[9px] text-slate-500">Zero Bypass</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G09: Regional Dependency */}
+                  {activeGraphKey === 'regional_dependency' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🌐 G09 — กราฟความสัมพันธ์ข้ามภูมิภาค (Multi-Region System Dependency)" status="AP → US → EU → JP Regional Topology" />
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                        {[
+                          { region: "AP-SOUTHEAST", latency: "4ms", role: "Primary Active" },
+                          { region: "US-EAST", latency: "112ms", role: "Secondary Sync" },
+                          { region: "EU-CENTRAL", latency: "148ms", role: "Secondary Sync" },
+                          { region: "JP-EAST", latency: "64ms", role: "Edge Node" }
+                        ].map(r => (
+                          <div key={r.region} className="p-3 bg-[#090d16] rounded-xl border border-cyan-800/80 text-center">
+                            <Icon name="Globe" className="w-5 h-5 mx-auto text-cyan-400 mb-1" />
+                            <div className="font-bold text-cyan-300 text-xs">{r.region}</div>
+                            <div className="text-[10px] text-slate-400 mt-0.5">Latency: {r.latency}</div>
+                            <div className="text-[9px] text-emerald-400 font-bold mt-1">{r.role}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* G10: 30-Layer Enterprise Flow */}
+                  {activeGraphKey === 'architecture_flow' && (
+                    <div className="space-y-3">
+                      <GraphHeader title="🏛️ G10 — แผนผังสถาปัตยกรรมองค์กร 30 ชั้น (30-Layer Enterprise Execution Flow)" status="L1 Kernel Flow &rArr; L30 Governance Gateway" />
+                      <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-[10px]">
+                        {Array.from({ length: 30 }, (_, i) => {
+                          const layer = i + 1;
                           return (
-                            <div
-                              key={cell.id}
-                              title={`วันที่ ${cell.day + 1} / เวลา ${cell.hour}:00 — ${cell.latencyMs}ms`}
-                              className={`h-4 rounded-sm ${intensity} border border-slate-800/60 hover:scale-125 transition-transform cursor-pointer`}
-                            />
+                            <div key={layer} className="p-2 rounded-lg bg-[#090d16] border border-slate-800 hover:border-cyan-500 transition text-center">
+                              <div className="text-cyan-400 font-black">L{layer}</div>
+                              <div className="text-[8px] text-emerald-400 mt-0.5">VERIFIED</div>
+                            </div>
                           );
                         })}
                       </div>
-                      <div className="flex justify-between text-[9px] text-slate-500 mt-2 font-bold">
-                        <span>00:00 (Day 1)</span>
-                        <span>12:00</span>
-                        <span>00:00 (Day 4)</span>
-                        <span>12:00</span>
-                        <span>23:00 (Day 7)</span>
-                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </div>
+
+              {/* Domain Surface Interactive Content */}
+              <div className="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-5 space-y-4">
+                <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                  <div className="flex items-center space-x-3">
+                    <Icon name={activeDomainObj.icon} className="w-6 h-6 text-emerald-400" />
+                    <div>
+                      <h2 className="text-lg font-bold text-white">โดเมน {activeDomainObj.code} — {activeDomainObj.name}</h2>
+                      <p className="text-xs text-slate-400">{activeDomainObj.desc}</p>
                     </div>
                   </div>
+                  <span className="bg-emerald-950 text-emerald-300 border border-emerald-700 text-xs px-3 py-1 rounded font-bold">
+                    เปิดใช้งานปกติ
+                  </span>
                 </div>
-              )}
 
-              {/* G02: กราฟคาดการณ์แนวโน้ม TREND & PREDICTIVE FORECAST */}
-              {activeGraphKey === 'trend_forecast' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="📈 G02 — กราฟคาดการณ์แนวโน้มอนาคต (Trend & Holt-Winters Forecast)"
-                    status="Actual → Forecast → Confidence 99.88%"
-                  />
-                  <div className="w-full h-52 bg-[#090d16] rounded-xl border border-slate-800 relative flex items-end justify-between p-4 overflow-hidden">
-                    <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
-                      <path d="M0,70 L20,65 L40,55 L60,50 L80,42 L100,30 L100,50 L80,60 L60,65 L40,70 L20,78 Z" fill="#8b5cf6" opacity="0.15" />
-                      <path d="M0,70 L20,65 L40,55 L60,50" fill="none" stroke="#00f0ff" strokeWidth="2.5" />
-                      <path d="M60,50 L80,42 L100,30" fill="none" stroke="#8b5cf6" strokeWidth="2.5" strokeDasharray="3 3" />
-                    </svg>
-                    <div className="relative z-10 text-[10px] text-slate-400 flex justify-between w-full">
-                      <span>ย้อนหลัง 12 ชม. (ข้อมูลจริง)</span>
-                      <span className="text-purple-300 font-bold">ปัจจุบัน (เริ่มคาดการณ์)</span>
-                      <span>อนาคต 12 ชม. (ผลคาดการณ์)</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* G03: กราฟความน่าเชื่อถือ SLO/SLI RELIABILITY */}
-              {activeGraphKey === 'slo_reliability' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="📊 G03 — กราฟมาตรวัดความน่าเชื่อถือของระบบ (SLO & Reliability Assurance)"
-                    status="SLI → SLO → Availability 99.999%"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs pt-2">
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">เป้าหมายความพร้อม SLO</span>
-                      <span className="text-emerald-400 font-black text-lg">99.999%</span>
-                    </div>
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">LATENCY P95 / P99</span>
-                      <span className="text-cyan-300 font-black text-lg">12ms / 18ms</span>
-                    </div>
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">เวลาฟื้นฟูเฉลี่ย MTTR</span>
-                      <span className="text-purple-300 font-black text-lg">&lt; 1.2 วินาที</span>
-                    </div>
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">อัตราข้อผิดพลาด ERROR RATE</span>
-                      <span className="text-emerald-400 font-black text-lg">0.000%</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* G04: ตารางความครอบคลุมนโยบาย CONTROL COVERAGE */}
-              {activeGraphKey === 'control_coverage' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🧩 G04 — ตารางการเปรียบเทียบขอบเขตการควบคุม (Control Definition vs Execution)"
-                    status="Control Definition → Control Execution Coverage 100%"
-                  />
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">
-                    {[
-                      { code: 'P1', title: 'แยกส่วนพื้นที่ Tenant Isolation', status: 'ครอบคลุม 100%' },
-                      { code: 'P2', title: 'รอยตราประทับ SHA-256 Seal', status: 'ครอบคลุม 100%' },
-                      { code: 'P3', title: 'อำนาจอนุมัติ P3 PDP สิทธิ์เดียว', status: 'ครอบคลุม 100%' },
-                      { code: 'P4', title: 'ป้องกันการเบี่ยงเบน Zero Drift', status: 'ครอบคลุม 100%' },
-                      { code: 'P5', title: 'ขอบเขต Manifest Bounds', status: 'ครอบคลุม 100%' },
-                      { code: 'P6', title: 'การฟื้นฟูอัตโนมัติ Phoenix SRE', status: 'ครอบคลุม 100%' },
-                      { code: 'P7', title: 'กฎการควบคุมต้นทุน FinOps', status: 'ครอบคลุม 100%' },
-                      { code: 'P8', title: 'ล็อกรอยตราประทับ 14,902 รายการ', status: 'ครอบคลุม 100%' }
-                    ].map((p) => (
-                      <div key={p.code} className="p-2 bg-[#090d16] rounded-lg border border-slate-800 space-y-0.5">
-                        <div className="text-cyan-300 font-bold">{p.code} &bull; {p.title}</div>
-                        <div className="text-emerald-400 font-bold text-[9px]">{p.status}</div>
-                      </div>
+                {/* Sub-modules Tabs */}
+                <div className="space-y-1.5 pt-1">
+                  <div className="text-[10px] text-slate-400 font-bold">ส่วนย่อยควบคุมของโดเมนนี้ (SUB-MODULE SURFACES):</div>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    {activeDomainObj.subModules.map((sub) => (
+                      <button
+                        key={sub.id}
+                        onClick={() => {
+                          setActiveSubModule(sub.id);
+                          addTerminalLog(`[SUB-MODULE] สลับไปยังส่วนย่อย ${sub.name} (${sub.id})`);
+                        }}
+                        className={`px-3 py-1.5 rounded-xl border transition cursor-pointer flex items-center gap-1.5 min-h-[36px] ${
+                          activeSubModule === sub.id
+                            ? 'bg-cyan-950 border-cyan-500 text-cyan-200 font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                            : 'bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-300'
+                        }`}
+                      >
+                        <span>{sub.name}</span>
+                        <Icon name="CornerDownRight" className="w-3 h-3 text-cyan-400" />
+                      </button>
                     ))}
                   </div>
                 </div>
-              )}
 
-              {/* G05: กราฟการทำงานของ AGENT EXECUTION FLOW */}
-              {activeGraphKey === 'agent_execution' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🧠 G05 — กราฟขั้นตอนการประมวลผลของ Agent (Agent Execution Flow)"
-                    status="Agent → Tool → Action → Result → Evidence"
-                  />
-                  <div className="bg-[#090d16] p-4 rounded-xl border border-slate-800 text-xs font-mono space-y-2">
-                    <div className="flex flex-wrap items-center gap-2 text-cyan-300">
-                      <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">AGENT #128</span> &rarr;
-                      <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">TOOL: PDP_EVAL</span> &rarr;
-                      <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">ACTION: AUTHORIZE</span> &rarr;
-                      <span className="bg-slate-900 px-2 py-1 rounded border border-slate-700">RESULT: PERMIT</span> &rarr;
-                      <span className="text-emerald-400 font-bold">EVIDENCE ATTESTED (SHA-256)</span>
+                {/* Dedicated Ω560 Assurance Matrix Surface in Evidence Domain */}
+                {activeTab === 'evidence' ? (
+                  <div className="bg-[#06080e] p-4 rounded-xl border border-emerald-900/60 space-y-4">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                      <span className="text-emerald-400 font-bold text-xs flex items-center gap-2">
+                        <Icon name="ShieldCheck" className="w-4 h-4 text-emerald-400" />
+                        Ω560 SOVEREIGN DYNAMIC ASSURANCE MATRIX (10 DYNAMIC CHECKS)
+                      </span>
+                      <span className="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded font-mono">
+                        COMPUTED LIVE
+                      </span>
                     </div>
-                    <div className="text-[10px] text-slate-400 pt-2">
-                      ทุกขั้นตอนการตัดสินใจของปัญญาประดิษฐ์ถูกบันทึกลงในรอยตราประทับทางประวัติศาสตร์ {CANONICAL.HISTORICAL_SEALS.toLocaleString()} SHA-256 โดยอัตโนมัติ
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* G06: กราฟความจุระบบ CAPACITY DYNAMICS */}
-              {activeGraphKey === 'capacity_dynamics' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="📉 G06 — กราฟความจุระบบและการคิวประมวลผล (Capacity, Saturation & Queue Dynamics)"
-                    status="Compute → Queue → Saturation 18.4%"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">การใช้งาน CPU / MEMORY</span>
-                      <span className="text-cyan-300 font-bold text-sm">24.2% / 38.6%</span>
-                    </div>
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">คิวประมวลผลตกค้าง</span>
-                      <span className="text-emerald-400 font-bold text-sm">0 รายการ (ไม่มีคิวค้าง)</span>
-                    </div>
-                    <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
-                      <span className="text-slate-400 block text-[10px]">สัดส่วน SPOT COMPUTE</span>
-                      <span className="text-purple-300 font-bold text-sm">94.2% Spot Compute</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* G07: OBSERVABILITY TIMELINE */}
-              {activeGraphKey === 'observability_timeline' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🛰️ G07 — เส้นเวลาสังเกตการณ์เหตุการณ์ (Observability Event Timeline)"
-                    status="Event → Trace → Log → Decision → Evidence"
-                  />
-                  <div className="space-y-2 text-xs">
-                    {[
-                      ["EVENT", "evt-82391-init", "RECEIVED", "text-cyan-400"],
-                      ["TRACE", "trace-7f91-span", "CORRELATED", "text-purple-400"],
-                      ["LOG", "log-2910-audit", "RECORDED", "text-amber-400"],
-                      ["DECISION", CANONICAL.PDP, "PERMITTED", "text-emerald-400"],
-                      ["EVIDENCE", "sha256:e1f7a9d4...", "ATTESTED", "text-emerald-300"],
-                    ].map(([stage, id, status, colorClass]) => (
-                      <div key={id} className="flex items-center gap-3 p-2.5 bg-[#090d16] border border-slate-800 rounded-xl">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <span className={`font-bold ${colorClass} shrink-0 w-20`}>{stage}</span>
-                        <ArrowRight className="w-3 h-3 text-slate-600 shrink-0" />
-                        <code className="text-slate-300 truncate font-mono text-[11px]">{id}</code>
-                        <span className="ml-auto text-emerald-400 text-[10px] font-bold shrink-0">{status}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* G08: GOVERNANCE DECISION GRAPH */}
-              {activeGraphKey === 'governance_decision' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🔐 G08 — กราฟการตัดสินใจนโยบายธรรมาภิบาล (Governance Policy Decision Graph)"
-                    status="Policy → PDP → Authorization → Execution"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs">
-                    {["POLICY CLAUSE", "P3 PDP EVAL", "AUTHORIZATION", "EXECUTION", "EVIDENCE LEDGER"].map((node) => (
-                      <div key={node} className="p-3 rounded-xl bg-[#090d16] border border-emerald-800/80 text-center space-y-1">
-                        <ShieldCheck className="w-5 h-5 mx-auto text-emerald-400" />
-                        <div className="text-[10px] font-bold text-emerald-300">{node}</div>
-                        <div className="text-[9px] text-slate-500">Zero Bypass</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* G09: MULTI-REGION DEPENDENCY */}
-              {activeGraphKey === 'regional_dependency' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🌐 G09 — กราฟความสัมพันธ์ข้ามภูมิภาค (Multi-Region System Dependency)"
-                    status="AP → US → EU → JP Regional Topology"
-                  />
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                    {[
-                      { region: "AP-SOUTHEAST", latency: "4ms", role: "Primary Active" },
-                      { region: "US-EAST", latency: "112ms", role: "Secondary Sync" },
-                      { region: "EU-CENTRAL", latency: "148ms", role: "Secondary Sync" },
-                      { region: "JP-EAST", latency: "64ms", role: "Edge Node" }
-                    ].map(r => (
-                      <div key={r.region} className="p-3 bg-[#090d16] rounded-xl border border-cyan-800/80 text-center">
-                        <Globe className="w-5 h-5 mx-auto text-cyan-400 mb-1" />
-                        <div className="font-bold text-cyan-300 text-xs">{r.region}</div>
-                        <div className="text-[10px] text-slate-400 mt-0.5">Latency: {r.latency}</div>
-                        <div className="text-[9px] text-emerald-400 font-bold mt-1">{r.role}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* G10: 30-LAYER ARCHITECTURE */}
-              {activeGraphKey === 'architecture_flow' && (
-                <div className="space-y-3">
-                  <GraphHeader
-                    title="🏛️ G10 — แผนผังสถาปัตยกรรมองค์กร 30 ชั้น (30-Layer Enterprise Execution Flow)"
-                    status="L1 Kernel Flow &rArr; L30 Governance Gateway"
-                  />
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-[10px]">
-                    {Array.from({ length: 30 }, (_, i) => {
-                      const layer = i + 1;
-                      return (
-                        <div key={layer} className="p-2 rounded-lg bg-[#090d16] border border-slate-800 hover:border-cyan-500 transition text-center">
-                          <div className="text-cyan-400 font-black">L{layer}</div>
-                          <div className="text-[8px] text-emerald-400 mt-0.5">VERIFIED</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                      {assuranceMatrix.map((ac) => (
+                        <div key={ac.id} className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-start gap-2.5">
+                          <div className={`mt-0.5 ${ac.status ? 'text-emerald-400' : 'text-red-400'}`}>
+                            <Icon name={ac.status ? "CheckCircle2" : "AlertTriangle"} className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-cyan-300 font-bold font-mono text-[11px]">{ac.id}</span>
+                              <span className="text-slate-200 font-bold text-[11px]">{ac.title}</span>
+                            </div>
+                            <p className="text-[10px] text-slate-400 mt-0.5">{ac.desc}</p>
+                          </div>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
+                ) : (
+                  <div className="bg-[#06080e] p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
+                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                      <div className="text-cyan-300 font-bold flex items-center gap-2">
+                        <Icon name="Layers" className="w-4 h-4 text-emerald-400" />
+                        <span>พื้นผิวการทำงานส่วนย่อย: {activeSubModuleObj?.name}</span>
+                      </div>
+                      <span className="text-[9px] bg-slate-900 border border-slate-700 text-slate-300 px-2 py-0.5 rounded font-mono">
+                        ID: {activeSubModuleObj?.id}
+                      </span>
+                    </div>
+                    <p className="text-slate-400 text-[11px]">
+                      ส่วนย่อย <code className="text-cyan-300">{activeSubModuleObj?.name}</code> กำลังทำงานภายใต้โดเมนการควบคุม <code className="text-emerald-400">{activeDomainObj.name}</code> (รหัส {activeDomainObj.code}) และอยู่ภายใต้การกำกับดูแลของ {CANONICAL.PDP}
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-[11px]">
+                      <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                        <div className="text-slate-500 text-[9px]">สถานะการแยกส่วน TENANT</div>
+                        <div className="text-emerald-400 font-bold mt-0.5">{CANONICAL.TENANT_ID} Verified</div>
+                      </div>
+                      <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                        <div className="text-slate-500 text-[9px]">รอยตราประทับอ้างอิง</div>
+                        <div className="text-amber-400 font-bold mt-0.5">{CANONICAL.HISTORICAL_SEALS.toLocaleString()} SHA-256</div>
+                      </div>
+                      <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
+                        <div className="text-slate-500 text-[9px]">ข้อจำกัดขอบเขต</div>
+                        <div className="text-purple-300 font-bold mt-0.5">{CANONICAL.NEXT_SAFE_OMEGA} Hard Stop</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Historical Omega Lineage Map */}
+              <div className="bg-[#0f121d] border border-purple-900/60 rounded-2xl p-5 font-mono space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <span className="font-bold text-purple-300 flex items-center gap-2 text-xs">
+                    <Icon name="History" className="w-4 h-4 text-purple-400" /> แผนผังวิวัฒนาการสายตระกูลสถาปัตยกรรมประวัติศาสตร์ (Historical Ω Lineage Baseline)
+                  </span>
+                  <span className="text-[10px] bg-purple-950 text-purple-300 border border-purple-800 px-2 py-0.5 rounded">
+                    CANONICAL LINEAGE PRESERVED
+                  </span>
                 </div>
-              )}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[10px]">
+                  {HISTORICAL_LINEAGE.map((item) => (
+                    <div key={item.range} className="p-2.5 rounded-xl bg-[#06080e] border border-slate-800 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-cyan-300 font-bold">{item.range}</span>
+                        <span className="text-[8px] bg-slate-900 px-1.5 py-0.5 rounded text-emerald-400 font-bold">{item.status}</span>
+                      </div>
+                      <p className="text-slate-400 text-[9px] truncate">{item.title}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
-            </div>
-          </div>
-
-          {/* แผงแสดงผลตามโดเมนที่เลือก (13 CANONICAL DOMAIN PANELS) */}
-          <div className="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-5 space-y-4">
-            <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-              <div className="flex items-center space-x-3">
-                <ActiveDomainIcon className="w-6 h-6 text-emerald-400" />
+              {/* Policy Command Shell Router */}
+              <div className="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-5 flex flex-col justify-between font-mono">
                 <div>
-                  <h2 className="text-lg font-bold text-white">โดเมน {activeDomainObj.code} — {activeDomainObj.name}</h2>
-                  <p className="text-xs text-slate-400">{activeDomainObj.desc}</p>
+                  <div className="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+                    <div className="flex items-center space-x-2">
+                      <Icon name="Terminal" className="w-4 h-4 text-purple-400" />
+                      <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">เทอร์มินัลตรวจสอบนโยบายการนำทาง (Policy Command Router)</h2>
+                    </div>
+                    <span className="text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">ROUTER ACTIVE</span>
+                  </div>
+                  <div className="bg-[#06080e] border border-slate-800 rounded-xl p-3 text-[11px] text-slate-300 h-[160px] overflow-y-auto space-y-1.5 scrollbar-thin">
+                    {terminalLogs.map((log, idx) => (
+                      <div key={idx} className={
+                        log.startsWith('>')
+                          ? 'text-cyan-400 font-bold'
+                          : log.includes('REJECTED')
+                          ? 'text-red-400 font-bold'
+                          : log.includes('NAVIGATED') || log.includes('MASTER') || log.includes('STATUS')
+                          ? 'text-emerald-300 font-bold'
+                          : 'text-slate-300'
+                      }>
+                        {log}
+                      </div>
+                    ))}
+                    <div ref={terminalEndRef} />
+                  </div>
                 </div>
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  if (cmdInput.trim()) {
+                    executePolicyCommand(cmdInput);
+                    setCmdInput('');
+                  }
+                }} className="mt-3 space-y-2">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={cmdInput}
+                      onChange={(e) => setCmdInput(e.target.value)}
+                      className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-cyan-200 focus:outline-none focus:border-cyan-500 pr-10"
+                      placeholder="พิมพ์คำสั่ง (status, domains, graphs, policy, evidence, hard-stop, clear, help)..."
+                    />
+                    <button type="submit" className="absolute right-1 top-1 bottom-1 px-3 bg-gradient-to-r from-cyan-400 to-emerald-500 hover:brightness-110 text-black font-bold rounded-lg text-xs transition cursor-pointer">
+                      <Icon name="Play" className="w-3 h-3 fill-current" />
+                    </button>
+                  </div>
+                </form>
               </div>
-              <span className="bg-emerald-950 text-emerald-300 border border-emerald-700 text-xs px-3 py-1 rounded font-bold">
-                เปิดใช้งานปกติ
-              </span>
-            </div>
 
-            {/* ปุ่มสลับส่วนย่อยภายในโดเมน */}
-            <div className="space-y-1.5 pt-1">
-              <div className="text-[10px] text-slate-400 font-bold">ส่วนย่อยควบคุมของโดเมนนี้ (SUB-MODULE SURFACES):</div>
-              <div className="flex flex-wrap gap-2 text-xs">
-                {activeDomainObj.subModules.map((sub) => (
-                  <button
-                    key={sub.id}
-                    onClick={() => {
-                      setActiveSubModule(sub.id);
-                      addTerminalLog(`[SUB-MODULE] สลับไปยังส่วนย่อย ${sub.name} (${sub.id})`);
-                    }}
-                    className={`px-3 py-1.5 rounded-xl border transition cursor-pointer flex items-center gap-1.5 min-h-[36px] ${
-                      activeSubModule === sub.id
-                        ? 'bg-cyan-950 border-cyan-500 text-cyan-200 font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]'
-                        : 'bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-300'
-                    }`}
-                  >
-                    <span>{sub.name}</span>
-                    <CornerDownRight className="w-3 h-3 text-cyan-400" />
-                  </button>
-                ))}
+              {/* System Integrity & Ω742 Reconciliation Table */}
+              <div className="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-5 font-mono space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-2">
+                  <span className="font-bold text-emerald-300 flex items-center gap-2 text-xs">
+                    <Icon name="GitCommit" className="w-4 h-4 text-cyan-400" /> ตารางการรับรองสิทธิ์ความถูกต้องของระบบ (System Integrity & Ω742 Reconciliation)
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className={`text-[10px] font-bold ${integrityAudit.verified ? "text-emerald-400" : "text-red-400"}`}>
+                      {integrityAudit.verified ? "● CANONICAL INTEGRITY VERIFIED" : "● CANONICAL INTEGRITY FAILURE"}
+                    </span>
+                    <button
+                      onClick={handleExportAttestation}
+                      className="text-[10px] bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 px-2.5 py-1 rounded cursor-pointer transition font-bold"
+                    >
+                      ส่งออกใบรับรอง (.JSON)
+                    </button>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                  {[
+                    ["13 CANONICAL DOMAINS", integrityAudit.domainsPass],
+                    ["10 OPERATIONAL GRAPHS", integrityAudit.graphsPass],
+                    ["Ω560 ASSURANCE MATRIX", assuranceMatrix.every(a => a.status)],
+                    ["BASELINE FROZEN v1.2", integrityAudit.baselinePass],
+                    ["CONTROL PLANE v2.1", integrityAudit.controlPlanePass],
+                    ["HARD STOP Ω1011", integrityAudit.hardStopPass],
+                  ].map(([label, passed]) => (
+                    <div key={label} className="p-3 rounded-xl bg-[#06080e] border border-slate-800 text-center">
+                      <div className="text-[9px] text-slate-500 truncate">{label}</div>
+                      <div className={`mt-1 text-xs font-black ${passed ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {passed ? 'PASS ✓' : 'FAIL ✕'}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* การแสดงผลเฉพาะทางของ Sub-module ที่เลือก (DEDICATED SUB-MODULE SURFACE) */}
-            <div className="bg-[#06080e] p-4 rounded-xl border border-slate-800 space-y-3 text-xs">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <div className="text-cyan-300 font-bold flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-emerald-400" />
-                  <span>พื้นผิวการทำงานส่วนย่อย: {activeSubModuleObj?.name}</span>
-                </div>
-                <span className="text-[9px] bg-slate-900 border border-slate-700 text-slate-300 px-2 py-0.5 rounded font-mono">
-                  ID: {activeSubModuleObj?.id}
-                </span>
-              </div>
-              <p className="text-slate-400 text-[11px]">
-                ส่วนย่อย <code className="text-cyan-300">{activeSubModuleObj?.name}</code> กำลังทำงานภายใต้โดเมนการควบคุม <code className="text-emerald-400">{activeDomainObj.name}</code> (รหัส {activeDomainObj.code}) และอยู่ภายใต้การกำกับดูแลของ {CANONICAL.PDP}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-[11px]">
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <div className="text-slate-500 text-[9px]">สถานะการแยกส่วน TENANT</div>
-                  <div className="text-emerald-400 font-bold mt-0.5">{CANONICAL.TENANT_ID} Verified</div>
-                </div>
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <div className="text-slate-500 text-[9px]">รอยตราประทับอ้างอิง</div>
-                  <div className="text-amber-400 font-bold mt-0.5">{CANONICAL.HISTORICAL_SEALS.toLocaleString()} SHA-256</div>
-                </div>
-                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                  <div className="text-slate-500 text-[9px]">ข้อจำกัดขอบเขต</div>
-                  <div className="text-purple-300 font-bold mt-0.5">{CANONICAL.NEXT_SAFE_OMEGA} Hard Stop</div>
-                </div>
-              </div>
-            </div>
+            </main>
+
+            <footer className="bg-[#0f121d] border-t border-slate-800 py-4 text-center text-xs text-slate-500 font-mono">
+              {CANONICAL.PLATFORM} {CANONICAL.BASELINE} &bull; CONTROL PLANE {CANONICAL.CONTROL_PLANE} &bull; Architect: {CANONICAL.ARCHITECT}
+            </footer>
           </div>
 
-          {/* เทอร์มินัลตรวจสอบนโยบายการทำงาน (POLICY COMMAND SHELL ROUTER) */}
-          <div className="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-5 flex flex-col justify-between font-mono">
-            <div>
-              <div className="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
-                <div className="flex items-center space-x-2">
-                  <Terminal className="w-4 h-4 text-purple-400" />
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200">เทอร์มินัลตรวจสอบนโยบายการนำทาง (Policy Command Router)</h2>
-                </div>
-                <span className="text-[9px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">ROUTER ACTIVE</span>
-              </div>
-              <div className="bg-[#06080e] border border-slate-800 rounded-xl p-3 text-[11px] text-slate-300 h-[160px] overflow-y-auto space-y-1.5 scrollbar-thin">
-                {terminalLogs.map((log, idx) => (
-                  <div key={idx} className={
-                    log.startsWith('>')
-                      ? 'text-cyan-400 font-bold'
-                      : log.includes('REJECTED')
-                      ? 'text-red-400 font-bold'
-                      : log.includes('NAVIGATED') || log.includes('MASTER') || log.includes('STATUS')
-                      ? 'text-emerald-300 font-bold'
-                      : 'text-slate-300'
-                  }>
-                    {log}
+          {/* Universal Discovery Router Modal (⌘K) */}
+          {isSearchOpen && (
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-start justify-center pt-20 p-4 font-mono">
+              <div className="bg-[#0f121d] border border-cyan-600/80 w-full max-w-xl rounded-2xl p-4 shadow-[0_0_50px_rgba(0,240,255,0.25)] space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div className="flex items-center space-x-2 text-cyan-400">
+                    <Icon name="Search" className="w-4 h-4" />
+                    <span className="font-bold text-xs uppercase">Universal Discovery Router</span>
                   </div>
-                ))}
-                <div ref={terminalEndRef} />
-              </div>
-            </div>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              if (cmdInput.trim()) {
-                executePolicyCommand(cmdInput);
-                setCmdInput('');
-              }
-            }} className="mt-3 space-y-2">
-              <div className="relative">
+                  <button onClick={() => setIsSearchOpen(false)} className="text-slate-400 hover:text-white cursor-pointer">✕</button>
+                </div>
                 <input
                   type="text"
-                  value={cmdInput}
-                  onChange={(e) => setCmdInput(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-cyan-200 focus:outline-none focus:border-cyan-500 pr-10"
-                  placeholder="พิมพ์คำสั่ง (status, domains, graphs, policy, evidence, hard-stop, help)..."
+                  autoFocus
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="ค้นหา Domains, Sub-modules, Graphs G01–G10 หรือ Lineage Ω..."
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-cyan-200 focus:outline-none focus:border-cyan-500"
                 />
-                <button type="submit" className="absolute right-1 top-1 bottom-1 px-3 bg-gradient-to-r from-cyan-400 to-emerald-500 hover:brightness-110 text-black font-bold rounded-lg text-xs transition cursor-pointer">
-                  <Play className="w-3 h-3 fill-current" />
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* ส่วนตรวจสอบความสมบูรณ์ระดับวิศวกรรม (RUNTIME INTEGRITY GATE) */}
-          <div className="bg-[#0f121d] border border-slate-800/80 rounded-2xl p-5 font-mono space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-2 gap-2">
-              <span className="font-bold text-emerald-300 flex items-center gap-2 text-xs">
-                <GitCommit className="w-4 h-4 text-cyan-400" /> ตารางการรับรองสิทธิ์ความถูกต้องของระบบระดับบริหาร (System Integrity Contract Gate)
-              </span>
-              <div className="flex items-center gap-3">
-                <span className={`text-[10px] font-bold ${integrityAudit.verified ? "text-emerald-400" : "text-red-400"}`}>
-                  {integrityAudit.verified ? "● CANONICAL INTEGRITY VERIFIED" : "● CANONICAL INTEGRITY FAILURE"}
-                </span>
-                <button
-                  onClick={handleExportAttestation}
-                  className="text-[10px] bg-emerald-950 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 px-2.5 py-1 rounded cursor-pointer transition font-bold"
-                >
-                  ส่งออกใบรับรอง (.JSON)
-                </button>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-              {[
-                ["13 CANONICAL DOMAINS", integrityAudit.domainsPass],
-                ["10 OPERATIONAL GRAPHS", integrityAudit.graphsPass],
-                ["GRAPH ID INTEGRITY", integrityAudit.graphIdsPass],
-                ["BASELINE FROZEN v1.2", integrityAudit.baselinePass],
-                ["CONTROL PLANE v2.1", integrityAudit.controlPlanePass],
-              ].map(([label, passed]) => (
-                <div key={label as string} className="p-3 rounded-xl bg-[#06080e] border border-slate-800 text-center">
-                  <div className="text-[9px] text-slate-500 truncate">{label as string}</div>
-                  <div className={`mt-1 text-xs font-black ${passed ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {passed ? 'PASS ✓' : 'FAIL ✕'}
-                  </div>
+                <div className="max-h-60 overflow-y-auto space-y-1.5 pt-1 scrollbar-thin">
+                  {searchResults.length === 0 ? (
+                    <div className="text-center py-6 text-xs text-slate-500">ไม่พบรายการที่ตรงกับข้อความค้นหา</div>
+                  ) : (
+                    searchResults.map(item => (
+                      <div
+                        key={`${item.type}-${item.id}`}
+                        onClick={() => handleSearchNavigation(item)}
+                        className="bg-[#06080e] hover:bg-slate-800/80 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between cursor-pointer transition min-h-[44px]"
+                      >
+                        <div>
+                          <div className="text-xs font-bold text-slate-200">{item.code ? `[${item.code}] ` : ''}{item.name}</div>
+                          <div className="text-[10px] text-slate-400">{item.description}</div>
+                        </div>
+                        <span className="text-[9px] bg-slate-900 border border-slate-700 text-cyan-300 px-2 py-0.5 rounded font-bold shrink-0">
+                          {item.type}
+                        </span>
+                      </div>
+                    ))
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
-
-        </main>
-
-        <footer className="bg-[#0f121d] border-t border-slate-800 py-4 text-center text-xs text-slate-500 font-mono">
-          {CANONICAL.PLATFORM} {CANONICAL.BASELINE} &bull; CONTROL PLANE {CANONICAL.CONTROL_PLANE} &bull; Architect: {CANONICAL.ARCHITECT}
-        </footer>
-      </div>
-
-      {/* หน้าต่างค้นหาในระบบ UNIVERSAL SEARCH MODAL (⌘K) */}
-      {isSearchOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-start justify-center pt-20 p-4 font-mono">
-          <div className="bg-[#0f121d] border border-cyan-600/80 w-full max-w-xl rounded-2xl p-4 shadow-[0_0_50px_rgba(0,240,255,0.25)] space-y-3">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div className="flex items-center space-x-2 text-cyan-400">
-                <Search className="w-4 h-4" />
-                <span className="font-bold text-xs uppercase">Universal Discovery Router</span>
               </div>
-              <button onClick={() => setIsSearchOpen(false)} className="text-slate-400 hover:text-white cursor-pointer" title="ปิดค้นหา">
-                <X className="w-4 h-4" />
-              </button>
             </div>
-            <input
-              type="text"
-              autoFocus
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="ค้นหา Domains, Sub-modules หรือ Operational Graphs G01–G10..."
-              className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-cyan-200 focus:outline-none focus:border-cyan-500"
-            />
-            <div className="max-h-60 overflow-y-auto space-y-1.5 pt-1 scrollbar-thin">
-              {searchResults.length === 0 ? (
-                <div className="text-center py-6 text-xs text-slate-500">ไม่พบรายการที่ตรงกับข้อความค้นหา</div>
-              ) : (
-                searchResults.map(item => (
-                  <div
-                    key={`${item.type}-${item.id}`}
-                    onClick={() => handleSearchNavigation(item)}
-                    className="bg-[#06080e] hover:bg-slate-800/80 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between cursor-pointer transition min-h-[44px]"
-                  >
-                    <div>
-                      <div className="text-xs font-bold text-slate-200">{item.code ? `[${item.code}] ` : ''}{item.name}</div>
-                      <div className="text-[10px] text-slate-400">{item.description}</div>
-                    </div>
-                    <span className="text-[9px] bg-slate-900 border border-slate-700 text-cyan-300 px-2 py-0.5 rounded font-bold shrink-0">
-                      {item.type}
-                    </span>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+          )}
 
-    </div>
-  );
-}
+        </div>
+      );
+    }
+
+    // Render React Application
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
 
