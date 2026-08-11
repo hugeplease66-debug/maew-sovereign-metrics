@@ -1,34 +1,55 @@
 MAEW Ω∞ HYPEROS
 
-<p align="center">
-  <img
-    src="./banner.jpg"
-    alt="MAEW Ω∞ HYPEROS — Sovereign Metrics & Provenance Engine"
-    width="100%"
-  />
-</p><h2 align="center">Sovereign Metrics & Provenance Engine</h2><p align="center">
-  <strong>FROZEN v1.2 LTS</strong> ·
-  <strong>Control Plane v2.1 LTS</strong> ·
-  <strong>Single-File Web Application</strong>
-</p><p align="center">
-  <em>« Built to Be Examined. — Provenance-First Evidence Architecture »</em>
-</p>---
+Sovereign Metrics & Provenance Engine
 
-MAEW Ω∞ HYPEROS เป็น Single-File Web Application สำหรับนำเสนอและตรวจสอบโครงสร้าง Sovereign Metrics, Provenance, Assurance, Governance และ Historical Lineage ผ่านอินเทอร์เฟซเดียว
+FROZEN v1.2 LTS · Control Plane v2.1 LTS · Single-File Web Application
 
-ระบบถูกออกแบบให้สามารถเปิดใช้งานได้โดยตรงจาก "index.html" หรือเผยแพร่ผ่าน GitHub Pages โดยไม่ต้องมี Backend สำหรับการทำงานของ UI Layer
+«« Built to Be Examined. — Provenance-First Evidence Architecture »»
+
+"MAEW Ω∞ HYPEROS Banner" (banner.jpg)
 
 ---
 
-Console Preview
+MAEW Ω∞ HYPEROS เป็น Single-File Web Application สำหรับนำเสนอ ตรวจสอบ และสำรวจโครงสร้าง Sovereign Metrics, Provenance, Assurance, Governance และ Historical Lineage ผ่านอินเทอร์เฟซเดียว
 
-<p align="center">
-  <img
-    src="./sovereign-audit-console.jpg"
-    alt="MAEW Ω∞ HYPEROS Sovereign Audit Console"
-    width="100%"
-  />
-</p>«Sovereign Audit Console — ตัวอย่าง UI Surface สำหรับตรวจสอบ Canonical State, Provenance, Assurance, Governance และ Historical Lineage»
+ระบบถูกออกแบบให้สามารถเปิดใช้งานโดยตรงจาก "index.html" หรือเผยแพร่ผ่าน GitHub Pages โดยไม่ต้องมี Backend สำหรับการทำงานของ UI / Demonstration Layer
+
+"Sovereign Audit Console" (sovereign-audit-console.jpg)
+
+---
+
+Executive Overview
+
+MAEW Ω∞ HYPEROS ใช้แนวคิด Provenance-First Evidence Architecture โดยให้ทุก Operational Surface เชื่อมโยงกลับไปยัง Canonical State, Evidence, Assurance และ Historical Lineage
+
+SOURCE
+   │
+   ▼
+TELEMETRY
+   │
+   ▼
+CALCULATION Σf(x)
+   │
+   ▼
+PROVENANCE
+   │
+   ▼
+CANONICAL PAYLOAD
+   │
+   ▼
+SHA-256 SEAL
+   │
+   ▼
+Ω560 ASSURANCE
+   │
+   ▼
+Ω742 RECONCILIATION
+   │
+   ▼
+ATTESTATION
+   │
+   ▼
+Ω1011 HARD STOP
 
 ---
 
@@ -55,7 +76,7 @@ Deployment Target| Web Browser / GitHub Pages
 
 2. Core Architecture
 
-MAEW Ω∞ HYPEROS แบ่งออกเป็น 5 Operational Surfaces หลัก:
+MAEW Ω∞ HYPEROS แบ่งออกเป็น 5 Operational Surfaces หลัก
 
 MAEW Ω∞ HYPEROS
 │
@@ -123,13 +144,14 @@ MAEW Ω∞ HYPEROS
 
 3. Single-File Architecture
 
-ระบบหลักถูกรวมไว้ในไฟล์เดียวเพื่อให้สามารถตรวจสอบ แจกจ่าย และเปิดใช้งานได้ง่าย:
+ระบบหลักถูกรวมไว้ในไฟล์เดียวเพื่อให้สามารถตรวจสอบ แจกจ่าย และเปิดใช้งานได้ง่าย
 
 /
 ├── index.html
 ├── README.md
 ├── banner.jpg
-└── sovereign-audit-console.jpg
+├── sovereign-audit-console.jpg
+└── provenance-architecture.jpg
 
 "index.html"
 
@@ -156,7 +178,9 @@ Zero-Backend UI Layer
 
 ระบบ UI สามารถทำงานแบบ Client-side ได้โดยไม่ต้องมี Backend หรือ Database สำหรับ Demo Surface
 
-หมายเหตุ: External CDN dependencies ยังคงถูกเรียกจาก Browser ในเวอร์ชัน Single-File นี้ ดังนั้นการใช้งานแบบ Offline 100% จำเป็นต้อง bundle dependencies ภายในเพิ่มเติม
+«หมายเหตุ: External CDN dependencies ยังคงถูกเรียกจาก Browser ในเวอร์ชัน Single-File นี้ ดังนั้น Single-File ≠ Fully Offline Bundle»
+
+สำหรับ deployment แบบ air-gapped / offline / sovereign infrastructure ควร bundle dependencies เป็น local assets ใน release ที่เหมาะสม
 
 ---
 
@@ -191,7 +215,7 @@ SOURCE
 TELEMETRY
    │
    ▼
-CALCULATION ∑f(x)
+CALCULATION Σf(x)
    │
    ▼
 PROVENANCE
@@ -222,7 +246,7 @@ Step| Stage| Purpose
 
 6. 3-Tier Execution Topology
 
-ระบบแสดง Execution Topology 3 ระดับ:
+ระบบแสดง Execution Topology 3 ระดับ
 
 🟢 LIVE PRODUCTION
 
@@ -267,45 +291,45 @@ G10| 30-Layer Execution Flow| L1 → L30
 
 8. Historical Ω Lineage
 
-ระบบรักษา Historical Architecture Lineage ตั้งแต่:
+ระบบรักษา Historical Architecture Lineage ตั้งแต่ Ω001–Ω1011
 
 Ω001
-│
-├── Ω001–Ω100
-│   Foundational Quantum Topology & Kernel Baseline
-│
-├── Ω101–Ω545
-│   Intermediate Domain Matrix & Protocol Fabric
-│
-├── Ω546–Ω560
-│   Sovereign Metrics & Provenance Engine
-│
-├── Ω561–Ω732
-│   Enterprise Integration & Multi-Mesh Orchestration
-│
-├── Ω733–Ω742
-│   HYPEROS Unified Workspace Fabric
-│
-├── Ω743–Ω999
-│   Platform Maturity & Extended Execution Horizon
-│
-├── Ω1000
-│   Master Platform Gate
-│
-├── Ω1010
-│   Integration Verification & Attestation Gate
-│
-└── Ω1011
-    NEXT SAFE BOUNDARY
-    HARD STOP ENFORCED
+ │
+ ├── Ω001–Ω100
+ │   Foundational Quantum Topology & Kernel Baseline
+ │
+ ├── Ω101–Ω545
+ │   Intermediate Domain Matrix & Protocol Fabric
+ │
+ ├── Ω546–Ω560
+ │   Sovereign Metrics & Provenance Engine
+ │
+ ├── Ω561–Ω732
+ │   Enterprise Integration & Multi-Mesh Orchestration
+ │
+ ├── Ω733–Ω742
+ │   HYPEROS Unified Workspace Fabric
+ │
+ ├── Ω743–Ω999
+ │   Platform Maturity & Extended Execution Horizon
+ │
+ ├── Ω1000
+ │   Master Platform Gate
+ │
+ ├── Ω1010
+ │   Integration Verification & Attestation Gate
+ │
+ └── Ω1011
+     NEXT SAFE BOUNDARY
+     HARD STOP ENFORCED
 
 Lineage Invariant
 
 Ω001 ─────────────────────────────────────── Ω1011
-  │                                             │
-  │ Historical Preservation                     │ Hard Stop
-  │ Immutable Lineage                           │ No Autonomous
-  │                                             │ Expansion
+ │                                             │
+ │ Historical Preservation                     │ Hard Stop
+ │ Immutable Lineage                           │ No Autonomous
+ │                                             │ Expansion
 
 ---
 
@@ -313,7 +337,7 @@ Lineage Invariant
 
 Ω560 ทำหน้าที่เป็น Runtime Integrity Surface สำหรับตรวจสอบ Canonical Invariants
 
-ระบบมี Assurance Controls จำนวน 10 รายการ:
+ระบบมี Assurance Controls จำนวน 10 รายการ
 
 Control| Check
 AC01| Source Integrity Check
@@ -357,7 +381,7 @@ ATTESTATION RECEIPT
 
 maew-hyperos-canonical-attestation-v1.json
 
-ไฟล์ดังกล่าวประกอบด้วย:
+Attestation ประกอบด้วย:
 
 - Canonical Identity
 - Historical Lineage
@@ -504,34 +528,29 @@ hyperos.system.hard-stop
 
 คำสั่งที่ไม่อยู่ใน Allowlist จะถูกปฏิเสธ:
 
-[REJECTED]
-UNKNOWN COMMAND
-
-[POLICY]
-Command not recognized
-
-[HARD STOP BOUNDARY]
-Ω1011
+[REJECTED] UNKNOWN COMMAND
+[POLICY] Command not recognized
+[HARD STOP BOUNDARY] Ω1011
 
 ---
 
 15. Canonical Integrity Checks
 
-ระบบตรวจสอบ Canonical invariants ได้แก่:
+ระบบตรวจสอบ Canonical Invariants ได้แก่:
 
-13 Domains                         ✓
-10 Operational Graphs              ✓
-Unique Graph IDs                   ✓
-Frozen Baseline v1.2 LTS           ✓
-Control Plane v2.1 LTS             ✓
-14,902 Historical Seals            ✓
-Ω1011 Hard Stop                    ✓
+13 Domains                       ✓
+10 Operational Graphs            ✓
+Unique Graph IDs                 ✓
+Frozen Baseline v1.2 LTS        ✓
+Control Plane v2.1 LTS          ✓
+14,902 Historical Seals         ✓
+Ω1011 Hard Stop                ✓
 
 สถานะรวม:
 
 CANONICAL INTEGRITY VERIFIED
 
-หาก invariant ใดไม่ผ่าน ระบบจะเปลี่ยนสถานะเป็น:
+หาก Invariant ใดไม่ผ่าน ระบบจะเปลี่ยนสถานะเป็น:
 
 CANONICAL INTEGRITY FAILURE
 
@@ -562,23 +581,28 @@ index.html
 - Mozilla Firefox
 - Apple Safari
 
+---
+
 16.2 GitHub Pages
 
 Step 1 — Repository
 
-วางไฟล์ทั้งหมดที่ Root:
+วางไฟล์ที่ Root:
 
 repository/
 ├── index.html
 ├── README.md
 ├── banner.jpg
-└── sovereign-audit-console.jpg
+├── sovereign-audit-console.jpg
+└── provenance-architecture.jpg
 
 Step 2 — GitHub Pages
 
 ไปที่:
 
-Repository → Settings → Pages
+Repository
+→ Settings
+→ Pages
 
 เลือก:
 
@@ -613,18 +637,18 @@ GitHub Pages จะสร้าง Deployment URL ให้โดยอัตโ
 Single-file application ใช้ CDN สำหรับ Runtime dependencies:
 
 Browser
-│
-├── Tailwind CSS CDN
-├── React 18 CDN
-├── ReactDOM 18 CDN
-├── Babel Standalone CDN
-└── Lucide CDN
-        │
-        ▼
-    index.html
-        │
-        ▼
- React Application
+   │
+   ├── Tailwind CSS CDN
+   ├── React 18 CDN
+   ├── ReactDOM 18 CDN
+   ├── Babel Standalone CDN
+   └── Lucide CDN
+          │
+          ▼
+     index.html
+          │
+          ▼
+   React Application
 
 ดังนั้น:
 
@@ -680,9 +704,11 @@ UI STATUS ≠ PRODUCTION STATUS
 
 และ:
 
-DEMO ATTESTATION ≠ PRODUCTION CRYPTOGRAPHIC ATTESTATION
+DEMO ATTESTATION
+≠
+PRODUCTION CRYPTOGRAPHIC ATTESTATION
 
-ระบบนี้ไม่ควรถูกใช้เป็นหลักฐานว่า Production infrastructure จริงกำลังทำงานตามตัวเลขที่แสดง เว้นแต่ข้อมูลดังกล่าวจะถูกเชื่อมโยงกับระบบ Evidence/Telemetry จริงและผ่านการรับรองตามกระบวนการที่เหมาะสม
+ระบบนี้ไม่ควรถูกใช้เป็นหลักฐานว่า Production infrastructure จริงกำลังทำงานตามตัวเลขที่แสดง เว้นแต่ข้อมูลดังกล่าวจะถูกเชื่อมโยงกับระบบ Evidence / Telemetry จริงและผ่านการรับรองตามกระบวนการที่เหมาะสม
 
 ---
 
@@ -697,10 +723,13 @@ MAEW-OMEGA-HYPEROS/
 │   └── System Documentation
 │
 ├── banner.jpg
-│   └── Repository Hero / Architecture Banner
+│   └── Platform Identity / Hero Image
 │
 ├── sovereign-audit-console.jpg
-│   └── Sovereign Audit Console Preview
+│   └── Operational Console / Product Surface
+│
+├── provenance-architecture.jpg
+│   └── Provenance-First Architecture Visualization
 │
 └── [optional]
     ├── evidence/
@@ -754,16 +783,18 @@ Built to Be Examined.
 MAEW Ω∞ HYPEROS ไม่ได้ถูกออกแบบเพียงเพื่อแสดง Dashboard แต่เพื่อทำให้โครงสร้างของระบบสามารถถูก:
 
 EXAMINED
-   ↓
+    ↓
 TRACED
-   ↓
+    ↓
 VERIFIED
-   ↓
+    ↓
 RECONCILED
-   ↓
+    ↓
 ATTESTED
 
 โดยให้ Provenance และ Evidence เป็นองค์ประกอบหลักของการนำเสนอระบบ
+
+"Provenance-First Evidence Architecture" (provenance-architecture.jpg)
 
 ---
 
@@ -800,4 +831,4 @@ MAEW Ω∞ HYPEROS
         ↓
 PROVENANCE-FIRST EVIDENCE ARCHITECTURE
 
-Status: FROZEN v1.2 LTS · Control Plane v2.1 LTS · UI Surface Ready
+«Status: FROZEN v1.2 LTS · Control Plane v2.1 LTS · UI Surface Ready»
