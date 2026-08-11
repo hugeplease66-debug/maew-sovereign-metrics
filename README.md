@@ -1,477 +1,486 @@
-ได้ครับ — ด้านล่างคือ README.md ฉบับพร้อมวางใน repository โดยอิงจาก index.html ที่คุณส่งมา และเน้นสถานะ Demo/UI Layer + Provenance-First + Evidence-Driven ให้ชัดเจน ไม่กล่าวอ้างว่า backend production เชื่อมต่อแล้ว
-
 MAEW Ω∞ HYPEROS
 
-Sovereign Metrics & Provenance Engine
-
-Frozen v1.2 LTS · Control Plane v2.1 LTS · Single-File Web Application
-
-«Built to Be Examined. — Provenance-First Evidence Architecture»
+<p align="center">
+  <img
+    src="./banner.jpg"
+    alt="MAEW Ω∞ HYPEROS — Sovereign Metrics & Provenance Engine"
+    width="100%"
+  />
+</p><h2 align="center">Sovereign Metrics & Provenance Engine</h2><p align="center">
+  <strong>FROZEN v1.2 LTS</strong> ·
+  <strong>Control Plane v2.1 LTS</strong> ·
+  <strong>Single-File Web Application</strong>
+</p><p align="center">
+  <em>« Built to Be Examined. — Provenance-First Evidence Architecture »</em>
+</p>---
 
 MAEW Ω∞ HYPEROS เป็น Single-File Web Application สำหรับนำเสนอและตรวจสอบโครงสร้าง Sovereign Metrics, Provenance, Assurance, Governance และ Historical Lineage ผ่านอินเทอร์เฟซเดียว
 
-ระบบถูกออกแบบให้สามารถเปิดใช้งานได้โดยตรงจาก "index.html" หรือเผยแพร่ผ่าน GitHub Pages โดยไม่ต้องมี backend สำหรับการทำงานของ UI layer
+ระบบถูกออกแบบให้สามารถเปิดใช้งานได้โดยตรงจาก "index.html" หรือเผยแพร่ผ่าน GitHub Pages โดยไม่ต้องมี Backend สำหรับการทำงานของ UI Layer
+
+---
+
+Console Preview
+
+<p align="center">
+  <img
+    src="./sovereign-audit-console.jpg"
+    alt="MAEW Ω∞ HYPEROS Sovereign Audit Console"
+    width="100%"
+  />
+</p>«Sovereign Audit Console — ตัวอย่าง UI Surface สำหรับตรวจสอบ Canonical State, Provenance, Assurance, Governance และ Historical Lineage»
 
 ---
 
 1. System Identity
 
 Property| Value
-Platform| "MAEW Ω∞ HYPEROS"
-Baseline| "FROZEN v1.2 LTS"
-Control Plane| "v2.1 LTS"
-Architecture| Single-File Web Application
-Canonical Domains| 13
-Operational Graphs| G01–G10
-Provenance Pipeline| 8 Steps
+Platform| MAEW Ω∞ HYPEROS
+Baseline| FROZEN v1.2 LTS
+Control Plane| v2.1 LTS
+Architecture Type| Single-File Web Application
+Canonical Domains| 13 Domains (00–12)
+Operational Graphs| 10 Graphs (G01–G10)
+Provenance Pipeline| 8 Steps (01–08)
 Historical Lineage| Ω001–Ω1011
-Assurance Engine| Ω560
-Reconciliation Gate| Ω742
-Hard-Stop Boundary| Ω1011
-UI Runtime| React 18
+Assurance Engine| Ω560 Dynamic Assurance Matrix
+Reconciliation Gate| Ω742 Attestation Gate
+Hard-Stop Boundary| Ω1011 Enforced
+UI Runtime| React 18 Standalone
 Styling| Tailwind CSS
 Icons| Lucide
-Deployment| Browser / GitHub Pages
+Deployment Target| Web Browser / GitHub Pages
 
 ---
 
 2. Core Architecture
 
-ระบบแบ่งออกเป็น 5 operational surfaces หลัก:
+MAEW Ω∞ HYPEROS แบ่งออกเป็น 5 Operational Surfaces หลัก:
 
-┌─────────────────────────────────────────────────────────────┐
-│                 MAEW Ω∞ HYPEROS                             │
-│              Sovereign Control Surface                     │
-├─────────────────────────────────────────────────────────────┤
-│  Canonical Domains 00–12                                   │
-├─────────────────────────────────────────────────────────────┤
-│  Provenance Pipeline 01–08                                 │
-├─────────────────────────────────────────────────────────────┤
-│  Operational Graphs G01–G10                                │
-├─────────────────────────────────────────────────────────────┤
-│  Ω560 Dynamic Assurance                                    │
-│  Ω742 Reconciliation Gate                                  │
-├─────────────────────────────────────────────────────────────┤
-│  Historical Lineage Ω001–Ω1011                             │
-├─────────────────────────────────────────────────────────────┤
-│  Trust Boundary / Hard Stop Ω1011                          │
-└─────────────────────────────────────────────────────────────┘
+MAEW Ω∞ HYPEROS
+│
+├── Sovereign Control Surface
+│
+├── Canonical Domains 00–12
+│   ├── 00 Master Platform Gate & Showcase Hub
+│   ├── 01 Command Center
+│   │   └── Quantum Topology & Latency Heatmap
+│   ├── 02 Intelligence
+│   │   └── Cognitive Mesh & Agent Flow
+│   ├── 03 Knowledge
+│   │   └── Context Ingestion & Knowledge Graph
+│   ├── 04 Trust & Governance
+│   │   └── P1–P8 / P3 PDP Authority
+│   ├── 05 Evidence
+│   │   └── 14,902 SHA-256 Seals / Ω560 Engine
+│   ├── 06 Evolution
+│   │   └── 30-Layer Enterprise Architecture
+│   ├── 07 Registry
+│   │   └── Production State & Regional Topology
+│   ├── 08 Release
+│   │   └── Attestation Engine & Artifacts
+│   ├── 09 Reports
+│   │   └── Executive & Research Analytics
+│   ├── 10 System
+│   │   └── Phoenix SRE / SLI / SLO Reliability
+│   ├── 11 Developer Hub
+│   │   └── CI/CD Quality Pipeline
+│   └── 12 Global Ecosystem
+│       └── SDK Registry & Sandbox
+│
+├── Provenance Pipeline
+│   ├── SOURCE
+│   ├── TELEMETRY
+│   ├── CALCULATION
+│   ├── PROVENANCE
+│   ├── CANONICAL PAYLOAD
+│   ├── SHA-256
+│   ├── ASSURANCE GATE
+│   └── ATTESTATION
+│
+├── Operational Graphs
+│   ├── G01 — Latency Heatmap
+│   ├── G02 — Predictive Forecast
+│   ├── G03 — SLO Reliability
+│   ├── G04 — Control Coverage
+│   ├── G05 — Agent Execution
+│   ├── G06 — Capacity Dynamics
+│   ├── G07 — Observability Timeline
+│   ├── G08 — Governance Decision
+│   ├── G09 — Regional Dependency
+│   └── G10 — 30-Layer Architecture Flow
+│
+├── Dynamic Assurance
+│   ├── Ω560 Assurance Matrix
+│   └── Ω742 Reconciliation Gate
+│
+└── Trust Boundary
+    ├── Historical Lineage Preservation
+    ├── Ω1011 Hard Stop
+    └── Synthetic Data / Backend Disconnected
 
 ---
 
 3. Single-File Architecture
 
-ระบบหลักถูกรวมไว้ในไฟล์เดียว:
+ระบบหลักถูกรวมไว้ในไฟล์เดียวเพื่อให้สามารถตรวจสอบ แจกจ่าย และเปิดใช้งานได้ง่าย:
 
-index.html
+/
+├── index.html
+├── README.md
+├── banner.jpg
+└── sovereign-audit-console.jpg
 
-ภายในประกอบด้วย:
+"index.html"
 
-- HTML5
-- Tailwind CSS CDN
-- React 18
-- ReactDOM 18
+บรรจุองค์ประกอบหลักของระบบ ได้แก่:
+
+- React 18 Runtime
+- React DOM
 - Babel Standalone
+- Tailwind CSS
 - Lucide Icons
-- CSS customization
-- React application logic
-- Canonical system registry
-- Provenance registry
-- Operational graph registry
-- Assurance logic
-- Attestation export
-- Policy command router
-- Search/navigation layer
+- Canonical Domain Registry
+- Operational Graph Registry
+- Provenance Pipeline
+- 3-Tier Execution Topology
+- Historical Ω Lineage Map
+- Universal Discovery Router ("⌘K" / "Ctrl+K")
+- Policy Command Router
+- Dynamic Ω560 Assurance Matrix
+- Ω742 Reconciliation Gate
+- Attestation Receipt JSON Generator
+- Trust Boundary / Hard-Stop Controls
 
-ไม่จำเป็นต้องมี:
+Zero-Backend UI Layer
 
-package.json
-node_modules/
-vite.config.*
-next.config.*
-src/
+ระบบ UI สามารถทำงานแบบ Client-side ได้โดยไม่ต้องมี Backend หรือ Database สำหรับ Demo Surface
 
-สำหรับการเปิดใช้งาน UI baseline นี้
+หมายเหตุ: External CDN dependencies ยังคงถูกเรียกจาก Browser ในเวอร์ชัน Single-File นี้ ดังนั้นการใช้งานแบบ Offline 100% จำเป็นต้อง bundle dependencies ภายในเพิ่มเติม
 
 ---
 
-4. Runtime Model
+4. Canonical Domains
 
-ระบบทำงานในลักษณะ:
+ระบบประกอบด้วย 13 Canonical Domains — 00–12
 
-Browser
-   │
-   ▼
-index.html
-   │
-   ├── React Runtime
-   │
-   ├── Canonical Registry
-   │
-   ├── Provenance Engine
-   │
-   ├── Assurance Matrix
-   │
-   ├── Reconciliation Gate
-   │
-   ├── Operational Graph Surface
-   │
-   ├── Policy Command Router
-   │
-   └── Attestation Export
-
-Trust Boundary
-
-เวอร์ชันนี้เป็น:
-
-DEMO / UI LAYER
-SYNTHETIC DATA
-BACKEND: NOT CONNECTED
-
-ดังนั้นข้อมูล telemetry, workload, latency และ historical seals ที่แสดงบนหน้าจอเป็น synthetic/demo data ไม่ใช่หลักฐานจาก production infrastructure จริง
+Code| Domain| Primary Function
+00| Master Gate| Master Platform Gate / Executive Showcase
+01| Command Center| Global Operations / Quantum Topology
+02| Intelligence| Cognitive Mesh / AI Intelligence
+03| Knowledge| Knowledge Base / Graph / Research
+04| Trust & Governance| PDP / Governance / Tenant Isolation
+05| Evidence| Provenance / Evidence Ledger / Ω560
+06| Evolution| Architecture / Ω Lineage / 30 Layers
+07| Registry| Runtime / Regional Dependency
+08| Release| Release / Attestation / Artifacts
+09| Reports| Executive / Operational Analytics
+10| System| Phoenix SRE / SLI / SLO
+11| Developer| GitHub / CI/CD / Developer Hub
+12| Ecosystem| SDK / Extension Sandbox / Global Ecosystem
 
 ---
 
 5. Provenance Pipeline
 
-ระบบจำลอง Provenance Pipeline จำนวน 8 ขั้น:
+8-Step Provenance Flow
 
-01 SOURCE
-      ↓
-02 TELEMETRY
-      ↓
-03 CALCULATION
-      ↓
-04 PROVENANCE
-      ↓
-05 CANONICAL PAYLOAD
-      ↓
-06 SHA-256
-      ↓
-07 Ω560 ASSURANCE GATE
-      ↓
-08 Ω742 ATTESTATION
+SOURCE
+   │
+   ▼
+TELEMETRY
+   │
+   ▼
+CALCULATION ∑f(x)
+   │
+   ▼
+PROVENANCE
+   │
+   ▼
+CANONICAL PAYLOAD
+   │
+   ▼
+SHA-256
+   │
+   ▼
+Ω560 ASSURANCE GATE
+   │
+   ▼
+Ω742 ATTESTATION
 
-Pipeline Stages
-
-STEP 01 — SOURCE
-
-ตรวจสอบแหล่งกำเนิดและ schema:
-
-Data Origin
-Schema Validation
-
-STEP 02 — TELEMETRY
-
-จำลองการรับข้อมูลจาก runtime:
-
-Zero-Trust Stream Ingestion
-
-STEP 03 — CALCULATION
-
-ชั้นคำนวณและ replay:
-
-Math Kernel
-Replay Engine
-
-STEP 04 — PROVENANCE
-
-เชื่อมโยง:
-
-Lineage
-Context
-Execution History
-
-STEP 05 — CANONICAL PAYLOAD
-
-แปลงข้อมูลเข้าสู่ canonical structure
-
-STEP 06 — SHA-256
-
-แสดงแนวคิด cryptographic sealing และ immutable evidence
-
-STEP 07 — Ω560 ASSURANCE
-
-ตรวจสอบ policy และ integrity invariants
-
-STEP 08 — Ω742 ATTESTATION
-
-สร้าง canonical attestation artifact
+Step| Stage| Purpose
+01| SOURCE| Data Origin & Schema Validation
+02| TELEMETRY| Zero-Trust Stream Ingestion
+03| CALCULATION| Math Kernel & Replay Engine "Σf(x)"
+04| PROVENANCE| Lineage Graph & Context Link
+05| CANONICAL PAYLOAD| Standard Structural Framing
+06| SHA-256| Immutable Cryptographic Seal
+07| ASSURANCE GATE| Dynamic Policy & Rule Check
+08| ATTESTATION| Canonical Proof Artifact
 
 ---
 
 6. 3-Tier Execution Topology
 
-ระบบมี execution topology 3 ชั้น:
+ระบบแสดง Execution Topology 3 ระดับ:
 
-┌──────────────────────┐
-│ LIVE PRODUCTION      │
-│ Operational          │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ INTERNAL TEST        │
-│ Testing              │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│ SIMULATION           │
-│ Simulation           │
-└──────────────────────┘
+🟢 LIVE PRODUCTION
 
-แต่ละ environment แสดง:
+Workloads     : 128
+Requests/sec  : 8,340
+Error Rate    : 0.00%
+Status        : Operational
 
-- Workloads
-- Requests/sec
-- Error Rate
-- Runtime status
+🔵 INTERNAL TEST
 
-ค่าที่แสดงเป็น synthetic values สำหรับ UI demonstration
+Workloads     : 64
+Requests/sec  : 2,341
+Error Rate    : 0.00%
+Status        : Testing
+
+🟣 SIMULATION
+
+Workloads     : 96
+Requests/sec  : 5,128
+Error Rate    : 0.00%
+Status        : Simulating
+
+«Important: ค่าข้างต้นเป็น Synthetic UI Demonstration Data และไม่ควรตีความว่าเป็น Telemetry จาก Production จริง»
 
 ---
 
-7. Canonical Domains
-
-ระบบลงทะเบียน Canonical Domains จำนวน 13 ชุด:
-
-Code| Domain
-00| Master Gate
-01| Command Center
-02| Intelligence
-03| Knowledge
-04| Trust & Governance
-05| Evidence
-06| Evolution
-07| Registry
-08| Release
-09| Reports
-10| System
-11| Developer
-12| Ecosystem
-
-ทุก Domain สามารถมี sub-modules และ surface navigation ของตัวเอง
-
----
-
-8. Operational Graphs
-
-ระบบกำหนด Operational Graph Registry จำนวน 10 ชุด:
+7. Operational Graphs — G01–G10
 
 ID| Graph| Semantics
-G01| Control Plane Latency| Latency → Runtime Operations
-G02| Trend Forecast| Actual → Forecast → Confidence
-G03| SLO Reliability| SLI → SLO → Reliability
+G01| 24-Hour Control Plane Latency Heatmap| Latency → Runtime Operations
+G02| Trend & Holt-Winters Forecast| Actual → Forecast → Confidence
+G03| SLO & Reliability Assurance| SLI → SLO → Reliability
 G04| Control Coverage| Definition → Execution
-G05| Agent Execution| Agent → Tool → Action → Result → Evidence
+G05| Agent Execution Flow| Agent → Tool → Action → Result → Evidence
 G06| Capacity Dynamics| Compute → Queue → Saturation
 G07| Observability Timeline| Event → Trace → Log → Decision → Evidence
-G08| Governance Decision| Policy → PDP → Authorization → Execution
-G09| Regional Dependency| AP → US → EU → JP
-G10| Architecture Flow| L1 → L30
+G08| Governance Decision Graph| Policy → PDP → Authorization → Execution
+G09| Multi-Region Dependency| AP → US → EU → JP
+G10| 30-Layer Execution Flow| L1 → L30
 
 ---
 
-9. G01 — 168-Hour Latency Heatmap
+8. Historical Ω Lineage
 
-G01 แสดงข้อมูลจำลอง:
+ระบบรักษา Historical Architecture Lineage ตั้งแต่:
 
-7 days × 24 hours
-=
-168 telemetry points
+Ω001
+│
+├── Ω001–Ω100
+│   Foundational Quantum Topology & Kernel Baseline
+│
+├── Ω101–Ω545
+│   Intermediate Domain Matrix & Protocol Fabric
+│
+├── Ω546–Ω560
+│   Sovereign Metrics & Provenance Engine
+│
+├── Ω561–Ω732
+│   Enterprise Integration & Multi-Mesh Orchestration
+│
+├── Ω733–Ω742
+│   HYPEROS Unified Workspace Fabric
+│
+├── Ω743–Ω999
+│   Platform Maturity & Extended Execution Horizon
+│
+├── Ω1000
+│   Master Platform Gate
+│
+├── Ω1010
+│   Integration Verification & Attestation Gate
+│
+└── Ω1011
+    NEXT SAFE BOUNDARY
+    HARD STOP ENFORCED
 
-แต่ละ cell แสดงค่า latency โดยใช้ intensity เพื่อช่วยระบุ operational condition
+Lineage Invariant
 
-ตัวอย่างข้อมูล:
-
-Day 1
-00:00
-01:00
-02:00
-...
-23:00
-
-Day 2
-...
-
-ค่า latency ถูกสร้างแบบ deterministic simulation จากฟังก์ชันภายใน frontend
-
----
-
-10. Ω560 Dynamic Assurance Matrix
-
-Ω560 ทำหน้าที่เป็น logical assurance layer ของ UI
-
-ตัวอย่าง controls:
-
-AC01 Source Integrity
-AC02 Payload Schema Integrity
-AC03 Provenance Chain
-AC04 Calculation Replay
-AC05 PDP Compliance
-AC06 No Silent Deletion
-AC07 No Unsealed Change
-AC08 Multi-Region Consistency
-AC09 Cryptographic Seal Lock
-AC10 Hard-Stop Boundary
-
-ผลลัพธ์:
-
-PASS
-FAIL
-
-และรวมเป็น:
-
-CANONICAL INTEGRITY VERIFIED
-
-เมื่อ invariant ที่กำหนดผ่านทั้งหมด
+Ω001 ─────────────────────────────────────── Ω1011
+  │                                             │
+  │ Historical Preservation                     │ Hard Stop
+  │ Immutable Lineage                           │ No Autonomous
+  │                                             │ Expansion
 
 ---
 
-11. Ω742 Reconciliation Gate
+9. Ω560 Dynamic Assurance Matrix
 
-Ω742 ทำหน้าที่เป็น reconciliation surface ระหว่าง:
+Ω560 ทำหน้าที่เป็น Runtime Integrity Surface สำหรับตรวจสอบ Canonical Invariants
 
-Canonical Definition
-        ↓
-Runtime Registry
-        ↓
-Assurance Checks
-        ↓
-Attestation
+ระบบมี Assurance Controls จำนวน 10 รายการ:
 
-ตัวตรวจสอบหลักประกอบด้วย:
+Control| Check
+AC01| Source Integrity Check
+AC02| Payload Schema Integrity
+AC03| Provenance Chain Link
+AC04| Calculation Replay Audit
+AC05| Policy PDP Compliance
+AC06| No Silent Deletion Rule
+AC07| No Unsealed Change Rule
+AC08| Multi-Region Consistency
+AC09| Cryptographic Seal Lock
+AC10| Hard-Stop Boundary Lock
+
+ผลลัพธ์ถูกประเมินจาก Runtime State ของ UI และ Canonical Registry ที่กำหนดไว้ใน Application
+
+---
+
+10. Ω742 Reconciliation Gate
+
+Ω742 ทำหน้าที่เป็น System Integrity & Reconciliation Surface
 
 13 Canonical Domains
+        +
 10 Operational Graphs
-Ω560 Assurance Matrix
+        +
 Frozen Baseline
+        +
 Control Plane
+        +
+Ω560 Assurance Matrix
+        +
 Ω1011 Hard Stop
+        │
+        ▼
+Ω742 RECONCILIATION
+        │
+        ▼
+ATTESTATION RECEIPT
 
----
-
-12. Attestation Receipt
-
-ผู้ใช้สามารถกด:
-
-ส่งออกใบรับรอง (.JSON)
-
-เพื่อสร้างไฟล์:
+เมื่อผ่านการตรวจสอบ ระบบสามารถสร้างไฟล์:
 
 maew-hyperos-canonical-attestation-v1.json
 
-ภายในประกอบด้วย:
+ไฟล์ดังกล่าวประกอบด้วย:
+
+- Canonical Identity
+- Historical Lineage
+- Provenance Pipeline
+- Execution Topology
+- Assurance Matrix
+- Verification Result
+- Trust Boundary Notice
+- Generation Timestamp
+
+---
+
+11. Attestation Receipt
+
+ตัวอย่างโครงสร้าง:
 
 {
   "attestation_schema": "MAEW-ATTESTATION-v1",
-  "intent": {},
+  "intent": {
+    "purpose": "CANONICAL_OPERATIONAL_INTEGRITY",
+    "mode": "READ_ONLY_ATTESTATION",
+    "mutation": false,
+    "omega_expansion": false
+  },
   "canonical": {},
   "lineage_summary": [],
   "provenance_pipeline": [],
   "topology_environments": [],
   "assurance_matrix": [],
-  "verification": {},
-  "trust_boundary_notice": "...",
-  "generated_at": "..."
+  "verification": {
+    "status": "VERIFIED"
+  },
+  "trust_boundary_notice": "DEMO / UI LAYER • SYNTHETIC DATA • BACKEND: NOT CONNECTED",
+  "generated_at": "ISO-8601 timestamp"
 }
 
-ไฟล์นี้เป็น UI-generated attestation metadata ไม่ใช่ cryptographic proof จาก production backend
+«Attestation ที่สร้างจาก UI นี้เป็น Demo/UI Attestation ไม่ใช่ cryptographic proof จาก Production infrastructure จริง»
 
 ---
 
-13. Historical Ω Lineage
+12. Trust Boundary & Safety Invariants
 
-ระบบรักษา historical lineage ตั้งแต่:
+┌─────────────────────────────────────────────────────────────┐
+│ TRUST BOUNDARY                                               │
+│                                                             │
+│ DEMO / UI LAYER                                             │
+│ SYNTHETIC DATA                                              │
+│ BACKEND: NOT CONNECTED                                      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 
-Ω001
-   ↓
-Ω100
-   ↓
-Ω545
-   ↓
+12.1 Synthetic Runtime Surface
+
+ข้อมูลบน UI เป็น Synthetic Data สำหรับการสาธิตและตรวจสอบโครงสร้างระบบ
+
+12.2 No Backend Connection
+
+ระบบไม่ได้เชื่อมต่อกับ Production Infrastructure และไม่ได้ส่งคำสั่งไปยังระบบ Production จริง
+
+12.3 Ω1011 Hard Stop
+
+AUTONOMOUS OMEGA EXPANSION
+            │
+            ▼
+         BLOCKED
+            │
+            ▼
+      Ω1011 HARD STOP
+
+ระบบไม่อนุญาตให้ UI Layer ดำเนินการ Autonomous Expansion ของ Canonical Architecture
+
+12.4 Additive-Only Preservation
+
+Historical artifacts และ provenance evidence ถูกถือเป็น Historical Record
+
+PRESERVE
+   +
+APPEND
+   +
+ATTEST
+   -
+NO SILENT DELETE
+
+---
+
+13. Universal Discovery Router
+
+ระบบมี Universal Discovery Router สำหรับค้นหา:
+
+- Canonical Domains
+- Sub-modules
+- Operational Graphs
+- Historical Ω Lineage
+
+Keyboard Shortcut
+
+⌘ K
+
+หรือ:
+
+Ctrl + K
+
+สามารถค้นหา:
+
+G01
+G05
 Ω560
-   ↓
-Ω561–Ω732
-   ↓
-Ω733–Ω742
-   ↓
-Ω743–Ω999
-   ↓
-Ω1000
-   ↓
-Ω1010
-   ↓
+Ω742
 Ω1011
+Command Center
+Trust & Governance
+Evidence
+Release
 
-Key Boundaries
-
-Ω001–Ω100
-
-Foundational Quantum Topology & Kernel Baseline
-
-Ω101–Ω545
-
-Intermediate Domain Matrix & Protocol Fabric
-
-Ω546–Ω560
-
-Sovereign Metrics & Provenance Engine
-
-Ω561–Ω732
-
-Enterprise Integration & Multi-Mesh Orchestration
-
-Ω733–Ω742
-
-HYPEROS Unified Workspace Fabric
-
-Ω743–Ω999
-
-Platform Maturity & Extended Execution Horizon
-
-Ω1000
-
-Master Platform Gate
-
-Ω1010
-
-Integration Verification & Attestation Gate
-
-Ω1011
-
-HARD STOP
+แล้วนำทางไปยัง Surface ที่เกี่ยวข้องโดยตรง
 
 ---
 
-14. Ω1011 Hard-Stop Boundary
+14. Policy Command Router
 
-Ω1011 เป็น boundary สำหรับป้องกัน autonomous expansion ของ canonical architecture
+ระบบมี Terminal-style Policy Command Router
 
-แนวคิด:
-
-Ω1010
-  │
-  ▼
-VERIFICATION
-  │
-  ▼
-Ω1011
-  │
-  ├── Autonomous Expansion → BLOCK
-  ├── Frozen Core Mutation → BLOCK
-  └── Unsealed Change → BLOCK
-
-การกำหนด boundary นี้มีวัตถุประสงค์เพื่อให้การเปลี่ยนแปลง architecture อยู่ภายใต้ explicit authorization และ evidence
-
----
-
-15. Policy Command Router
-
-มี terminal interface ภายใน UI
-
-คำสั่งที่รองรับ:
+Available Commands
 
 status
 domains
@@ -482,320 +491,313 @@ hard-stop
 clear
 help
 
-ตัวอย่าง:
+สามารถใช้คำสั่งแบบ:
 
-> status
+hyperos.system.status
+hyperos.system.domains
+hyperos.system.graphs
+hyperos.system.policy
+hyperos.system.evidence
+hyperos.system.hard-stop
 
-จะแสดง:
+ระบบจะ normalize prefix "hyperos.system." ก่อนประมวลผล
 
-PLATFORM
-BASELINE
-CONTROL PLANE
-DOMAINS
-GRAPHS
-ASSURANCE MATRIX
-PDP
-TENANT
-SYSTEM STATUS
+คำสั่งที่ไม่อยู่ใน Allowlist จะถูกปฏิเสธ:
 
-คำสั่งที่ไม่อยู่ใน allowlist จะถูก reject:
+[REJECTED]
+UNKNOWN COMMAND
 
-[REJECTED] UNKNOWN COMMAND
+[POLICY]
+Command not recognized
 
----
-
-16. Universal Discovery Router
-
-เปิดได้ด้วย:
-
-Ctrl + K
-
-หรือ:
-
-⌘ + K
-
-ค้นหาได้จาก:
-
-- Canonical Domains
-- Sub-modules
-- Operational Graphs
-- Historical Lineage
-
-ตัวอย่าง:
-
-G01
-Ω560
-Ω742
+[HARD STOP BOUNDARY]
 Ω1011
-Trust
-Evidence
-Evolution
 
 ---
 
-17. Canonical Integrity Invariants
+15. Canonical Integrity Checks
 
-Baseline ปัจจุบันตรวจสอบ invariant หลัก:
+ระบบตรวจสอบ Canonical invariants ได้แก่:
 
-Domains = 13
-Graphs = 10
-Graph IDs = Unique
-Baseline = FROZEN v1.2 LTS
-Control Plane = v2.1 LTS
-Historical Seals = 14,902
-Hard Stop = TRUE
+13 Domains                         ✓
+10 Operational Graphs              ✓
+Unique Graph IDs                   ✓
+Frozen Baseline v1.2 LTS           ✓
+Control Plane v2.1 LTS             ✓
+14,902 Historical Seals            ✓
+Ω1011 Hard Stop                    ✓
 
-ผลรวม:
+สถานะรวม:
 
-VERIFIED
+CANONICAL INTEGRITY VERIFIED
 
-หรือ:
+หาก invariant ใดไม่ผ่าน ระบบจะเปลี่ยนสถานะเป็น:
 
-FAILED
+CANONICAL INTEGRITY FAILURE
 
 ---
 
-18. Deployment
+16. Deployment
 
-Option A — Local Browser
+16.1 Local Browser
 
-ดาวน์โหลด repository แล้วเปิด:
+ไม่จำเป็นต้องติดตั้ง:
+
+- Node.js
+- npm
+- pnpm
+- yarn
+- Docker
+- Backend
+- Database
+
+เพียงเปิด:
 
 index.html
 
-โดยตรงใน browser
+ด้วย Browser สมัยใหม่:
 
-ไม่จำเป็นต้องมี build step
+- Google Chrome
+- Microsoft Edge
+- Mozilla Firefox
+- Apple Safari
 
----
+16.2 GitHub Pages
 
-Option B — GitHub Pages
+Step 1 — Repository
 
-โครงสร้าง repository:
+วางไฟล์ทั้งหมดที่ Root:
 
 repository/
 ├── index.html
-└── README.md
+├── README.md
+├── banner.jpg
+└── sovereign-audit-console.jpg
 
-จากนั้นเปิด GitHub Pages ให้ชี้ไปยัง branch และ root directory ที่มี "index.html"
+Step 2 — GitHub Pages
 
-ระบบจะทำงานในลักษณะ:
+ไปที่:
 
-GitHub Repository
-       ↓
-GitHub Pages
-       ↓
-index.html
-       ↓
+Repository → Settings → Pages
+
+เลือก:
+
+Source: Deploy from a branch
+Branch: main
+Folder: / (root)
+
+จากนั้นกด:
+
+Save
+
+GitHub Pages จะสร้าง Deployment URL ให้โดยอัตโนมัติ
+
+---
+
+17. Browser Requirements
+
+แนะนำให้ใช้ Browser รุ่นปัจจุบันที่รองรับ:
+
+- ES6+
+- React 18
+- Blob API
+- Object URL
+- CSS Grid
+- CSS Flexbox
+- Modern DOM APIs
+
+---
+
+18. Runtime Dependency Model
+
+Single-file application ใช้ CDN สำหรับ Runtime dependencies:
+
 Browser
-       ↓
-MAEW Ω∞ HYPEROS
-
----
-
-19. External Runtime Dependencies
-
-แม้ source จะเป็น single-file แต่ frontend library ถูกโหลดจาก CDN:
-
-Tailwind CSS
-React 18
-ReactDOM 18
-Babel Standalone
-Lucide
-Google Fonts
+│
+├── Tailwind CSS CDN
+├── React 18 CDN
+├── ReactDOM 18 CDN
+├── Babel Standalone CDN
+└── Lucide CDN
+        │
+        ▼
+    index.html
+        │
+        ▼
+ React Application
 
 ดังนั้น:
 
-«Single-file ≠ fully offline»
+«Single-File ≠ Fully Offline Bundle»
 
-หากต้องการใช้งานแบบ air-gapped/offline จริง ต้อง vendor dependencies เหล่านี้เข้า repository และเปลี่ยนจาก CDN เป็น local assets
-
----
-
-20. Security Boundary
-
-ระบบนี้ไม่ควรถูกตีความว่าเป็น security enforcement plane จริงเพียงเพราะ UI แสดง:
-
-PDP ENFORCED
-ZERO-BYPASS
-SHA-256
-ASSURANCE PASS
-
-ใน baseline ปัจจุบัน สิ่งเหล่านี้เป็น canonical UI/runtime simulation
-
-Production enforcement ต้องเกิดที่ backend/control plane เช่น:
-
-Identity
-Authorization
-Policy Enforcement Point
-Policy Decision Point
-Audit Ledger
-Cryptographic Signing
-Immutable Storage
-Runtime Telemetry
-
-และต้องมี evidence trail ที่ตรวจสอบย้อนกลับได้
+หากต้องการ deployment แบบ air-gapped / offline / sovereign infrastructure ควรเปลี่ยน CDN dependencies เป็น locally bundled assets ใน release ที่เหมาะสม
 
 ---
 
-21. Production Integration Target
+19. Security Posture
 
-Architecture สามารถต่อยอดจาก:
+ระบบนี้ถูกออกแบบโดยยึดหลัก:
 
-Synthetic UI
+PROVENANCE FIRST
+       │
+       ▼
+CANONICAL STATE
+       │
+       ▼
+ASSURANCE
+       │
+       ▼
+RECONCILIATION
+       │
+       ▼
+ATTESTATION
+       │
+       ▼
+HARD STOP
 
-ไปสู่:
+หลักการสำคัญ:
 
-MAEW Ω∞ HYPEROS
-        │
-        ▼
-API Gateway
-        │
-        ▼
-Policy Enforcement
-        │
-        ▼
-PDP
-        │
-        ▼
-Execution Gateway
-        │
-        ├── Runtime
-        ├── Agents
-        ├── Tools
-        └── Services
-        │
-        ▼
-Telemetry
-        │
-        ▼
-Provenance Ledger
-        │
-        ▼
-Ω560 Assurance
-        │
-        ▼
-Ω742 Reconciliation
-        │
-        ▼
-Signed Attestation
+- Zero-Bypass PDP Concept
+- Explicit Trust Boundary
+- Historical Lineage Preservation
+- Dynamic Integrity Checks
+- Read-Only Attestation
+- Additive-Only Evidence Preservation
+- Autonomous Expansion Block
+- Canonical State Verification
 
 ---
 
-22. Design Principles
+20. Important Disclaimer
 
-ระบบยึดหลัก:
+MAEW Ω∞ HYPEROS ใน Repository นี้เป็น UI / Demonstration / Architecture Evidence Surface
 
-Evidence First
-
-ทุก operational claim ควรสามารถย้อนกลับไปยัง evidence ได้
-
-Provenance First
-
-ข้อมูลต้องมี lineage ที่สามารถตรวจสอบได้
-
-Zero-Trust Boundary
-
-ไม่ถือว่า component ใด trusted โดยอัตโนมัติ
-
-Explicit Authorization
-
-การเปลี่ยนแปลงสำคัญต้องผ่าน authorization
-
-Immutable Evidence
-
-หลักฐานที่ seal แล้วไม่ควรถูกแก้ไขแบบเงียบ
-
-Additive Evolution
-
-วิวัฒนาการควรเพิ่ม evidence และ capability โดยไม่ทำลาย historical lineage
-
-Hard Stop
-
-ระบบต้องมี boundary ที่หยุด autonomous expansion ได้
-
----
-
-23. Current Status
-
-╔══════════════════════════════════════════╗
-║ MAEW Ω∞ HYPEROS                         ║
-║                                          ║
-║ Baseline        : FROZEN v1.2 LTS       ║
-║ Control Plane   : v2.1 LTS              ║
-║ Domains         : 13 / 13               ║
-║ Graphs          : 10 / 10               ║
-║ Pipeline        : 8 / 8                 ║
-║ Assurance       : Ω560                  ║
-║ Reconciliation  : Ω742                  ║
-║ Hard Stop       : Ω1011                 ║
-║ UI Status       : VERIFIED              ║
-╚══════════════════════════════════════════╝
-
----
-
-24. Important Disclaimer
-
-MAEW Ω∞ HYPEROS ใน repository นี้เป็น frontend reference / demonstration surface สำหรับ canonical architecture, provenance visualization, assurance logic และ governance concepts
-
-ข้อมูลที่สร้างจาก frontend ได้แก่:
-
-- telemetry
-- latency
-- workload
-- request rate
-- historical seals
-- assurance results
-- attestation metadata
-
-อาจเป็น synthetic/demo data
+ข้อมูล Runtime ที่แสดงใน Dashboard เป็น Synthetic Data เว้นแต่จะมีการเชื่อมต่อ Backend หรือ Telemetry Provider จริงใน implementation อื่น
 
 ดังนั้น:
 
-«UI PASS ≠ Production Security Proof»
+UI STATUS ≠ PRODUCTION STATUS
 
 และ:
 
-«Generated Attestation ≠ Independently Cryptographically Signed Production Attestation»
+DEMO ATTESTATION ≠ PRODUCTION CRYPTOGRAPHIC ATTESTATION
 
-การรับรอง production จริงต้องมี backend execution evidence, cryptographic signing, immutable storage และ independent verification
-
----
-
-25. License / Usage
-
-กำหนด license และ deployment policy ตาม repository owner ก่อนนำไปใช้ใน production
-
-หากนำระบบไปเชื่อมต่อ production infrastructure ควรจัดทำ:
-
-Security Review
-Threat Model
-Data Classification
-Access Control Review
-Cryptographic Key Management
-Audit Policy
-Incident Response
-Backup / Recovery
-SLO / SLI
-Change Management
-Independent Verification
+ระบบนี้ไม่ควรถูกใช้เป็นหลักฐานว่า Production infrastructure จริงกำลังทำงานตามตัวเลขที่แสดง เว้นแต่ข้อมูลดังกล่าวจะถูกเชื่อมโยงกับระบบ Evidence/Telemetry จริงและผ่านการรับรองตามกระบวนการที่เหมาะสม
 
 ---
 
-26. Canonical Statement
+21. Repository Structure
+
+MAEW-OMEGA-HYPEROS/
+│
+├── index.html
+│   └── Complete Single-File Web Application
+│
+├── README.md
+│   └── System Documentation
+│
+├── banner.jpg
+│   └── Repository Hero / Architecture Banner
+│
+├── sovereign-audit-console.jpg
+│   └── Sovereign Audit Console Preview
+│
+└── [optional]
+    ├── evidence/
+    ├── artifacts/
+    ├── screenshots/
+    └── docs/
+
+---
+
+22. Canonical Release Identity
+
+PLATFORM
+MAEW Ω∞ HYPEROS
+
+BASELINE
+FROZEN v1.2 LTS
+
+CONTROL PLANE
+v2.1 LTS
+
+DOMAINS
+13
+
+OPERATIONAL GRAPHS
+10
+
+PROVENANCE STEPS
+8
+
+HISTORICAL LINEAGE
+Ω001–Ω1011
+
+ASSURANCE
+Ω560
+
+RECONCILIATION
+Ω742
+
+HARD STOP
+Ω1011
+
+SYSTEM STATUS
+VERIFIED_SEALED
+
+---
+
+23. Design Principle
+
+Built to Be Examined.
+
+MAEW Ω∞ HYPEROS ไม่ได้ถูกออกแบบเพียงเพื่อแสดง Dashboard แต่เพื่อทำให้โครงสร้างของระบบสามารถถูก:
+
+EXAMINED
+   ↓
+TRACED
+   ↓
+VERIFIED
+   ↓
+RECONCILED
+   ↓
+ATTESTED
+
+โดยให้ Provenance และ Evidence เป็นองค์ประกอบหลักของการนำเสนอระบบ
+
+---
+
+24. Architect
+
+ยุทธภูมิ พากเพียร
+Gold Master Core Architect
+
+MAEW Ω∞ HYPEROS
+Frozen Baseline v1.2 LTS
+Control Plane v2.1 LTS
+
+Sovereign Metrics & Provenance Engine
+
+---
+
+Final Canonical Statement
 
 MAEW Ω∞ HYPEROS
 
-Provenance before assertion.
-Evidence before trust.
-Authorization before execution.
-Reconciliation before attestation.
-Hard Stop before uncontrolled expansion.
+13 CANONICAL DOMAINS
+        +
+10 OPERATIONAL GRAPHS
+        +
+8-STEP PROVENANCE PIPELINE
+        +
+Ω560 DYNAMIC ASSURANCE
+        +
+Ω742 RECONCILIATION
+        +
+Ω001–Ω1011 HISTORICAL LINEAGE
+        +
+Ω1011 HARD STOP
+        ↓
+PROVENANCE-FIRST EVIDENCE ARCHITECTURE
 
-Ω1011 — HARD STOP ENFORCED.
-
----
-
-End of README
-
-MAEW Ω∞ HYPEROS · Frozen v1.2 LTS · Control Plane v2.1 LTS
+Status: FROZEN v1.2 LTS · Control Plane v2.1 LTS · UI Surface Ready
